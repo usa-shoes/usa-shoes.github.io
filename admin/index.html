@@ -114,11 +114,10 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
     <p class="sub">Solo se hace una vez. Aquí creas tu usuario y contraseña para administrar la tienda.</p>
     <details open><summary>Cómo obtener la llave de GitHub (token)</summary>
       <ol>
-        <li>Abre <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token nuevo</a>.</li>
-        <li><b>Resource owner:</b> elige <b>usa-shoes</b>. <b>Expiration:</b> la más larga que te deje.</li>
-        <li><b>Repository access:</b> «Only select repositories» → <b>usa-shoes.github.io</b>.</li>
-        <li><b>Permissions → Repository → Contents:</b> «Read and write».</li>
-        <li>Pulsa «Generate token», cópialo y pégalo abajo. Si GitHub pide aprobarlo en la organización, apruébalo tú como dueño.</li>
+        <li>Abre <a href="https://github.com/settings/personal-access-tokens/new?name=Admin+USA+Shoes&description=Administraci%C3%B3n+de+la+tienda+usa-shoes.github.io&target_name=usa-shoes&expires_in=none&contents=write" target="_blank" rel="noopener"><b>este enlace de GitHub</b></a> (ya viene casi todo lleno: nombre, dueño <b>usa-shoes</b>, sin vencimiento y permiso «Contents: Read and write»).</li>
+        <li>En <b>Repository access</b> marca «Only select repositories» y elige <b>usa-shoes.github.io</b>.</li>
+        <li>Pulsa «Generate token», cópialo (empieza por <code>github_pat_</code>) y pégalo abajo.</li>
+        <li>Luego escribe el usuario y la contraseña que tú quieras para entrar a esta administración.</li>
       </ol>
     </details>
     <div id="setMsg"></div>
