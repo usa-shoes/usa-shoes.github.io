@@ -147,6 +147,8 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .colors button{display:inline-flex;align-items:center;gap:7px;padding:6px 12px 6px 7px;border:1px solid var(--line);border-radius:99px;font-size:13px;font-weight:700;transition:all .2s}
 .colors button i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
 .colors button.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.colors button small{font-size:11px;color:var(--muted);font-weight:700}
+.colors .clr{border-style:dashed;color:var(--muted);padding:6px 12px}
 /* botones */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:8px;background:var(--ink-2);color:#fff;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.02em;transition:background .25s,transform .25s}
 .btn:hover{background:#000}
@@ -194,17 +196,25 @@ section{padding:clamp(44px,6vw,80px) 0}
 .media{position:relative;aspect-ratio:1/1;border-radius:var(--r);overflow:hidden;background:var(--soft);cursor:pointer}
 .media img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
 .card:hover .media img{transform:scale(1.06)}
-.num{position:absolute;bottom:8px;left:8px;z-index:1;display:inline-flex;align-items:baseline;gap:2px;padding:3px 9px 3px 7px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:12px;letter-spacing:.04em;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.55)}
+.num{position:absolute;bottom:20px;left:10px;z-index:1;display:inline-flex;align-items:baseline;gap:2px;padding:3px 9px 3px 7px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:12px;letter-spacing:.04em;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.55)}
 .num small{font-size:9px;font-weight:700;opacity:.85}
 .flag{position:absolute;top:8px;left:8px;padding:3px 9px;border-radius:99px;background:rgba(214,38,44,.55);border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;line-height:1.3}
-.info-b{position:absolute;top:8px;right:8px;z-index:2;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font:italic 800 16px Georgia,serif;text-shadow:0 1px 3px rgba(0,0,0,.5);transition:background .2s,transform .2s}
-.info-b:hover{background:rgba(255,255,255,.4);transform:scale(1.08)}
-.buy{position:absolute;right:8px;bottom:8px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:rgba(11,92,213,.82);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 6px 16px -6px rgba(0,0,0,.5);transition:background .2s,transform .2s}
-.buy:hover{background:var(--blue);transform:translateY(-1px)}
-.buy .ic{font-size:15px}
-.buy.in-bag{background:rgba(31,138,76,.85)}
-.buy[disabled]{background:rgba(60,60,60,.7);cursor:default}
-@media(max-width:640px){.buy{padding:6px 10px;font-size:11px}.buy span{display:none}.buy .ic{font-size:17px}.info-b{width:30px;height:30px}}
+.cbtn{position:absolute;z-index:2;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:0;cursor:pointer;transition:transform .25s var(--ease),background .25s,box-shadow .25s}
+.cbtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
+.cbtn.i{bottom:14px;right:62px;width:34px;height:34px;background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.cbtn.i b{font:italic 800 17px Georgia,serif;line-height:1}
+.cbtn.i:hover{background:#25d366;border-color:#25d366;transform:scale(1.08)}
+.cbtn.add{right:8px;bottom:8px;width:46px;height:46px;color:#fff;background:linear-gradient(145deg,#2f7bff,#0b5cd5 60%,#0842a0);box-shadow:0 10px 22px -8px rgba(11,92,213,.9),inset 0 1px 0 rgba(255,255,255,.35)}
+.cbtn.add::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(47,123,255,.7);animation:ping 2.2s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{0%{transform:scale(.9);opacity:.9}80%,100%{transform:scale(1.35);opacity:0}}
+.cbtn.add:hover{transform:scale(1.1) rotate(90deg)}
+.cbtn.add.in-bag{background:linear-gradient(145deg,#34c26b,#1f8a4c)}
+.cbtn.add.in-bag::before{display:none}
+.cbtn.add[disabled]{background:#666;box-shadow:none;cursor:default}
+.cbtn.add[disabled]::before{display:none}
+.cbtn .tip{position:absolute;right:calc(100% + 8px);top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(0,0,0,.75);color:#fff;font:800 11px var(--f);letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:99px;pointer-events:none;opacity:0;transition:opacity .2s}
+.cbtn:hover .tip,.cbtn:focus-visible .tip{opacity:1}
+@media(max-width:640px){.cbtn.add{width:42px;height:42px}.cbtn.i{width:32px;height:32px;right:56px;bottom:13px}.media .num{bottom:18px!important}}
 .info{padding:12px 2px 0;display:grid;gap:3px}
 .aud{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--blue)}
 .aud .ic{font-size:14px}
@@ -295,10 +305,12 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .zhint{position:absolute;left:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.9);font-size:12px;font-weight:700;pointer-events:none}
 .zoom.z .zhint{opacity:0}
 .zhint{top:12px;bottom:auto!important}
-.mact{position:absolute;left:12px;right:12px;bottom:12px;z-index:3;display:flex;gap:8px}
-.mact .btn{flex:1;box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
-.mact .wa-c{flex:none;width:52px;padding:0;border-radius:10px;background:#25d366;color:#fff}
-.mact .btn[disabled]{background:#666}
+.mtop .acts{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mtop .cbtn{position:relative;inset:auto!important}
+.mtop .cbtn.i{background:#fff;color:#1f8a4c;border:1.5px solid #25d366;text-shadow:none}
+.mtop .cbtn.i:hover{background:#25d366;color:#fff}
+.mtop .cbtn.add{width:52px;height:52px}
+.mtop .cbtn.add svg{width:24px;height:24px}
 .mbody{padding:clamp(22px,3.4vw,38px);display:flex;flex-direction:column;gap:14px}
 .mtop{display:flex;align-items:center;gap:10px}
 .mnum{background:var(--ink);color:#fff;font-weight:900;font-size:13px;padding:5px 10px;border-radius:6px}
@@ -502,9 +514,9 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mName">
   <button class="x" data-close aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button>
   <div class="zoom" id="zoom"><img id="mImg" alt=""><span class="zhint"><svg class="ic"><use href="#i-search"/></svg>Toca para ampliar</span>
-    <div class="mact"><button class="btn blue" id="mAdd">Ordenar</button><a class="btn wa-c" id="mWa" target="_blank" rel="noopener" aria-label="Preguntar por WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></a></div></div>
+    </div>
   <div class="mbody">
-    <div class="mtop"><span class="mnum" id="mNum"></span><span class="brand" id="mBrand"></span></div>
+    <div class="mtop"><span class="mnum" id="mNum"></span><span class="brand" id="mBrand"></span><div class="acts"><a class="cbtn i" id="mWa" target="_blank" rel="noopener" aria-label="Más información por WhatsApp" title="Más información por WhatsApp"><b>i</b></a><button class="cbtn add" id="mAdd" aria-label="Ordenar" title="Ordenar"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
     <h3 id="mName"></h3>
     <span class="ai"><svg class="ic"><use href="#i-spark"/></svg>Marca y modelo identificados por IA · estimado</span>
     <div class="specs">
@@ -599,7 +611,7 @@ function init(){
   $("#brands").innerHTML=["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
   /* colores */
   const colores=[...new Set(PRODUCTOS.map(p=>p.color).filter(Boolean))].sort((a,b)=>Object.keys(COLOR_HEX).indexOf(a)-Object.keys(COLOR_HEX).indexOf(b));
-  $("#colors").innerHTML=colores.length?'<span class="lbl">Color</span>'+colores.map(c=>`<button data-c="${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i>${esc(c)}</button>`).join(""):"";
+  $("#colors").innerHTML=colores.length?'<span class="lbl">Color</span><button data-c="" class="on"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i>Todos</button>'+colores.map(c=>`<button data-c="${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i>${esc(c)} <small>${PRODUCTOS.filter(p=>p.color===c).length}</small></button>`).join("")+'<button class="clr" data-c="" hidden aria-label="Quitar filtro de color">✕ Quitar color</button>':"";
   /* oferta */
   const of=PRODUCTOS.find(p=>p.oferta&&!p.vendido);
   if(of){$("#oferta").hidden=false;$("#ofT").textContent=`Nº ${nn(of.num)} · ${of.modelo}`+(of.precio!=null?` a ${money(of.precio)}`:"");$("#ofD").textContent=of.descripcion+" Solo hay un par.";$("#ofBtn").textContent="Ver el Nº "+nn(of.num);$("#ofBtn").onclick=()=>openP(of.num)}
@@ -610,8 +622,8 @@ function init(){
     <img src="${esc(p.thumb||p.img)}" alt="Nº ${nn(p.num)} ${esc(titulo(p))} · tenis ${esc(p.para)} ${esc(p.color||"")}" loading="${i<4?"eager":"lazy"}" decoding="async" width="480" height="480">
     <span class="num"><small>Nº</small>${nn(p.num)}</span>
     ${p.vendido?'<span class="sold-t">VENDIDO</span>':p.oferta?'<span class="flag">Oferta</span>':""}
-    <button class="info-b" data-info="${p.num}" aria-label="Más información del Nº ${nn(p.num)}">i</button>
-    <button class="buy${cart.includes(p.num)?" in-bag":""}" data-buy="${p.num}" ${p.vendido?"disabled":""} aria-label="Ordenar el Nº ${nn(p.num)}">${ic("i-bag")}<span>${p.vendido?"Vendido":cart.includes(p.num)?"En bolsa":"Ordenar"}</span></button>
+    <a class="cbtn i" data-wa="${p.num}" href="${waLink(`Hola USA Shoes, quiero más información del Nº ${nn(p.num)}: ${titulo(p)}.`)}" target="_blank" rel="noopener" aria-label="Más información del Nº ${nn(p.num)} por WhatsApp"><b>i</b><span class="tip">Info por WhatsApp</span></a>
+    <button class="cbtn add${cart.includes(p.num)?" in-bag":""}" data-buy="${p.num}" ${p.vendido?"disabled":""} aria-label="Ordenar el Nº ${nn(p.num)}">${cart.includes(p.num)?'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>':'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'}<span class="tip">${p.vendido?"Vendido":cart.includes(p.num)?"En tu bolsa":"Ordenar"}</span></button>
   </div>
   <div class="info">
     <span class="aud">${ic(AUD_IC[p.para]||"i-uni")}${esc(p.para)} · ${esc(p.estilo||"")}</span>
@@ -649,7 +661,8 @@ $("#cats").addEventListener("click",e=>{const b=e.target.closest("button");if(!b
 $("#tiles").addEventListener("click",e=>{const t=e.target.closest(".tile");if(!t)return;fE=t.dataset.est;setAud("Todos");toCat()});
 $$("[data-foot]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();fE="";setAud(a.dataset.foot);toCat()}));
 $("#brands").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fB=b.dataset.b;$$("#brands button").forEach(x=>x.classList.toggle("on",x===b));filter()});
-$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(!b)return;fC=fC===b.dataset.c?"":b.dataset.c;$$("#colors [data-c]").forEach(x=>x.classList.toggle("on",x.dataset.c===fC));filter()});
+$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(!b)return;fC=(b.dataset.c&&fC!==b.dataset.c)?b.dataset.c:"";
+  $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",!x.classList.contains("clr")&&x.dataset.c===fC));$("#colors .clr").hidden=!fC;filter()});
 $("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");filter()});
 $("#goSearch").addEventListener("click",()=>setTimeout(()=>$("#q").focus(),500));
 
@@ -667,16 +680,17 @@ function openP(num){
   $("#mPrice").textContent=money(cur.precio);$("#mPrice").className=cur.precio==null?"tbd":"";
   $("#mDesc").textContent=cur.descripcion||"";
   $(".ai").hidden=!cur.ia;
-  $("#mWa").href=waLink(`Hola USA Shoes, me interesa el Nº ${nn(cur.num)}: ${titulo(cur)}. ¿Está disponible?`);
+  $("#mWa").href=waLink(`Hola USA Shoes, quiero más información del Nº ${nn(cur.num)}: ${titulo(cur)}. ¿Está disponible?`);
   const add=$("#mAdd");add.disabled=!!cur.vendido;
-  add.innerHTML=ic("i-bag")+(cur.vendido?"Vendido":cart.includes(cur.num)?"En tu bolsa · ver":"Ordenar");
+  const inb=cart.includes(cur.num);add.classList.toggle("in-bag",inb);add.innerHTML=inb?SV_OK:SV_PLUS;add.title=cur.vendido?"Vendido":inb?"En tu bolsa":"Ordenar";
   show("#modal");
 }
 $("#grid").addEventListener("click",e=>{
   const b=e.target.closest("[data-buy]");if(b){e.stopPropagation();addToBag(+b.dataset.buy);return}
-  const i=e.target.closest("[data-info]");if(i){openP(i.dataset.info);return}
+  if(e.target.closest("[data-wa]"))return;
   const m=e.target.closest("[data-open]");if(m)openP(m.dataset.open)});
-function syncBuy(){$$("[data-buy]").forEach(b=>{const n=+b.dataset.buy,p=PRODUCTOS.find(x=>x.num===n);if(!p||p.vendido)return;const inb=cart.includes(n);b.classList.toggle("in-bag",inb);b.querySelector("span").textContent=inb?"En bolsa":"Ordenar"})}
+const SV_PLUS='<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',SV_OK='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
+function syncBuy(){$$("[data-buy]").forEach(b=>{const n=+b.dataset.buy,p=PRODUCTOS.find(x=>x.num===n);if(!p||p.vendido)return;const inb=cart.includes(n);b.classList.toggle("in-bag",inb);b.innerHTML=(inb?SV_OK:SV_PLUS)+`<span class="tip">${inb?"En tu bolsa":"Ordenar"}</span>`})}
 function addToBag(n){const p=PRODUCTOS.find(x=>x.num===n);if(!p||p.vendido)return;
   if(cart.includes(n)){show("#drawer");return}
   cart.push(n);save();renderCart();syncBuy();toast("Añadido: Nº "+nn(n)+" · toca la bolsa para ordenar");
