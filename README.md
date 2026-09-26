@@ -2,14 +2,19 @@
 
 Tienda web de tenis con pedidos por WhatsApp. Publicada en **https://usa-shoes.github.io**
 
-## Cómo actualizar el catálogo
-Todo está en `index.html`, en el bloque **EDITA AQUÍ** (al principio del `<script>`):
+## Administración
+Entra en **https://usa-shoes.github.io/admin/** con tu usuario y contraseña.
 
-- `WHATSAPP` — número que recibe los pedidos (sin + ni espacios). Ahora: 5351120177.
-- `PRODUCTS` — un renglón por modelo:
-  - `img`: nombre de la foto en la carpeta `img/` (sin `.jpg`).
-  - `sizes`: tallas disponibles, por ejemplo `["36","38½"]`.
-  - `price`: precio en USD, o `null` para mostrar «Consultar».
-  - `hot:true` pone la etiqueta «Precio especial».
+Desde ahí puedes:
+- Subir fotos de zapatos nuevos y llenar número, marca, modelo, para quién es, estilo, talla, precio y descripción.
+- Marcar un modelo como **vendido** u **oferta**.
+- **Importar tallas y precios** pegando una tabla: `número, talla, precio` (una línea por zapato).
+- Cambiar el WhatsApp que recibe los pedidos y tu usuario o contraseña.
 
-Para agregar un modelo: sube la foto a `img/` (mejor recortada y de unos 1000 px) y añade su renglón. Para quitar uno vendido, borra su renglón.
+Los cambios se guardan al pulsar **Publicar cambios** y se ven en la tienda en 1–2 minutos.
+
+## Archivos
+- `index.html` — la tienda.
+- `productos.json` — los datos del catálogo (lo edita la administración).
+- `admin/` — la administración. `admin/acceso.json` guarda la llave de GitHub **cifrada** con tu usuario y contraseña.
+- `img/` — fotos de los zapatos. `video/` — videos de la portada y las secciones.
