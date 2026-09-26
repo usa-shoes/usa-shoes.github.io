@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>USA Shoes — Tenis seleccionados</title>
+<meta name="description" content="USA Shoes: tenis seleccionados par por par. Elige tu talla y pide por WhatsApp.">
+<meta name="theme-color" content="#0e0d0c">
+<meta property="og:title" content="USA Shoes — Tenis seleccionados">
+<meta property="og:description" content="Elige tu talla y pide por WhatsApp.">
+<meta property="og:image" content="img/z16.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0d0c'/%3E%3Ctext x='32' y='43' font-family='Georgia' font-size='30' font-style='italic' fill='%23d9b77a' text-anchor='middle'%3EUS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0e0d0c; --ink-2:#1a1816; --ink-3:#262320;
+  --paper:#f4efe7; --paper-2:#ebe4d8; --muted:#8c8479;
+  --gold:#d9b77a; --gold-2:#b8914f; --red:#c8412f;
+  --line:rgba(244,239,231,.12);
+  --r:22px; --ease:cubic-bezier(.2,.8,.2,1);
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--gold);color:var(--ink)}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+
+/* grano */
+body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:200;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 8s steps(10) infinite}
+@keyframes grain{0%,100%{transform:translate(0,0)}20%{transform:translate(-5%,3%)}40%{transform:translate(3%,-4%)}60%{transform:translate(-3%,5%)}80%{transform:translate(4%,-2%)}}
+
+/* precarga */
+#pre{position:fixed;inset:0;z-index:300;background:var(--ink);display:grid;place-items:center;transition:clip-path 1s var(--ease)}
+#pre.go{clip-path:inset(0 0 100% 0)}
+#pre span{font-family:var(--serif);font-style:italic;font-size:clamp(40px,9vw,96px);letter-spacing:-.02em;color:var(--gold);overflow:hidden;display:block}
+#pre span i{display:inline-block;transform:translateY(110%);animation:up .9s var(--ease) forwards;font-style:italic}
+@keyframes up{to{transform:none}}
+
+/* cabecera */
+header{position:fixed;inset:0 0 auto;z-index:50;transition:background .4s,backdrop-filter .4s,border-color .4s;border-bottom:1px solid transparent}
+header.s{background:rgba(14,13,12,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-family:var(--serif);font-size:24px;letter-spacing:-.02em}
+.logo em{color:var(--gold)}
+.nav-l{display:flex;gap:28px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-2)}
+.nav-l a{position:relative}
+.nav-l a::after{content:"";position:absolute;left:0;bottom:-4px;height:1px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
+.nav-l a:hover::after{transform:scaleX(1);transform-origin:left}
+.bag{position:relative;display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line);border-radius:99px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;transition:background .3s,border-color .3s}
+.bag:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.bag b{display:grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:99px;background:var(--gold);color:var(--ink);font-size:12px}
+.bag b.pop{animation:pop .5s var(--ease)}
+@keyframes pop{40%{transform:scale(1.5)}}
+@media(max-width:720px){.nav-l{display:none}}
+
+/* portada */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:120px 0 56px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-1}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:saturate(.9) brightness(.5);transform:scale(1.15);animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{to{transform:scale(1.02) translate(-2%,1%)}}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,13,12,.35) 0%,rgba(14,13,12,.1) 35%,rgba(14,13,12,.92) 88%,var(--ink) 100%)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(52px,12vw,170px);line-height:.88;letter-spacing:-.045em;margin:18px 0 26px}
+.hero h1 .l{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .l>span{display:inline-block;transform:translateY(105%)}
+.ready .hero h1 .l>span{animation:up 1.1s var(--ease) forwards}
+.ready .hero h1 .l:nth-child(2)>span{animation-delay:.12s}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-row{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:flex-end;justify-content:space-between}
+.hero p{max-width:420px;color:var(--paper-2);font-size:17px}
+.fade{opacity:0;transform:translateY(20px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.ready .fade{opacity:1;transform:none}
+.ready .fade.d2{transition-delay:.35s}.ready .fade.d3{transition-delay:.5s}
+.btn{position:relative;display:inline-flex;align-items:center;gap:12px;padding:18px 28px;border-radius:99px;background:var(--paper);color:var(--ink);font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase;overflow:hidden;isolation:isolate;transition:transform .3s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;background:var(--gold);transform:translateY(101%);transition:transform .5s var(--ease);z-index:-1;border-radius:inherit}
+.btn:hover::before{transform:none}
+.btn svg{transition:transform .4s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.btn.ghost{background:transparent;color:var(--paper);border:1px solid var(--line)}
+.btn.ghost::before{background:var(--paper)}
+.btn.ghost:hover{color:var(--ink)}
+.stats{display:flex;gap:36px;margin-top:6px}
+.stats div{font-family:var(--serif);font-size:34px;line-height:1}
+.stats small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.scroll-cue{position:absolute;right:16px;bottom:56px;writing-mode:vertical-rl;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+.scroll-cue::after{content:"";width:1px;height:60px;background:linear-gradient(var(--gold),transparent);animation:cue 2s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:720px){.scroll-cue{display:none}}
+
+/* cinta */
+.marq{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--ink-2)}
+.marq-t{display:flex;gap:56px;width:max-content;animation:mq 30s linear infinite;font-family:var(--serif);font-size:clamp(26px,4vw,44px);font-style:italic;font-weight:300;white-space:nowrap}
+.marq-t span{display:flex;align-items:center;gap:56px}
+.marq-t span::after{content:"✦";font-style:normal;font-size:.5em;color:var(--gold)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* secciones */
+section{padding:clamp(72px,10vw,140px) 0}
+.sec-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px}
+.sec-h h2{font-family:var(--serif);font-weight:300;font-size:clamp(38px,6vw,80px);line-height:.95;letter-spacing:-.035em}
+.sec-h h2 em{font-style:italic;color:var(--gold)}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* filtros */
+.filters{display:flex;flex-direction:column;gap:14px;margin-bottom:34px}
+.frow{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent)}
+.frow::-webkit-scrollbar{display:none}
+.frow .lbl{flex:none;align-self:center;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-right:6px;min-width:52px}
+.chip{flex:none;padding:10px 18px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--paper-2);transition:all .3s var(--ease)}
+.chip:hover{border-color:var(--paper-2)}
+.chip.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.count{font-size:13px;color:var(--muted)}
+
+/* rejilla */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:28px 22px}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr);gap:22px 12px}}
+.card{position:relative;transition:opacity .5s,transform .5s var(--ease)}
+.card.hide{display:none}
+.media{position:relative;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;background:var(--ink-3);cursor:pointer;transform-style:preserve-3d;transition:transform .5s var(--ease),box-shadow .5s}
+.media img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),filter .6s}
+.card:hover .media img{transform:scale(1.08)}
+.media::after{content:"";position:absolute;inset:0;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.14),transparent 40%);opacity:0;transition:opacity .4s;pointer-events:none}
+.card:hover .media::after{opacity:1}
+.card:hover .media{box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.tag{position:absolute;top:14px;left:14px;padding:6px 12px;border-radius:99px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:rgba(14,13,12,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line)}
+.tag.hot{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:600}
+.quick{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:center;padding:14px;border-radius:14px;background:rgba(244,239,231,.92);color:var(--ink);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;transform:translateY(130%);transition:transform .5s var(--ease);backdrop-filter:blur(8px)}
+.card:hover .quick{transform:none}
+@media(hover:none){.quick{display:none}}
+.info{padding:16px 4px 0;display:grid;grid-template-columns:1fr auto;gap:4px 12px}
+.brand{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.name{grid-column:1;font-family:var(--serif);font-size:20px;line-height:1.15;letter-spacing:-.01em}
+.price{grid-column:2;grid-row:1/3;align-self:start;font-family:var(--serif);font-size:20px;white-space:nowrap}
+.price.ask{font-family:var(--sans);font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding-top:4px}
+.sizes{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sizes span{font-size:12px;padding:4px 10px;border-radius:8px;background:var(--ink-3);color:var(--paper-2)}
+@media(max-width:600px){.name{font-size:16px}.price{grid-row:auto;grid-column:1;font-size:17px}.price.ask{font-size:11px;padding:0}.info{grid-template-columns:1fr}}
+.empty{grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted)}
+
+/* beneficios */
+.perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.perk{background:var(--ink);padding:34px 28px;transition:background .4s}
+.perk:hover{background:var(--ink-2)}
+.perk i{font-style:normal;font-family:var(--serif);font-size:14px;color:var(--gold)}
+.perk h3{font-family:var(--serif);font-weight:400;font-size:24px;margin:14px 0 8px;letter-spacing:-.01em}
+.perk p{color:var(--muted);font-size:15px}
+
+/* cómo pedir */
+.how{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+@media(max-width:860px){.how{grid-template-columns:1fr}}
+.how-img{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5}
+.how-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);will-change:transform}
+.steps{list-style:none;counter-reset:s;display:grid;gap:4px;margin:28px 0 36px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:14px;padding:22px 0;border-top:1px solid var(--line)}
+.steps li::before{content:"0" counter(s);font-family:var(--serif);font-style:italic;font-size:28px;color:var(--gold);line-height:1}
+.steps b{display:block;font-weight:500;font-size:17px;margin-bottom:4px}
+.steps span{color:var(--muted);font-size:15px}
+
+/* pie */
+footer{border-top:1px solid var(--line);padding:56px 0 calc(40px + env(safe-area-inset-bottom))}
+.foot{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-end}
+.foot .big{font-family:var(--serif);font-weight:300;font-size:clamp(48px,10vw,140px);line-height:.85;letter-spacing:-.05em}
+.foot .big em{color:var(--gold);font-style:italic}
+.foot small{color:var(--muted);font-size:13px}
+
+/* WhatsApp flotante */
+.wa{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:40;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:#fff;box-shadow:0 12px 30px -8px rgba(37,211,102,.6);transition:transform .3s var(--ease)}
+.wa:hover{transform:scale(1.08) rotate(-6deg)}
+.wa::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:ring 2.4s ease-out infinite}
+@keyframes ring{to{transform:scale(1.7);opacity:0}}
+
+/* capas: vista rápida y bolsa */
+.veil{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .45s}
+.veil.on{opacity:1;pointer-events:auto}
+.modal{position:fixed;z-index:90;left:50%;top:50%;width:min(1000px,100% - 24px);max-height:calc(100svh - 24px);overflow:auto;background:var(--ink-2);border:1px solid var(--line);border-radius:28px;display:grid;grid-template-columns:1.05fr 1fr;transform:translate(-50%,-46%) scale(.96);opacity:0;pointer-events:none;transition:opacity .45s var(--ease),transform .6s var(--ease)}
+.modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+@media(max-width:760px){.modal{grid-template-columns:1fr;top:auto;bottom:0;left:0;width:100%;max-height:92svh;border-radius:28px 28px 0 0;transform:translateY(100%)}.modal.on{transform:none}}
+.zoom{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--ink-3);cursor:zoom-in}
+.zoom img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease-out}
+.zoom.z img{transform:scale(2.2);cursor:zoom-out}
+.mbody{padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;gap:18px}
+.mbody h3{font-family:var(--serif);font-weight:300;font-size:clamp(30px,4vw,44px);line-height:1;letter-spacing:-.03em}
+.mprice{font-family:var(--serif);font-size:28px}
+.mprice.ask{font-family:var(--sans);font-size:14px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.mbody p{color:var(--paper-2);font-size:15px}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pick button{min-width:64px;padding:14px 16px;border:1px solid var(--line);border-radius:14px;font-size:15px;transition:all .25s}
+.pick button:hover{border-color:var(--paper-2)}
+.pick button.on{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.hint{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hint.err{color:var(--red);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.x{position:absolute;top:14px;right:14px;z-index:2;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(14,13,12,.7);border:1px solid var(--line);backdrop-filter:blur(8px);transition:transform .3s var(--ease)}
+.x:hover{transform:rotate(90deg)}
+.mbtns{display:grid;gap:10px;margin-top:auto}
+.mbtns .btn{justify-content:center}
+
+.drawer{position:fixed;z-index:90;top:0;right:0;height:100%;width:min(440px,100%);background:var(--ink-2);border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .6s var(--ease)}
+.drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line)}
+.dh h3{font-family:var(--serif);font-weight:300;font-size:30px;letter-spacing:-.02em}
+.dh .x{position:static}
+.items{flex:1;overflow:auto;padding:8px 24px}
+.it{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);animation:slide .5s var(--ease)}
+@keyframes slide{from{opacity:0;transform:translateX(20px)}}
+.it img{width:76px;height:92px;object-fit:cover;border-radius:12px}
+.it b{display:block;font-family:var(--serif);font-weight:400;font-size:17px;line-height:1.2}
+.it small{color:var(--muted);font-size:13px}
+.it .rm{font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.it .rm:hover{color:var(--red)}
+.dnone{text-align:center;color:var(--muted);padding:60px 0}
+.df{padding:20px 24px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;gap:14px}
+.tot{display:flex;justify-content:space-between;align-items:baseline}
+.tot b{font-family:var(--serif);font-size:28px;font-weight:400}
+.df input{width:100%;padding:15px 16px;border-radius:14px;border:1px solid var(--line);background:var(--ink);color:var(--paper);font:inherit;font-size:16px}
+.df input:focus{outline:none;border-color:var(--gold)}
+.btn.wa-b{background:#25d366;color:#08240f;justify-content:center}
+.btn.wa-b::before{background:#1fb458}
+
+.toast{position:fixed;left:50%;bottom:28px;z-index:120;transform:translate(-50%,calc(100% + 80px));visibility:hidden;padding:14px 22px;border-radius:99px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:500;box-shadow:0 20px 40px -10px rgba(0,0,0,.6);transition:transform .6s var(--ease),visibility .6s;white-space:nowrap}
+.toast.on{transform:translate(-50%,0);visibility:visible}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.rv,.fade{opacity:1;transform:none}.hero h1 .l>span{transform:none}}
+</style>
+</head>
+<body>
+<div id="pre"><span><i>USA Shoes</i></span></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo">USA <em>Shoes</em></a>
+    <nav class="nav-l"><a href="#catalogo">Catálogo</a><a href="#pedir">Cómo pedir</a><a href="#contacto">Contacto</a></nav>
+    <button class="bag" id="bagBtn" aria-label="Ver bolsa">Bolsa <b id="bagN">0</b></button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-top:120px">
+    <div class="hero-bg"><img src="img/z06.jpg" alt="" fetchpriority="high"></div>
+    <div class="wrap">
+      <span class="eyebrow fade">Nueva colección · Tallas 35–44</span>
+      <h1><span class="l"><span>Pisa</span></span><span class="l"><span><em>distinto.</em></span></span></h1>
+      <div class="hero-row">
+        <p class="fade d2">Tenis seleccionados par por par. Mira las fotos reales, elige tu talla y pídelos por WhatsApp en un minuto.</p>
+        <div class="fade d3" style="display:flex;flex-wrap:wrap;gap:12px">
+          <a href="#catalogo" class="btn">Ver catálogo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+          <a href="#pedir" class="btn ghost">Cómo pedir</a>
+        </div>
+      </div>
+      <div class="stats fade d3" style="margin-top:40px"><div><span data-n="16">0</span><small>Modelos</small></div><div><span data-n="5">0</span><small>Marcas</small></div><div>35–44<small>Tallas</small></div></div>
+    </div>
+    <div class="scroll-cue">Desliza</div>
+  </section>
+
+  <div class="marq" aria-hidden="true"><div class="marq-t" id="mq"></div></div>
+
+  <section id="catalogo">
+    <div class="wrap">
+      <div class="sec-h rv">
+        <h2>El <em>catálogo</em></h2>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="filters rv">
+        <div class="frow" id="fSize"><span class="lbl">Talla</span></div>
+        <div class="frow" id="fBrand"><span class="lbl">Marca</span></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="perks rv">
+        <div class="perk"><i>01</i><h3>Fotos reales</h3><p>Cada par que ves es el que te llevas. Sin sorpresas.</p></div>
+        <div class="perk"><i>02</i><h3>Pides en un minuto</h3><p>Arma tu bolsa y el pedido llega listo a nuestro WhatsApp.</p></div>
+        <div class="perk"><i>03</i><h3>Confirmamos contigo</h3><p>Antes de todo te confirmamos talla, precio y entrega por WhatsApp.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pedir">
+    <div class="wrap how">
+      <div class="how-img rv"><img src="img/z13.jpg" alt="Tenis Puma de ante marrón" id="par" loading="lazy"></div>
+      <div class="rv">
+        <span class="eyebrow">Cómo pedir</span>
+        <div class="sec-h" style="margin:18px 0 0"><h2>Tres pasos, <em>cero</em> vueltas</h2></div>
+        <ol class="steps">
+          <li><div><b>Elige tu par</b><span>Toca la foto para verla en grande y escoger la talla.</span></div></li>
+          <li><div><b>Añádelo a la bolsa</b><span>Puedes llevar varios modelos en el mismo pedido.</span></div></li>
+          <li><div><b>Envía por WhatsApp</b><span>Te llega el mensaje armado. Solo tocas enviar y te respondemos.</span></div></li>
+        </ol>
+        <a href="#catalogo" class="btn">Empezar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto">
+  <div class="wrap foot">
+    <div class="big rv">USA<br><em>Shoes</em></div>
+    <div style="display:grid;gap:10px;text-align:right">
+      <a class="btn wa-b" id="waFoot" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+      <small>© <span id="yr"></span> USA Shoes · Existencias limitadas: una talla por par salvo que se indique.</small>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" id="waFab" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></a>
+
+<div class="veil" id="veil"></div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mName">
+  <button class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <div class="zoom" id="zoom"><img id="mImg" alt=""></div>
+  <div class="mbody">
+    <span class="brand" id="mBrand"></span>
+    <h3 id="mName"></h3>
+    <div class="mprice" id="mPrice"></div>
+    <p id="mDesc"></p>
+    <div><div class="hint" id="mHint" style="margin-bottom:10px">Elige tu talla</div><div class="pick" id="mSizes"></div></div>
+    <div class="mbtns">
+      <button class="btn" id="mAdd" style="justify-content:center">Añadir a la bolsa</button>
+      <a class="btn ghost" id="mWa" target="_blank" rel="noopener" style="justify-content:center">Preguntar por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<aside class="drawer" id="drawer" aria-label="Bolsa">
+  <div class="dh"><h3>Tu bolsa</h3><button class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="items" id="items"></div>
+  <div class="df">
+    <div class="tot"><span class="hint">Total</span><b id="tot">—</b></div>
+    <input id="cName" placeholder="Tu nombre (opcional)" autocomplete="name">
+    <button class="btn wa-b" id="send">Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ EDITA AQUÍ ============
+   price: número en USD, o null para "Consultar".
+   sizes: tallas disponibles.                          */
+const WHATSAPP = "5358146895";
+const CURRENCY = "USD";
+const PRODUCTS = [
+  {id:1,  img:"z01", brand:"Puma",    name:"Gris perla con rosa",      sizes:["36","38"],     price:null, desc:"Deportivo ligero en gris claro con detalles rosa y azul. Suela blanca acolchada."},
+  {id:2,  img:"z02", brand:"RBX",     name:"Ante azul royal",          sizes:["38½"],         price:null, desc:"Clásico de ante azul intenso con franja lateral gris. Suela negra."},
+  {id:3,  img:"z03", brand:"Nautica", name:"Slip-on negro",            sizes:["43"],          price:null, desc:"Sin cordones, malla transpirable negra con banda elástica y suela blanca."},
+  {id:4,  img:"z04", brand:"Puma",    name:"Ante rosa pálido, perlas", sizes:["36"],          price:null, desc:"Ante rosa suave con cordones de satén, dijes de perla y suela caramelo."},
+  {id:5,  img:"z05", brand:"Puma",    name:"Piel gris y grafito",      sizes:["38"],          price:null, desc:"Estilo cancha en piel gris con ante grafito y logo dorado."},
+  {id:6,  img:"z06", brand:"Nike",    name:"Azul noche y turquesa",    sizes:["36"],          price:null, desc:"Tenis de baloncesto con líneas turquesa, logo cobre y suela ondulada."},
+  {id:7,  img:"z07", brand:"Puma",    name:"Negro con rojo",           sizes:["39"],          price:null, desc:"Todo negro en malla con logo rojo bordado. Discreto y cómodo."},
+  {id:8,  img:"z08", brand:"Urbano",  name:"Tejido rojo tipo media",   sizes:["41"],          price:20,   desc:"Caña alta de tejido elástico en rojo intenso con suela escultural.", hot:true},
+  {id:9,  img:"z09", brand:"Urbano",  name:"Blanco cámara de aire",    sizes:["36"],          price:null, desc:"Tejido blanco transpirable con cámara de aire en el talón."},
+  {id:10, img:"z10", brand:"Puma",    name:"Rojo intenso",             sizes:["35½","38"],    price:null, desc:"Malla roja con detalles negros y talón acolchado."},
+  {id:11, img:"z11", brand:"Avia",    name:"Blanco, marino y lima",    sizes:["35","37½"],    price:null, desc:"Tejido blanco con talón azul marino y toque verde lima. Muy ligero."},
+  {id:12, img:"z12", brand:"Nike",    name:"Slip-on fucsia",           sizes:["36"],          price:null, desc:"Fucsia vibrante, sin cordones, con banda elástica y logo negro."},
+  {id:13, img:"z13", brand:"Puma",    name:"Ante chocolate",           sizes:["38½"],         price:null, desc:"Ante marrón con franja blanca en piel y suela caramelo."},
+  {id:14, img:"z14", brand:"Nautica", name:"Slip-on azul marino",      sizes:["43"],          price:null, desc:"Malla azul marino con banda NAUTICA y suela blanca."},
+  {id:15, img:"z15", brand:"Urbano",  name:"Tejido gris cámara de aire", sizes:["44"],        price:null, desc:"Tejido gris jaspeado con cámara de aire visible. Para todo el día."},
+  {id:16, img:"z16", brand:"Puma",    name:"Blanco plataforma",        sizes:["35½"],         price:null, desc:"Piel blanca con franja negra, logo dorado y suela plataforma."}
+];
+/* ==================================== */
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const money=n=>n==null?"Consultar":"$"+(+n).toFixed(n%1?2:0)+" "+CURRENCY;
+const sizeNum=s=>parseFloat(s.replace("½",".5"));
+const waLink=t=>"https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(t);
+let cart=[]; try{cart=JSON.parse(localStorage.getItem("usa-cart")||"[]")}catch(e){}
+const save=()=>{try{localStorage.setItem("usa-cart",JSON.stringify(cart))}catch(e){}};
+
+/* precarga */
+addEventListener("load",()=>{setTimeout(()=>{$("#pre").classList.add("go");document.body.classList.add("ready");countUp()},900)});
+setTimeout(()=>{$("#pre").classList.add("go");document.body.classList.add("ready")},3500);
+
+/* cabecera */
+addEventListener("scroll",()=>$("#hdr").classList.toggle("s",scrollY>30),{passive:true});
+$("#yr").textContent=new Date().getFullYear();
+$("#waFab").href=$("#waFoot").href=waLink("Hola USA Shoes, quiero información sobre sus tenis.");
+
+/* cinta */
+const brands=[...new Set(PRODUCTS.map(p=>p.brand))];
+const mq=["Puma","Nike","Nautica","Avia","RBX","Fotos reales","Pide por WhatsApp"];
+$("#mq").innerHTML=[...mq,...mq].map(t=>`<span>${t}</span>`).join("");
+
+/* contadores */
+function countUp(){$$("[data-n]").forEach(el=>{const n=+el.dataset.n;let i=0;const t=setInterval(()=>{el.textContent=++i;if(i>=n)clearInterval(t)},60)})}
+
+/* filtros */
+const allSizes=[...new Set(PRODUCTS.flatMap(p=>p.sizes))].sort((a,b)=>sizeNum(a)-sizeNum(b));
+let fS="Todas", fB="Todas";
+function chips(box,list,get,set){
+  box.insertAdjacentHTML("beforeend",["Todas",...list].map(v=>`<button class="chip${v==="Todas"?" on":""}" data-v="${v}">${v}</button>`).join(""));
+  box.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;box.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c===b));set(b.dataset.v);filter()});
+}
+chips($("#fSize"),allSizes,()=>fS,v=>fS=v);
+chips($("#fBrand"),brands,()=>fB,v=>fB=v);
+
+/* rejilla */
+$("#grid").innerHTML=PRODUCTS.map((p,i)=>`
+<article class="card rv" data-id="${p.id}" style="transition-delay:${(i%4)*80}ms">
+  <div class="media" data-open="${p.id}">
+    <img src="img/${p.img}.jpg" alt="${p.brand} ${p.name}" loading="lazy" decoding="async">
+    ${p.hot?'<span class="tag hot">Precio especial</span>':p.sizes.length>1?'<span class="tag">'+p.sizes.length+' tallas</span>':'<span class="tag">Última talla</span>'}
+    <span class="quick">Vista rápida</span>
+  </div>
+  <div class="info">
+    <span class="brand">${p.brand}</span>
+    <span class="price${p.price==null?" ask":""}">${money(p.price)}</span>
+    <span class="name">${p.name}</span>
+    <div class="sizes">${p.sizes.map(s=>`<span>${s}</span>`).join("")}</div>
+  </div>
+</article>`).join("")+'<p class="empty" id="empty" hidden>No hay modelos con ese filtro. Prueba otra talla.</p>';
+
+function filter(){
+  let n=0;
+  $$(".card").forEach(c=>{const p=PRODUCTS.find(x=>x.id==c.dataset.id);
+    const ok=(fS==="Todas"||p.sizes.includes(fS))&&(fB==="Todas"||p.brand===fB);
+    c.classList.toggle("hide",!ok);if(ok){n++;c.classList.add("in")}});
+  $("#count").textContent=n+(n===1?" modelo":" modelos");
+  $("#empty").hidden=n>0;
+}
+filter();
+
+/* aparición al desplazar */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12,rootMargin:"0px 0px -40px"});
+$$(".rv").forEach(el=>io.observe(el));
+
+/* inclinación y brillo en tarjetas */
+if(matchMedia("(hover:hover)").matches){
+  $$(".media").forEach(m=>{
+    m.addEventListener("pointermove",e=>{const r=m.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+      m.style.setProperty("--mx",x*100+"%");m.style.setProperty("--my",y*100+"%");
+      m.style.transform=`perspective(900px) rotateY(${(x-.5)*8}deg) rotateX(${(.5-y)*8}deg)`});
+    m.addEventListener("pointerleave",()=>m.style.transform="");
+  });
+}
+
+/* parallax */
+const par=$("#par");
+addEventListener("scroll",()=>{const r=par.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight){par.style.transform=`scale(1.15) translateY(${(r.top+r.height/2-innerHeight/2)*-.06}px)`}},{passive:true});
+
+/* vista rápida */
+let cur=null, curSize=null;
+function openP(id){
+  cur=PRODUCTS.find(p=>p.id==id);curSize=cur.sizes.length===1?cur.sizes[0]:null;
+  $("#mImg").src="img/"+cur.img+".jpg";$("#mImg").alt=cur.brand+" "+cur.name;
+  $("#mBrand").textContent=cur.brand;$("#mName").textContent=cur.name;
+  $("#mPrice").textContent=money(cur.price);$("#mPrice").className="mprice"+(cur.price==null?" ask":"");
+  $("#mDesc").textContent=cur.desc;$("#mHint").className="hint";$("#mHint").textContent=cur.sizes.length>1?"Elige tu talla":"Talla disponible";
+  $("#mSizes").innerHTML=cur.sizes.map(s=>`<button class="${s===curSize?"on":""}">${s}</button>`).join("");
+  $("#mWa").href=waLink(`Hola USA Shoes, me interesa: ${cur.brand} ${cur.name} (talla ${cur.sizes.join(" / ")}). ¿Está disponible?`);
+  $("#zoom").classList.remove("z");show("#modal");
+}
+$("#grid").addEventListener("click",e=>{const m=e.target.closest("[data-open]");if(m)openP(m.dataset.open)});
+$("#mSizes").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;curSize=b.textContent;$$("#mSizes button").forEach(x=>x.classList.toggle("on",x===b));$("#mHint").className="hint";$("#mHint").textContent="Talla "+curSize});
+const zoom=$("#zoom");
+zoom.addEventListener("click",()=>zoom.classList.toggle("z"));
+zoom.addEventListener("pointermove",e=>{const r=zoom.getBoundingClientRect();zoom.querySelector("img").style.transformOrigin=`${(e.clientX-r.left)/r.width*100}% ${(e.clientY-r.top)/r.height*100}%`});
+$("#mAdd").addEventListener("click",()=>{
+  if(!curSize){const h=$("#mHint");h.className="hint";void h.offsetWidth;h.className="hint err";h.textContent="Primero elige una talla";return}
+  if(cart.some(c=>c.id===cur.id&&c.size===curSize)){toast("Ya está en tu bolsa");return}
+  cart.push({id:cur.id,size:curSize});save();renderCart();hide();toast("Añadido: "+cur.name+" · "+curSize);
+  const b=$("#bagN");b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
+});
+
+/* bolsa */
+function renderCart(){
+  $("#bagN").textContent=cart.length;
+  if(!cart.length){$("#items").innerHTML='<p class="dnone">Tu bolsa está vacía.<br>Elige un par del catálogo.</p>';$("#tot").textContent="—";return}
+  $("#items").innerHTML=cart.map((c,i)=>{const p=PRODUCTS.find(x=>x.id===c.id);return `
+    <div class="it"><img src="img/${p.img}.jpg" alt=""><div><small>${p.brand}</small><b>${p.name}</b><small>Talla ${c.size} · ${money(p.price)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
+  const priced=cart.map(c=>PRODUCTS.find(x=>x.id===c.id).price);
+  const sum=priced.filter(v=>v!=null).reduce((a,b)=>a+b,0), ask=priced.some(v=>v==null);
+  $("#tot").textContent=sum?money(sum)+(ask?" + a consultar":""):"A consultar";
+}
+$("#items").addEventListener("click",e=>{const b=e.target.closest(".rm");if(!b)return;cart.splice(+b.dataset.i,1);save();renderCart()});
+$("#send").addEventListener("click",()=>{
+  if(!cart.length){toast("Tu bolsa está vacía");return}
+  const n=$("#cName").value.trim();
+  const lines=cart.map((c,i)=>{const p=PRODUCTS.find(x=>x.id===c.id);return `${i+1}. ${p.brand} ${p.name} — talla ${c.size} — ${money(p.price)}`});
+  const msg=`Hola USA Shoes 👟${n?", soy "+n:""}. Quiero hacer este pedido:\n\n${lines.join("\n")}\n\nTotal: ${$("#tot").textContent}\n\n¿Están disponibles?`;
+  window.open(waLink(msg),"_blank","noopener");
+});
+$("#bagBtn").addEventListener("click",()=>show("#drawer"));
+renderCart();
+
+/* capas */
+function show(sel){hide(true);$(sel).classList.add("on");$("#veil").classList.add("on");document.body.style.overflow="hidden"}
+function hide(keep){$$(".modal,.drawer").forEach(x=>x.classList.remove("on"));if(keep!==true){$("#veil").classList.remove("on");document.body.style.overflow=""}}
+$("#veil").addEventListener("click",()=>hide());
+$$("[data-close]").forEach(b=>b.addEventListener("click",()=>hide()));
+addEventListener("keydown",e=>{if(e.key==="Escape")hide()});
+
+let tt;function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("on"),2200)}
+</script>
+</body>
+</html>
