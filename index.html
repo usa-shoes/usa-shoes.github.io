@@ -13,7 +13,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://videos.pexels.com">
 <style>
 :root{
   --blue:#0b5cd5; --blue-d:#0a47a6; --ink:#1c1c1c; --ink-2:#3d3d3d; --muted:#6b6b6b;
@@ -39,7 +38,12 @@ h1,h2,h3{font-weight:800;letter-spacing:-.01em;line-height:1.08}
 .promo i{font-style:italic;font-weight:900}
 
 /* cabecera */
-header{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);transition:box-shadow .3s}
+header{position:fixed;left:0;right:0;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:background .4s,border-color .4s,box-shadow .3s,color .4s}
+header.t{background:transparent;border-color:transparent;color:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+header.t .logo,header.t .logo span{color:#fff}
+header.t .tool:hover{background:rgba(255,255,255,.15)}
+header.t .promo{background:rgba(11,92,213,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+header .promo{transition:background .4s}
 header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
 .logo{font-weight:900;font-style:italic;font-size:30px;letter-spacing:-.04em;color:var(--blue);line-height:1;text-transform:uppercase}
@@ -58,18 +62,37 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .cats button:hover{background:var(--soft)}
 @media(max-width:700px){.cats{justify-content:flex-start}.logo{font-size:25px}}
 
-/* héroe con video */
-.hero{position:relative;margin:16px auto 0;border-radius:6px;overflow:hidden;aspect-ratio:16/7;min-height:380px;background:#1a120d}
-.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.45),rgba(0,0,0,0) 60%)}
-.hero-box{position:absolute;z-index:2;right:clamp(16px,4vw,48px);top:clamp(16px,4vw,40px);background:#fff;border-radius:6px;padding:clamp(18px,2.4vw,28px) clamp(18px,2.6vw,34px);text-align:center;max-width:360px;box-shadow:0 20px 40px -20px rgba(0,0,0,.5);animation:rise .9s var(--ease) both .2s}
-@keyframes rise{from{opacity:0;transform:translateY(16px)}}
-.hero-box small{display:block;font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--blue);text-transform:uppercase}
-.hero-box h1{font-size:clamp(24px,3vw,36px);font-weight:900;text-transform:uppercase;margin:8px 0 14px;line-height:1.02}
-.play{position:absolute;z-index:2;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:2px solid #fff;color:#fff;display:grid;place-items:center;font-size:18px;background:rgba(0,0,0,.2)}
-.hero-cap{position:absolute;z-index:2;left:clamp(16px,4vw,48px);bottom:clamp(16px,4vw,40px);color:#fff;max-width:420px}
-.hero-cap p{font-size:clamp(15px,1.6vw,18px);font-weight:600;text-shadow:0 2px 10px rgba(0,0,0,.4)}
-@media(max-width:700px){.hero{aspect-ratio:auto;height:78svh;border-radius:0;margin-top:0;width:100%}.hero-box{left:16px;right:16px;top:auto;bottom:20px;max-width:none}.hero-cap{top:20px;bottom:auto}.hero::after{background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,0) 45%)}.play{top:16px;bottom:auto}}
+/* héroe con video a pantalla completa */
+.hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:#0d0f14 url(video/ajustando-pista.jpg) center/cover;color:#fff;display:grid;align-items:end}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:kb 16s ease-in-out infinite alternate}
+@keyframes kb{to{transform:scale(1)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,10,16,.55) 0%,rgba(8,10,16,.05) 30%,rgba(8,10,16,.15) 55%,rgba(8,10,16,.8) 100%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(60% 50% at 15% 85%,rgba(11,92,213,.35),transparent 70%);mix-blend-mode:screen}
+.hero-in{position:relative;z-index:2;padding-bottom:clamp(40px,8vh,90px)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(12px) saturate(1.4);-webkit-backdrop-filter:blur(12px) saturate(1.4);opacity:0;animation:rise .9s var(--ease) forwards .3s}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:#35d07f;box-shadow:0 0 0 4px rgba(53,208,127,.25);animation:blink 1.8s ease-in-out infinite}
+@keyframes blink{50%{box-shadow:0 0 0 8px rgba(53,208,127,0)}}
+.big{font-size:clamp(46px,9vw,132px);font-weight:900;text-transform:uppercase;letter-spacing:-.035em;line-height:.9;margin:18px 0 26px;text-shadow:0 10px 40px rgba(0,0,0,.35)}
+.big .l{display:block;overflow:hidden;padding-bottom:.04em}
+.big .l>span{display:inline-block;transform:translateY(105%);animation:upx 1.1s var(--ease) forwards .45s}
+.big .l:nth-child(2)>span{animation-delay:.6s;background:linear-gradient(90deg,#fff 0%,#9cc4ff 50%,#fff 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:upx 1.1s var(--ease) forwards .6s,shine 5s linear infinite 2s}
+@keyframes upx{to{transform:none}}
+@keyframes shine{to{background-position:-200% 0}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.glass{max-width:560px;padding:clamp(18px,2.4vw,26px);border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 30px 60px -30px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.25);opacity:0;animation:rise 1s var(--ease) forwards .9s}
+.glass p{font-size:clamp(15px,1.4vw,17px);font-weight:600;opacity:.95}
+.gbtns{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 14px}
+.btn.light{background:#fff;color:var(--ink)}.btn.light:hover{background:var(--blue);color:#fff}
+.btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.45)}.btn.ghost:hover{background:#25d366;border-color:#25d366;color:#082a14}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{padding:6px 12px;border-radius:99px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.18);font-size:13px}
+.chips b{font-weight:900}
+.play{position:absolute;z-index:3;right:clamp(16px,3vw,40px);bottom:clamp(40px,8vh,90px);width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:18px;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:background .3s}
+.play:hover{background:rgba(255,255,255,.3)}
+.cue{position:absolute;z-index:3;left:50%;bottom:16px;transform:translateX(-50%);width:26px;height:42px;border-radius:14px;border:2px solid rgba(255,255,255,.7)}
+.cue span{position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:#fff;animation:cue 1.6s ease-in-out infinite}
+@keyframes cue{60%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+@media(max-width:700px){.glass{padding:16px}.gbtns .btn{flex:1;padding:13px 14px;font-size:13px}.cue{display:none}.play{top:130px;bottom:auto}}
 
 /* botones */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:8px;background:var(--ink-2);color:#fff;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.02em;transition:background .25s,transform .25s}
@@ -136,6 +159,19 @@ section{padding:clamp(44px,6vw,80px) 0}
 @media(max-width:640px){.name{font-size:14px}.price{font-size:15px}}
 .empty{grid-column:1/-1;text-align:center;padding:48px 0;color:var(--muted)}
 
+/* banda de video */
+.vband{position:relative;overflow:hidden;background:#222;min-height:clamp(360px,42vw,560px);display:grid;align-items:end}
+.vband video,.vband>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vband::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0) 60%)}
+.vband .wrap{position:relative;z-index:2;color:#fff;padding:clamp(28px,5vw,56px) 0}
+.vband h2{font-size:clamp(34px,5.4vw,72px);font-weight:900;text-transform:uppercase;max-width:12ch}
+.vband p{font-size:clamp(16px,1.6vw,20px);margin:10px 0 20px;max-width:440px;font-weight:600}
+.how{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(20px,4vw,48px);align-items:center}
+.how-v{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:var(--soft)}
+.how-v video,.how-v img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.how .steps{grid-template-columns:1fr}
+@media(max-width:800px){.how{grid-template-columns:1fr}.how-v{aspect-ratio:16/10}}
+
 /* bloque de color */
 .block{background:var(--earth);color:#fff;text-align:center;padding:clamp(56px,8vw,100px) 20px}
 .block small{display:block;font-weight:800;font-size:clamp(16px,1.8vw,22px);text-transform:uppercase;letter-spacing:.02em}
@@ -155,11 +191,8 @@ section{padding:clamp(44px,6vw,80px) 0}
 
 /* inspiración (pósteres) */
 .insp{background:var(--soft)}
-.insp-g{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.insp-g figure{border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 20px 40px -26px rgba(0,0,0,.4)}
-.insp-g img{width:100%;height:auto}
-.insp-g .tall{max-height:720px;overflow:hidden}
-@media(max-width:700px){.insp-g{grid-template-columns:1fr}.insp-g .tall{max-height:520px}}
+.col{max-width:760px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.col img{width:100%;height:auto}
 
 /* beneficios */
 .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -262,8 +295,8 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></symbol>
 </svg>
 
-<div class="promo"><a href="#catalogo">Elige tu preferido</a> y <i>ordena por WhatsApp</i></div>
-<header id="hdr">
+<header id="hdr" class="t">
+  <div class="promo"><a href="#catalogo">Elige tu preferido</a> y <i>ordena por WhatsApp</i></div>
   <div class="wrap nav">
     <a href="#" class="logo">USA<span>Shoes</span></a>
     <div class="tools">
@@ -272,21 +305,24 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
     </div>
   </div>
 </header>
-<div class="sub">Nueva colección: <b>modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
-<nav class="wrap cats" id="cats"></nav>
 
 <main>
-  <div class="wrap hero" id="hero">
-    <img class="poster" src="img/z06.jpg" alt="">
-    <video id="vid" muted loop playsinline autoplay preload="metadata" poster="img/z06.jpg" aria-label="Persona ajustándose los cordones de sus tenis"></video>
-    <div class="hero-cap"><p>Tenis seleccionados, cada modelo en talla única.</p></div>
-    <div class="hero-box">
-      <small>USA Shoes</small>
-      <h1>Ordena y eleva tu estilo</h1>
-      <a href="#catalogo" class="btn blue">Ver catálogo</a>
+  <section class="hero" id="hero">
+    <video id="vid" muted loop playsinline autoplay preload="auto" poster="video/ajustando-pista.jpg" data-src="video/ajustando-pista.mp4" aria-label="Persona ajustándose los cordones de sus tenis en la pista"></video>
+    <div class="hero-in wrap">
+      <span class="pill">Stock de modelos únicos numerados</span>
+      <h1 class="big"><span class="l"><span>Ordena y eleva</span></span><span class="l"><span>tu estilo</span></span></h1>
+      <div class="glass">
+        <p>Tenis seleccionados, cada modelo en talla única. Elige tu preferido y ordénalo por WhatsApp en un minuto.</p>
+        <div class="gbtns"><a href="#catalogo" class="btn light">Ver catálogo</a><a class="btn ghost" id="waHero" target="_blank" rel="noopener">Ordenar por WhatsApp</a></div>
+        <div class="chips"><span><b>16</b> modelos</span><span><b>5</b> marcas</span><span><b>1</b> par por modelo</span></div>
+      </div>
     </div>
     <button class="play" id="playBtn" aria-label="Pausar video"><svg class="ic"><use href="#i-pause"/></svg></button>
-  </div>
+    <a href="#catalogo" class="cue" aria-label="Bajar al catálogo"><span></span></a>
+  </section>
+<div class="sub"><b>Stock de modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
+<nav class="wrap cats" id="cats"></nav>
 
   <section>
     <div class="wrap">
@@ -313,6 +349,16 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
       <div class="grid" id="grid"></div>
     </div>
   </section>
+
+  <div class="vband">
+    <img src="video/caminando.jpg" alt="" loading="lazy">
+    <video class="lazyv" muted loop playsinline preload="none" poster="video/caminando.jpg" data-src="video/caminando.mp4" aria-label="Persona caminando con tenis blancos"></video>
+    <div class="wrap">
+      <h2>Camina con estilo</h2>
+      <p>Cada paso cuenta. Encuentra el par que va contigo.</p>
+      <a class="btn blue" href="#catalogo">Elige tu preferido</a>
+    </div>
+  </div>
 
   <div class="block">
     <small>Precio especial</small>
@@ -342,10 +388,11 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 
   <section class="insp">
     <div class="wrap">
-      <h2 class="h-sec rv">Inspiración sneaker</h2>
-      <div class="insp-g">
-        <figure class="rv"><img src="img/poster1.jpg" alt="Póster ilustrado de tenis" loading="lazy"></figure>
-        <figure class="rv tall"><img src="img/poster2.jpg" alt="Colección ilustrada de tenis" loading="lazy"></figure>
+      <h2 class="h-sec rv">La colección completa</h2>
+      <figure class="col rv"><img src="img/coleccion.jpg" alt="Póster con los 16 modelos de USA Shoes numerados del 01 al 16" loading="lazy"></figure>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px">
+        <a class="btn" href="img/coleccion.jpg" download="USA-Shoes-coleccion.jpg">Descargar el póster</a>
+        <a class="btn blue" href="#catalogo">Elige tu preferido</a>
       </div>
     </div>
   </section>
@@ -364,10 +411,13 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   <section id="ordenar" style="padding-top:0">
     <div class="wrap">
       <h2 class="h-sec rv">Cómo ordenar</h2>
+      <div class="how">
+      <div class="how-v rv"><img src="video/ajustando-calle.jpg" alt="" loading="lazy"><video class="lazyv" muted loop playsinline preload="none" poster="video/ajustando-calle.jpg" data-src="video/ajustando-calle.mp4" aria-label="Persona atándose los tenis en la calle"></video></div>
       <div class="steps rv">
         <div class="step"><b>Elige tu preferido</b><span>Toca la foto para ver marca, modelo, talla y para quién es.</span></div>
         <div class="step"><b>Añádelo a la bolsa</b><span>Puedes llevar varios modelos en el mismo pedido.</span></div>
         <div class="step"><b>Ordena por WhatsApp</b><span>El mensaje sale con el número de cada par. Solo tocas enviar.</span></div>
+      </div>
       </div>
     </div>
   </section>
@@ -381,7 +431,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
       <div><h4>Ayuda</h4><a href="#ordenar">Cómo ordenar</a><a href="#catalogo">Buscar por número</a></div>
       <div><h4>Contacto</h4><a id="waFoot" target="_blank" rel="noopener">WhatsApp +53 5112 0177</a><a class="btn wa" id="waFoot2" target="_blank" rel="noopener" style="margin-top:6px">Escríbenos</a></div>
     </div>
-    <div class="legal"><span>© <span id="yr"></span> USA Shoes · Un solo par por modelo, sujeto a disponibilidad.</span><span>Video: Pexels · Fotos de estilo: Pexels</span></div>
+    <div class="legal"><span>© <span id="yr"></span> USA Shoes · Un solo par por modelo, sujeto a disponibilidad.</span><span>Fotos de estilo: Pexels</span></div>
   </div>
 </footer>
 
@@ -429,8 +479,6 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 ================================================ */
 const WHATSAPP = "5351120177";
 const MONEDA = "USD";
-const VIDEO = { hd:"https://videos.pexels.com/video-files/8342824/8342824-hd_1280_720_25fps.mp4",
-                sd:"https://videos.pexels.com/video-files/8342824/8342824-sd_640_360_25fps.mp4" };
 const PRODUCTOS = [
   {num:1,  img:"z01", marca:"Puma",    modelo:"Softride · gris perla y rosa",   para:"Mujer",   talla:null, precio:null, descripcion:"Running ligero en malla gris claro con líneas rosa y detalle turquesa en el talón. Suela blanca acolchada para el día a día."},
   {num:2,  img:"z02", marca:"RBX",     modelo:"Retro runner · ante azul royal", para:"Unisex",  talla:null, precio:null, descripcion:"Clásico retro de ante azul intenso con franja lateral gris y suela negra. Combina con jeans y ropa casual."},
@@ -464,18 +512,22 @@ const save=()=>{try{localStorage.setItem("usa-cart2",JSON.stringify(cart))}catch
 
 $("#yr").textContent=new Date().getFullYear();
 const hi=waLink("Hola USA Shoes, quiero información sobre sus tenis.");
-$("#waFab").href=$("#waFoot").href=$("#waFoot2").href=hi;
-addEventListener("scroll",()=>$("#hdr").classList.toggle("s",scrollY>10),{passive:true});
+$("#waFab").href=$("#waFoot").href=$("#waFoot2").href=$("#waHero").href=hi;
+const hdrUpd=()=>{const h=$("#hero").offsetHeight-90;$("#hdr").classList.toggle("t",scrollY<h);$("#hdr").classList.toggle("s",scrollY>=h)};addEventListener("scroll",hdrUpd,{passive:true});hdrUpd();
 
 /* video del héroe: se carga después de la página y solo si hay buena conexión */
 const vid=$("#vid");
 const slow=navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||""));
 if(!slow&&!matchMedia("(prefers-reduced-motion:reduce)").matches){
-  addEventListener("load",()=>{vid.src=innerWidth<700?VIDEO.sd:VIDEO.hd;vid.play().catch(()=>{});});
-}else{vid.remove();$("#playBtn").remove();}
-vid.addEventListener("playing",()=>$(".hero .poster").style.opacity=0);
-vid.addEventListener("error",()=>{vid.remove();$("#playBtn")&&$("#playBtn").remove();});
+  vid.src=vid.dataset.src;vid.play().catch(()=>{});
+}else{vid.removeAttribute("autoplay");$("#playBtn").remove();}
+vid.addEventListener("error",()=>{$("#playBtn")&&$("#playBtn").remove();});
 $("#playBtn")&&$("#playBtn").addEventListener("click",e=>{const b=e.currentTarget;if(vid.paused){vid.play();b.innerHTML=ic("i-pause");b.ariaLabel="Pausar video"}else{vid.pause();b.innerHTML=ic("i-play");b.ariaLabel="Reproducir video"}});
+
+/* videos de secciones: cargan y se reproducen solo cuando se ven */
+const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;
+  if(e.isIntersecting){if(!v.src){if(slow)return;v.src=v.dataset.src}v.play().catch(()=>{})}else if(!v.paused)v.pause()}),{threshold:.25});
+$$(".lazyv").forEach(v=>{v.addEventListener("playing",()=>{const i=v.previousElementSibling;if(i&&i.tagName==="IMG")i.style.opacity=0});vio.observe(v)});
 
 /* categorías y filtros */
 const ORD=["Mujer","Hombre","Juvenil","Niña","Niño","Unisex"].filter(a=>PRODUCTOS.some(p=>p.para===a));
