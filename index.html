@@ -149,7 +149,7 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .tapes{position:relative;height:clamp(84px,9vw,110px);overflow:hidden;margin:clamp(-40px,-3vw,-20px) 0 clamp(26px,4vw,44px);pointer-events:none}
 .tape{position:absolute;left:-10%;width:120%;padding:12px 0;overflow:hidden;box-shadow:0 10px 24px -14px rgba(11,92,213,.6)}
 .tape.t1{top:50%;background:var(--blue);color:#fff;transform:translateY(-50%) rotate(-2.5deg)}
-.mq{display:flex;gap:34px;width:max-content;animation:mq var(--dur,600s) linear infinite;will-change:transform;font-weight:900;font-style:italic;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.mq{display:flex;gap:34px;width:max-content;will-change:transform;font-weight:900;font-style:italic;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
 .mq span{display:flex;align-items:center;gap:34px}
 .mq span::after{content:"★";font-style:normal;font-size:.7em;color:#ffd24a}
 .tape{display:block;pointer-events:auto;cursor:pointer}
@@ -159,7 +159,6 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .tape:hover .cta{background:#ffd24a;color:#0d0f14}
 @keyframes ctaPing{70%,100%{box-shadow:0 0 0 12px rgba(255,255,255,0)}}
 @keyframes ctaArr{50%{transform:translateX(5px)}}
-@keyframes mq{to{transform:translateX(-50%)}}
 .lead{text-align:center;color:var(--muted);margin:-16px 0 26px;font-weight:600}
 .tile small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 .card.sold .media img{filter:grayscale(1) opacity(.6)}
@@ -630,6 +629,17 @@ new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!vid.paused|
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1,rootMargin:"0px 0px -40px"});
 const watch=()=>$$(".rv:not(.in)").forEach(el=>io.observe(el));
 
+/* cinta de marcas: se mueve por tiempo real a una velocidad FIJA (px por segundo), igual en cualquier teléfono */
+const CINTA_PXS=10;
+function cinta(mq,n){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  let x=0,last=0,on=false,raf=0,half=0;
+  const medir=()=>{const k=mq.children;half=k[n]?k[n].offsetLeft-k[0].offsetLeft:mq.scrollWidth/2};
+  const paso=t=>{if(last){const dt=Math.min(.05,(t-last)/1000);x-=CINTA_PXS*dt;if(half>0&&-x>=half)x+=half}
+    last=t;mq.style.transform="translate3d("+x.toFixed(2)+"px,0,0)";raf=on?requestAnimationFrame(paso):0};
+  new IntersectionObserver(es=>es.forEach(e=>{on=e.isIntersecting;if(on&&!raf){medir();last=0;raf=requestAnimationFrame(paso)}})).observe(mq.parentNode);
+  addEventListener("resize",medir);document.fonts&&document.fonts.ready.then(medir);
+}
 /* carga de datos */
 fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d=>{
   WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
@@ -648,9 +658,7 @@ function init(){
   /* dos copias idénticas: al moverse la mitad el bucle es continuo; velocidad fija y muy lenta: 12 px/s */
   const CTA="\u0001",span=t=>t===CTA?'<span class="cta">Compra ahora <i>→</i></span>':`<span>${esc(t)}</span>`;
   const mq=$("#mq1"),one=[...tape,CTA,"Ordena y eleva tu estilo",...tape,CTA,"Stock limitado"].map(span).join("");
-  mq.innerHTML=one+one;const PXS=12,setDur=()=>{const w=mq.scrollWidth;if(w)mq.style.setProperty("--dur",Math.round(w/2/PXS)+"s")};
-  setDur();addEventListener("resize",setDur);document.fonts&&document.fonts.ready.then(setDur);
-  new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&setDur())).observe(mq.parentNode);
+  mq.innerHTML=one+one;cinta(mq,one.split("<span").length-1);
   /* estilos */
   const estilos=[...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))];
   $("#tiles").innerHTML=estilos.map(e=>{const ps=PRODUCTOS.filter(p=>p.estilo===e);const f=ps.find(p=>!p.vendido)||ps[0];
