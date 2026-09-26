@@ -1,0 +1,14 @@
+{
+ "v": 2,
+ "users": [
+  {
+   "id": "536c12ce006e9968ef158c5d1a1dfec541ea86790e72dde2190073892e08a736",
+   "role": "owner",
+   "salt": "toI9mv+Ra5PrhIfSv/ZoeQ==",
+   "iv": "+6vzuQNj+L2lJWA6",
+   "data": "Ph6gTVS42PlErs+pMGkNaBLQH6O1QAUXZaEVvEIpkzYtnWKTg4vQufm04O/U0+6IwJCYPh7xS97kq9/gyY3/tVsDw3ekT2SuZbTedMwmJDofVWP2dARiUvWPNJg+7vmGdIaRLxSHE5A4cIzfjgFfx1Z12lYAZ0oH7gkteI79eRI3Ir/cEtAJu8vRAMdD8R/thM5+Y7w5PkTPCkB+/Fo=",
+   "niv": "j0HyRQkSiH4cFau0",
+   "n": "KvqRmYCMhcUtSYyv0gzzR27rs/zGcMJloPVZAk0S6HXeAFfh6/mNAmjIeA=="
+  }
+ ]
+}
