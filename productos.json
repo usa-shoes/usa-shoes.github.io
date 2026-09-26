@@ -7,15 +7,19 @@
   "zonas": [
    {
     "nombre": "Parque Cespedes",
-    "precio": 500
+    "precio": 1
    },
    {
     "nombre": "Plaza de Marte",
-    "precio": 1000
+    "precio": 2
    },
    {
     "nombre": "Ferreiro",
-    "precio": 2000
+    "precio": 3
+   },
+   {
+    "nombre": "Vista Alegre",
+    "precio": 4
    }
   ]
  },
