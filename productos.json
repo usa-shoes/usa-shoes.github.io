@@ -32,7 +32,7 @@
    "descripcion": "Running ligero en malla gris claro con líneas rosa y detalle turquesa en el talón. Suela blanca acolchada para el día a día.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Gris",
    "thumb": "img/z01-480.webp"
   },
@@ -48,7 +48,7 @@
    "descripcion": "Clásico retro de ante azul intenso con franja lateral gris y suela negra. Combina con jeans y ropa casual.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Azul",
    "thumb": "img/z02-480.webp"
   },
@@ -64,7 +64,7 @@
    "descripcion": "Sin cordones: malla transpirable negra, banda elástica con logo y suela blanca de espuma. Se pone en un segundo.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Negro",
    "thumb": "img/z03-480.webp"
   },
@@ -80,7 +80,7 @@
    "descripcion": "Ante rosa pálido con cordones de satén, dijes de perla y corazón dorado, y suela caramelo. Elegante y femenino.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Rosa",
    "thumb": "img/z04-480.webp"
   },
@@ -96,7 +96,7 @@
    "descripcion": "Estilo cancha en piel gris con paneles de ante grafito y logo dorado. Suela blanca clásica.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Gris",
    "thumb": "img/z05-480.webp"
   },
@@ -112,7 +112,7 @@
    "descripcion": "Tenis de baloncesto con líneas turquesa, swoosh cobre y suela ondulada con buen agarre. Ligero y con carácter.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Azul",
    "thumb": "img/z06-480.webp"
   },
@@ -128,7 +128,7 @@
    "descripcion": "Todo negro en malla con el felino rojo bordado y amortiguación en el talón. Discreto, cómodo y versátil.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Negro",
    "thumb": "img/z07-480.webp"
   },
@@ -144,7 +144,7 @@
    "descripcion": "Caña alta de tejido elástico tipo media en rojo intenso con suela escultural. Llamativo y muy cómodo.",
    "oferta": true,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Rojo",
    "thumb": "img/z08-480.webp"
   },
@@ -160,7 +160,7 @@
    "descripcion": "Tejido blanco transpirable con cámara de aire en el talón. Ideal para caminar y para el gimnasio.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Blanco",
    "thumb": "img/z09-480.webp"
   },
@@ -176,7 +176,7 @@
    "descripcion": "Malla roja con detalles negros y talón acolchado. Deportivo, ligero y con mucha presencia.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Rojo",
    "thumb": "img/z10-480.webp"
   },
@@ -192,7 +192,7 @@
    "descripcion": "Tejido blanco con talón azul marino y toque verde lima. Muy ligero, pensado para correr o caminar.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Blanco",
    "thumb": "img/z11-480.webp"
   },
@@ -208,7 +208,7 @@
    "descripcion": "Fucsia vibrante sin cordones, con banda elástica y tira trasera para calzarse sola. Flexible y resistente.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Rosa",
    "thumb": "img/z12-480.webp"
   },
@@ -224,7 +224,7 @@
    "descripcion": "Ante marrón chocolate con franja blanca de piel y suela caramelo. Un clásico que no pasa de moda.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Marrón",
    "thumb": "img/z13-480.webp"
   },
@@ -240,7 +240,7 @@
    "descripcion": "Malla azul marino con banda NAUTICA y suela blanca de espuma. Cómodo y fácil de combinar.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Azul",
    "thumb": "img/z14-480.webp"
   },
@@ -256,7 +256,7 @@
    "descripcion": "Tejido gris jaspeado con cámara de aire visible en el talón. Para todo el día.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Gris",
    "thumb": "img/z15-480.webp"
   },
@@ -272,7 +272,7 @@
    "descripcion": "Piel blanca con franja negra, logo dorado y suela plataforma que estiliza. Combina con todo.",
    "oferta": false,
    "vendido": false,
-   "ia": true,
+   "ia": false,
    "color": "Blanco",
    "thumb": "img/z16-480.webp"
   }
