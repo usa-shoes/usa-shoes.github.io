@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Administración · USA Shoes</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231c1c1c'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='900' font-style='italic' font-size='26' fill='white' text-anchor='middle'%3EUS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0b5cd5;--ink:#1c1c1c;--ink-2:#3d3d3d;--muted:#6b6b6b;--line:#e3e3e3;--soft:#f4f4f4;--ok:#1f8a4c;--bad:#c62828;--f:"Mulish",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+body{font-family:var(--f);color:var(--ink);background:var(--soft);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+a{color:var(--blue)}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.top .in{max-width:1180px;margin:auto;padding:12px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.logo{font-weight:900;font-style:italic;font-size:24px;letter-spacing:-.04em;color:var(--blue);text-transform:uppercase;text-decoration:none}
+.logo span{color:var(--ink)}
+.logo small{font-style:normal;font-size:12px;letter-spacing:.1em;color:var(--muted);margin-left:8px;font-weight:800}
+.wrap{max-width:1180px;margin:auto;padding:20px 16px 80px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.auth{max-width:440px;margin:6vh auto 0}
+h1{font-size:26px;font-weight:900;margin-bottom:6px}
+h2{font-size:20px;font-weight:900}
+.sub{color:var(--muted);margin-bottom:18px}
+label{display:grid;gap:6px;font-weight:700;font-size:13px;margin-bottom:12px}
+label small{font-weight:600;color:var(--muted)}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cfcfcf;border-radius:9px;background:#fff;font-size:16px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:-1px;border-color:transparent}
+textarea{min-height:90px;resize:vertical}
+.chk{display:flex;align-items:center;gap:8px;font-weight:700}
+.chk input{width:20px;height:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:9px;background:var(--ink-2);color:#fff;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:.02em}
+.btn:hover{background:#000}
+.btn.blue{background:var(--blue)}
+.btn.line{background:#fff;color:var(--ink);border:1px solid #cfcfcf}
+.btn.line:hover{background:var(--soft)}
+.btn.red{background:#fff;color:var(--bad);border:1px solid #f0c4c4}
+.btn.ok{background:var(--ok)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.full{width:100%}
+.msg{padding:10px 12px;border-radius:9px;font-weight:700;font-size:14px;margin-bottom:12px}
+.msg.err{background:#fdecec;color:var(--bad)}
+.msg.okk{background:#e8f5ec;color:var(--ok)}
+.msg.info{background:#eaf1fd;color:var(--blue)}
+details{margin:6px 0 16px;background:var(--soft);border-radius:10px;padding:12px 14px}
+details summary{cursor:pointer;font-weight:800}
+details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.bar .l,.bar .r{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pending{font-weight:800;color:#b25b00;background:#fff4e5;border-radius:99px;padding:6px 12px;font-size:13px}
+.search{min-width:220px;max-width:320px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.item{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.item .ph{position:relative;aspect-ratio:4/3;background:var(--soft)}
+.item .ph img{width:100%;height:100%;object-fit:cover}
+.item .n{position:absolute;left:8px;bottom:8px;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.45);color:#fff;font-weight:900;font-size:12px}
+.item .st{position:absolute;right:8px;top:8px;display:flex;gap:6px}
+.tag{padding:3px 8px;border-radius:99px;font-size:11px;font-weight:800;text-transform:uppercase;background:#fff;color:var(--ink)}
+.tag.sold{background:var(--bad);color:#fff}.tag.of{background:#ffd24a}.tag.new{background:var(--blue);color:#fff}
+.item .b{padding:12px 14px;display:grid;gap:4px}
+.item b{font-weight:900}
+.item .meta{font-size:13px;color:var(--muted)}
+.item .row{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:700}
+.item .acts{display:flex;gap:8px;margin-top:8px}
+.item .acts .btn{flex:1;padding:9px 10px;font-size:12px}
+.miss{color:var(--bad)}
+.veil{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45)}
+.modal{position:fixed;z-index:50;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,100% - 20px);max-height:calc(100svh - 20px);overflow:auto;background:#fff;border-radius:16px;padding:22px}
+@media(max-width:640px){.modal{top:auto;bottom:0;left:0;transform:none;width:100%;border-radius:18px 18px 0 0;max-height:94svh}}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.x{width:40px;height:40px;border-radius:50%;background:var(--soft);font-size:20px;font-weight:900}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 14px}
+@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+.photo{display:grid;grid-template-columns:180px 1fr;gap:14px;align-items:center;margin-bottom:14px}
+.photo .pv{aspect-ratio:1;border-radius:12px;background:var(--soft) center/cover no-repeat;border:1px dashed #bbb;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:8px}
+@media(max-width:560px){.photo{grid-template-columns:120px 1fr}}
+.foot{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:8px}
+.log{font-family:ui-monospace,monospace;font-size:13px;background:#111;color:#cfe;padding:12px;border-radius:10px;max-height:220px;overflow:auto;white-space:pre-wrap;margin-top:12px}
+.hint{font-size:13px;color:var(--muted)}
+@media(max-width:560px){#whoName,.logo small{display:none}.top .btn{padding:9px 11px;font-size:12px}.bar .r .btn{flex:1}}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="logo" href="../" target="_blank">USA<span>Shoes</span><small>ADMIN</small></a>
+  <div id="who" hidden style="display:flex;gap:8px;align-items:center"><span class="hint" id="whoName"></span><button class="btn line" id="btnCfg">Ajustes</button><button class="btn line" id="btnOut">Salir</button></div>
+</div></div>
+
+<div class="wrap">
+  <!-- Configuración inicial (solo la primera vez) -->
+  <div class="card auth" id="vSetup" hidden>
+    <h1>Configurar el acceso</h1>
+    <p class="sub">Solo se hace una vez. Aquí creas tu usuario y contraseña para administrar la tienda.</p>
+    <details open><summary>Cómo obtener la llave de GitHub (token)</summary>
+      <ol>
+        <li>Abre <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token nuevo</a>.</li>
+        <li><b>Resource owner:</b> elige <b>usa-shoes</b>. <b>Expiration:</b> la más larga que te deje.</li>
+        <li><b>Repository access:</b> «Only select repositories» → <b>usa-shoes.github.io</b>.</li>
+        <li><b>Permissions → Repository → Contents:</b> «Read and write».</li>
+        <li>Pulsa «Generate token», cópialo y pégalo abajo. Si GitHub pide aprobarlo en la organización, apruébalo tú como dueño.</li>
+      </ol>
+    </details>
+    <div id="setMsg"></div>
+    <label>Llave de GitHub (token)<input id="sTok" type="password" autocomplete="off" placeholder="github_pat_..."></label>
+    <label>Usuario<input id="sUser" autocomplete="username"></label>
+    <label>Contraseña <small>mínimo 8 caracteres</small><input id="sPass" type="password" autocomplete="new-password"></label>
+    <label>Repite la contraseña<input id="sPass2" type="password" autocomplete="new-password"></label>
+    <button class="btn blue full" id="btnSetup">Guardar y entrar</button>
+    <p class="hint" style="margin-top:12px">La llave se guarda <b>cifrada</b> con tu usuario y contraseña. Sin ellos nadie puede usarla. Si olvidas la contraseña, crea una llave nueva y repite este paso.</p>
+  </div>
+
+  <!-- Inicio de sesión -->
+  <div class="card auth" id="vLogin" hidden>
+    <h1>Entrar</h1>
+    <p class="sub">Administración de la tienda USA Shoes</p>
+    <div id="logMsg"></div>
+    <form id="fLogin">
+      <label>Usuario<input id="lUser" autocomplete="username" required></label>
+      <label>Contraseña<input id="lPass" type="password" autocomplete="current-password" required></label>
+      <button class="btn blue full" id="btnLogin">Entrar</button>
+    </form>
+    <p class="hint" style="margin-top:12px">¿Olvidaste la contraseña? <a href="#" id="lnkReset">Configurar el acceso de nuevo</a> (necesitas una llave de GitHub).</p>
+  </div>
+
+  <!-- Panel -->
+  <div id="vPanel" hidden>
+    <div id="panMsg"></div>
+    <div class="bar">
+      <div class="l"><h2>Modelos <span class="hint" id="cnt"></span></h2><input class="search" id="q" type="search" placeholder="Buscar nº, marca, modelo"></div>
+      <div class="r">
+        <span class="pending" id="pend" hidden></span>
+        <button class="btn line" id="btnImport">Importar tallas y precios</button>
+        <button class="btn blue" id="btnNew">+ Nuevo modelo</button>
+        <button class="btn ok" id="btnPub" disabled>Publicar cambios</button>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </div>
+</div>
+
+<!-- Editor de modelo -->
+<div class="veil" id="veil" hidden></div>
+<div class="modal" id="mEdit" hidden>
+  <div class="mh"><h2 id="eTitle">Modelo</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <div class="photo">
+    <div class="pv" id="ePv">Sin foto</div>
+    <div>
+      <label>Foto del zapato <small>JPG o PNG. Se ajusta sola a 1000 px.</small><input type="file" id="eFile" accept="image/*"></label>
+      <p class="hint">Consejo: foto cuadrada o vertical, con el par completo y buena luz.</p>
+    </div>
+  </div>
+  <div class="grid3">
+    <label>Número<input id="eNum" type="number" min="1" inputmode="numeric"></label>
+    <label>Talla<input id="eTalla" placeholder="ej. 38½" list="dlTallas"></label>
+    <label>Precio (USD)<input id="ePrecio" type="number" min="0" step="0.5" inputmode="decimal" placeholder="vacío = Consultar"></label>
+  </div>
+  <div class="grid2">
+    <label>Marca<input id="eMarca" list="dlMarcas" placeholder="Puma, Nike…"></label>
+    <label>Modelo<input id="eModelo" placeholder="Softride · gris y rosa"></label>
+    <label>Para<select id="ePara"><option>Mujer</option><option>Hombre</option><option>Juvenil</option><option>Niña</option><option>Niño</option><option>Unisex</option></select></label>
+    <label>Estilo<input id="eEstilo" list="dlEstilos" placeholder="Running, Slip-on…"></label>
+  </div>
+  <label>Descripción<textarea id="eDesc" placeholder="Materiales, colores, para qué sirve…"></textarea></label>
+  <div style="display:flex;flex-wrap:wrap;gap:18px;margin:4px 0 14px">
+    <label class="chk"><input type="checkbox" id="eOferta">Oferta (sale en el bloque de precio especial)</label>
+    <label class="chk"><input type="checkbox" id="eVendido">Vendido</label>
+    <label class="chk"><input type="checkbox" id="eIa">Marca/modelo estimados por IA</label>
+  </div>
+  <div id="eMsg"></div>
+  <div class="foot">
+    <button class="btn red" id="eDel">Eliminar</button>
+    <div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="eSave">Guardar</button></div>
+  </div>
+</div>
+
+<!-- Importar tabla -->
+<div class="modal" id="mImport" hidden>
+  <div class="mh"><h2>Importar tallas y precios</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <p class="hint" style="margin-bottom:10px">Pega una línea por zapato: <b>número, talla, precio</b>. Sirve copiar y pegar desde Excel o escribir separado por comas, espacios o tabulador. Deja el precio vacío para «Consultar».</p>
+  <textarea id="iTxt" style="min-height:200px" placeholder="1, 36, 25&#10;2, 38½, 30&#10;3  43  28"></textarea>
+  <div id="iMsg" style="margin-top:10px"></div>
+  <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="iGo">Aplicar</button></div></div>
+</div>
+
+<!-- Ajustes -->
+<div class="modal" id="mCfg" hidden>
+  <div class="mh"><h2>Ajustes</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <label>WhatsApp que recibe los pedidos <small>solo números, con código de país</small><input id="cWa" inputmode="numeric" placeholder="5351120177"></label>
+  <button class="btn blue" id="cSaveWa">Guardar número</button>
+  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+  <h2 style="margin-bottom:10px">Cambiar usuario o contraseña</h2>
+  <label>Usuario nuevo<input id="cUser" autocomplete="username"></label>
+  <label>Contraseña nueva<input id="cPass" type="password" autocomplete="new-password"></label>
+  <label>Repite la contraseña<input id="cPass2" type="password" autocomplete="new-password"></label>
+  <div id="cMsg"></div>
+  <button class="btn" id="cSaveCred">Cambiar acceso</button>
+</div>
+
+<!-- Progreso de publicación -->
+<div class="modal" id="mPub" hidden>
+  <div class="mh"><h2>Publicando…</h2></div>
+  <div class="log" id="pubLog"></div>
+  <div class="foot"><span></span><button class="btn blue" id="pubOk" disabled>Listo</button></div>
+</div>
+
+<datalist id="dlMarcas"></datalist><datalist id="dlEstilos"></datalist><datalist id="dlTallas"></datalist>
+
+<script>
+const OWNER="usa-shoes", REPO="usa-shoes.github.io", BRANCH="main";
+const API=`https://api.github.com/repos/${OWNER}/${REPO}`;
+const ACCESS_PATH="admin/acceso.json", DATA_PATH="productos.json";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nn=n=>String(n).padStart(2,"0");
+const msg=(el,t,k="err")=>{$(el).innerHTML=t?`<div class="msg ${k}">${t}</div>`:""};
+
+/* ---------- cifrado de la llave con usuario + contraseña ---------- */
+const enc=new TextEncoder(), dec=new TextDecoder();
+const b64=buf=>btoa(String.fromCharCode(...new Uint8Array(buf)));
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function derive(user,pass,salt){
+  const base=await crypto.subtle.importKey("raw",enc.encode(user.trim().toLowerCase()+"\u0000"+pass),"PBKDF2",false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:310000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+async function seal(token,user,pass){
+  const salt=crypto.getRandomValues(new Uint8Array(16)), iv=crypto.getRandomValues(new Uint8Array(12));
+  const key=await derive(user,pass,salt);
+  const data=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(JSON.stringify({token,user:user.trim()})));
+  return {v:1,kdf:"PBKDF2-SHA256-310000",salt:b64(salt),iv:b64(iv),data:b64(data)};
+}
+async function unseal(box,user,pass){
+  const key=await derive(user,pass,unb64(box.salt));
+  const out=await crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(box.iv)},key,unb64(box.data));
+  return JSON.parse(dec.decode(out));
+}
+
+/* ---------- GitHub ---------- */
+let TOKEN=null, USER="";
+async function gh(path,opt={}){
+  const r=await fetch(API+path,{...opt,headers:{"Accept":"application/vnd.github+json","Authorization":"Bearer "+TOKEN,"X-GitHub-Api-Version":"2022-11-28",...(opt.body?{"Content-Type":"application/json"}:{})}});
+  if(r.status===401)throw new Error("La llave de GitHub no es válida o venció. Configura el acceso de nuevo.");
+  return r;
+}
+const u8b64=u8=>{let s="";for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode(...u8.subarray(i,i+0x8000));return btoa(s)};
+const txt64=t=>u8b64(enc.encode(t));
+const b64txt=s=>dec.decode(unb64(s.replace(/\n/g,"")));
+async function getFile(path){
+  const r=await gh(`/contents/${path}?ref=${BRANCH}&t=${Date.now()}`);
+  if(r.status===404)return null;
+  if(!r.ok)throw new Error("GitHub respondió "+r.status+" al leer "+path);
+  return r.json();
+}
+async function putFile(path,content64,message){
+  for(let intento=0;intento<3;intento++){
+    const cur=await getFile(path);
+    const r=await gh(`/contents/${path}`,{method:"PUT",body:JSON.stringify({message,content:content64,branch:BRANCH,...(cur?{sha:cur.sha}:{})})});
+    if(r.ok)return r.json();
+    if(r.status===409||r.status===422){await new Promise(z=>setTimeout(z,1200));continue}
+    const e=await r.json().catch(()=>({}));throw new Error((e.message||("Error "+r.status))+" al guardar "+path);
+  }
+  throw new Error("GitHub no aceptó el cambio en "+path+". Inténtalo otra vez.");
+}
+
+/* ---------- vistas ---------- */
+const views=["#vSetup","#vLogin","#vPanel"];
+const view=v=>{views.forEach(x=>$(x).hidden=x!==v);$("#who").hidden=v!=="#vPanel";if(v==="#vPanel")$("#who").style.display="flex"};
+let BOX=null;
+async function boot(){
+  const s=sessionStorage.getItem("usa-adm");
+  if(s){try{const o=JSON.parse(s);TOKEN=o.token;USER=o.user;await openPanel();return}catch(e){sessionStorage.removeItem("usa-adm")}}
+  try{const r=await fetch("acceso.json?t="+Date.now());BOX=r.ok?await r.json():null}catch(e){BOX=null}
+  view(BOX?"#vLogin":"#vSetup");
+}
+$("#lnkReset").addEventListener("click",e=>{e.preventDefault();view("#vSetup")});
+
+$("#btnSetup").addEventListener("click",async()=>{
+  const tok=$("#sTok").value.trim(),user=$("#sUser").value.trim(),p1=$("#sPass").value,p2=$("#sPass2").value;
+  if(!tok||!user)return msg("#setMsg","Escribe la llave y el usuario.");
+  if(p1.length<8)return msg("#setMsg","La contraseña debe tener al menos 8 caracteres.");
+  if(p1!==p2)return msg("#setMsg","Las contraseñas no coinciden.");
+  const b=$("#btnSetup");b.disabled=true;msg("#setMsg","Comprobando la llave…","info");
+  try{
+    TOKEN=tok;
+    const r=await gh("");if(!r.ok)throw new Error("La llave no tiene acceso al repositorio "+REPO+".");
+    const repo=await r.json();if(!repo.permissions||!repo.permissions.push)throw new Error("La llave puede leer pero no escribir. Dale permiso «Contents: Read and write».");
+    const box=await seal(tok,user,p1);
+    await putFile(ACCESS_PATH,txt64(JSON.stringify(box,null,1)),"Admin: configurar acceso");
+    USER=user;sessionStorage.setItem("usa-adm",JSON.stringify({token:TOKEN,user:USER}));
+    $("#sTok").value=$("#sPass").value=$("#sPass2").value="";
+    await openPanel();msg("#panMsg","Acceso creado. Desde ahora entras con tu usuario y contraseña.","okk");
+  }catch(e){TOKEN=null;msg("#setMsg",esc(e.message))}finally{b.disabled=false}
+});
+
+$("#fLogin").addEventListener("submit",async e=>{
+  e.preventDefault();const b=$("#btnLogin");b.disabled=true;msg("#logMsg","Entrando…","info");
+  try{const o=await unseal(BOX,$("#lUser").value,$("#lPass").value);TOKEN=o.token;USER=o.user;
+    sessionStorage.setItem("usa-adm",JSON.stringify({token:TOKEN,user:USER}));$("#lPass").value="";await openPanel();}
+  catch(err){TOKEN=null;msg("#logMsg",err&&err.name==="OperationError"?"Usuario o contraseña incorrectos.":esc(err.message||err))}
+  finally{b.disabled=false}
+});
+$("#btnOut").addEventListener("click",()=>{if(dirty()&&!confirm("Tienes cambios sin publicar. ¿Salir igual?"))return;sessionStorage.removeItem("usa-adm");location.reload()});
+
+/* ---------- datos ---------- */
+let DATA=null, ORIG="", PENDING={}; /* PENDING: ruta -> base64 de fotos nuevas */
+const dirty=()=>DATA&&(JSON.stringify(DATA)!==ORIG||Object.keys(PENDING).length>0);
+async function openPanel(){
+  view("#vPanel");$("#whoName").textContent=USER;msg("#panMsg","Cargando modelos…","info");
+  try{
+    const f=await getFile(DATA_PATH);if(!f)throw new Error("No se encontró productos.json en la tienda.");
+    DATA=JSON.parse(b64txt(f.content));ORIG=JSON.stringify(DATA);PENDING={};msg("#panMsg","");render();
+  }catch(e){msg("#panMsg",esc(e.message));if(/no es válida/.test(e.message)){sessionStorage.removeItem("usa-adm")}}
+}
+function lists(){
+  const ps=DATA.productos;
+  $("#dlMarcas").innerHTML=[...new Set(ps.map(p=>p.marca).filter(Boolean))].map(m=>`<option value="${esc(m)}">`).join("");
+  $("#dlEstilos").innerHTML=[...new Set(["Running","Slip-on","Retro y ante","Cancha","Baloncesto","Tipo media",...ps.map(p=>p.estilo).filter(Boolean)])].map(m=>`<option value="${esc(m)}">`).join("");
+  $("#dlTallas").innerHTML=["35","35½","36","36½","37","37½","38","38½","39","40","41","42","43","44","45"].map(t=>`<option value="${t}">`).join("");
+}
+const imgSrc=p=>PENDING[p.img]?"data:image/jpeg;base64,"+PENDING[p.img]:"../"+p.img;
+function render(){
+  const q=$("#q").value.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");
+  const ps=DATA.productos.slice().sort((a,b)=>a.num-b.num).filter(p=>!q||(/^\d+$/.test(q)?p.num===+q:(p.marca+" "+p.modelo+" "+p.para+" "+(p.estilo||"")).toLowerCase().includes(q)));
+  $("#cnt").textContent=`(${DATA.productos.length} · ${DATA.productos.filter(p=>p.vendido).length} vendidos)`;
+  $("#list").innerHTML=ps.map(p=>`
+  <div class="item">
+    <div class="ph"><img src="${esc(imgSrc(p))}" alt="" loading="lazy"><span class="n">Nº ${nn(p.num)}</span>
+      <span class="st">${PENDING[p.img]?'<span class="tag new">Foto nueva</span>':""}${p.oferta?'<span class="tag of">Oferta</span>':""}${p.vendido?'<span class="tag sold">Vendido</span>':""}</span></div>
+    <div class="b">
+      <b>${esc(p.modelo)}</b>
+      <span class="meta">${esc(p.marca)} · ${esc(p.para)} · ${esc(p.estilo||"sin estilo")}</span>
+      <div class="row"><span class="${p.talla?"":"miss"}">Talla ${esc(p.talla||"—")}</span><span class="${p.precio==null?"miss":""}">${p.precio==null?"Sin precio":"$"+p.precio+" "+esc(DATA.moneda||"USD")}</span></div>
+      <div class="acts"><button class="btn line" data-edit="${p.num}">Editar</button><button class="btn line" data-sold="${p.num}">${p.vendido?"Disponible":"Vendido"}</button></div>
+    </div>
+  </div>`).join("")||'<p class="hint">No hay modelos con esa búsqueda.</p>';
+  const pend=dirty();$("#btnPub").disabled=!pend;$("#pend").hidden=!pend;$("#pend").textContent="Cambios sin publicar";
+  lists();
+}
+$("#q").addEventListener("input",render);
+$("#list").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-edit]");if(ed)return openEdit(+ed.dataset.edit);
+  const so=e.target.closest("[data-sold]");if(so){const p=DATA.productos.find(x=>x.num===+so.dataset.sold);p.vendido=!p.vendido;render()}
+});
+addEventListener("beforeunload",e=>{if(dirty()){e.preventDefault();e.returnValue=""}});
+
+/* ---------- modales ---------- */
+const openM=id=>{$("#veil").hidden=false;$$(".modal").forEach(m=>m.hidden=m.id!==id.slice(1))};
+const closeM=()=>{$("#veil").hidden=true;$$(".modal").forEach(m=>m.hidden=true)};
+$$("[data-close]").forEach(b=>b.addEventListener("click",closeM));
+$("#veil").addEventListener("click",()=>{if($("#mPub").hidden)closeM()});
+
+/* ---------- editor ---------- */
+let EDIT=null, NEWIMG=null;
+function openEdit(num){
+  const p=num?DATA.productos.find(x=>x.num===num):null;EDIT=p;NEWIMG=null;msg("#eMsg","");
+  const next=Math.max(0,...DATA.productos.map(x=>x.num))+1;
+  $("#eTitle").textContent=p?`Editar Nº ${nn(p.num)}`:"Nuevo modelo";
+  $("#eNum").value=p?p.num:next;$("#eTalla").value=p&&p.talla||"";$("#ePrecio").value=p&&p.precio!=null?p.precio:"";
+  $("#eMarca").value=p?p.marca:"";$("#eModelo").value=p?p.modelo:"";$("#ePara").value=p?p.para:"Unisex";$("#eEstilo").value=p&&p.estilo||"";
+  $("#eDesc").value=p&&p.descripcion||"";$("#eOferta").checked=!!(p&&p.oferta);$("#eVendido").checked=!!(p&&p.vendido);$("#eIa").checked=!!(p&&p.ia);
+  $("#eFile").value="";setPv(p?imgSrc(p):null);$("#eDel").hidden=!p;openM("#mEdit");
+}
+function setPv(src){const pv=$("#ePv");pv.style.backgroundImage=src?`url("${src}")`:"";pv.textContent=src?"":"Sin foto"}
+$("#btnNew").addEventListener("click",()=>openEdit(0));
+$("#eFile").addEventListener("change",async e=>{
+  const f=e.target.files[0];if(!f)return;msg("#eMsg","Preparando la foto…","info");
+  try{NEWIMG=await resize(f,1000,.82);setPv("data:image/jpeg;base64,"+NEWIMG);msg("#eMsg","")}catch(err){NEWIMG=null;msg("#eMsg","No se pudo leer esa imagen. Prueba con JPG o PNG.")}
+});
+function resize(file,max,q){return new Promise((ok,bad)=>{const u=URL.createObjectURL(file);const im=new Image();
+  im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+    const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",q).split(",")[1])};
+  im.onerror=()=>{URL.revokeObjectURL(u);bad()};im.src=u})}
+$("#eSave").addEventListener("click",()=>{
+  const num=parseInt($("#eNum").value,10);
+  if(!num||num<1)return msg("#eMsg","Escribe un número válido.");
+  if(DATA.productos.some(x=>x.num===num&&x!==EDIT))return msg("#eMsg",`Ya existe el Nº ${nn(num)}. Usa otro número.`);
+  if(!$("#eModelo").value.trim()||!$("#eMarca").value.trim())return msg("#eMsg","Escribe al menos la marca y el modelo.");
+  if(!EDIT&&!NEWIMG)return msg("#eMsg","Sube la foto del zapato.");
+  const pr=$("#ePrecio").value.trim();
+  const p=EDIT||{};
+  Object.assign(p,{num,marca:$("#eMarca").value.trim(),modelo:$("#eModelo").value.trim(),para:$("#ePara").value,estilo:$("#eEstilo").value.trim(),
+    talla:$("#eTalla").value.trim()||null,precio:pr===""?null:+pr,descripcion:$("#eDesc").value.trim(),oferta:$("#eOferta").checked,vendido:$("#eVendido").checked,ia:$("#eIa").checked});
+  if(NEWIMG){const path=`img/p${nn(num)}-${Date.now().toString(36)}.jpg`;PENDING[path]=NEWIMG;if(p.img&&PENDING[p.img])delete PENDING[p.img];p.img=path}
+  if(p.oferta)DATA.productos.forEach(x=>{if(x!==p)x.oferta=false});
+  if(!EDIT)DATA.productos.push(p);
+  closeM();render();msg("#panMsg",`Nº ${nn(num)} guardado. Pulsa «Publicar cambios» para que se vea en la tienda.`,"info");
+});
+$("#eDel").addEventListener("click",()=>{
+  if(!EDIT||!confirm(`¿Eliminar el Nº ${nn(EDIT.num)} de la tienda?`))return;
+  if(PENDING[EDIT.img])delete PENDING[EDIT.img];
+  DATA.productos=DATA.productos.filter(x=>x!==EDIT);closeM();render();msg("#panMsg","Modelo eliminado. Publica para aplicarlo.","info");
+});
+
+/* ---------- importar tabla ---------- */
+$("#btnImport").addEventListener("click",()=>{$("#iTxt").value="";msg("#iMsg","");openM("#mImport")});
+$("#iGo").addEventListener("click",()=>{
+  const lines=$("#iTxt").value.split(/\n/).map(l=>l.trim()).filter(Boolean);let ok=0,bad=[];
+  lines.forEach(l=>{
+    const t=l.replace(/^n[ºo°]?\s*/i,"").replace(/#/g,"").trim();
+    let parts=t.split(/\t|;|\s*,\s+|\s+/).map(x=>x.trim()).filter(x=>x!=="");
+    if(parts.length===1&&t.includes(","))parts=t.split(",").map(x=>x.trim());
+    const num=parseInt(parts[0],10);const p=DATA.productos.find(x=>x.num===num);
+    if(!p){bad.push(l);return}
+    if(parts[1])p.talla=parts[1].replace(/\.5$/,"½").replace(/,5$/,"½").replace(/1\/2$/,"½").replace(/\s+/g,"");
+    if(parts[2]!=null){const v=parseFloat(parts[2].replace(/[^\d.,]/g,"").replace(",","."));p.precio=isNaN(v)?null:v}
+    ok++;
+  });
+  render();
+  if(bad.length)msg("#iMsg",`Actualizados ${ok}. No encontré estos números: <br>${bad.map(esc).join("<br>")}`,"err");
+  else{closeM();msg("#panMsg",`Tallas y precios actualizados en ${ok} modelos. Pulsa «Publicar cambios».`,"info")}
+});
+
+/* ---------- publicar ---------- */
+$("#btnPub").addEventListener("click",async()=>{
+  const log=t=>{$("#pubLog").textContent+=t+"\n";$("#pubLog").scrollTop=1e9};
+  $("#pubLog").textContent="";$("#pubOk").disabled=true;openM("#mPub");
+  try{
+    const imgs=Object.keys(PENDING);
+    for(const path of imgs){log("Subiendo foto "+path+"…");await putFile(path,PENDING[path],"Admin: foto "+path);delete PENDING[path];log("  ✓ lista")}
+    DATA.productos.sort((a,b)=>a.num-b.num);
+    log("Guardando el catálogo…");
+    await putFile(DATA_PATH,txt64(JSON.stringify(DATA,null,1)+"\n"),`Admin (${USER}): actualizar catálogo`);
+    ORIG=JSON.stringify(DATA);log("  ✓ listo\n\nPublicado. La tienda se actualiza en 1 o 2 minutos.");
+    msg("#panMsg","Cambios publicados. En 1–2 minutos se ven en la tienda.","okk");
+  }catch(e){log("\n✗ "+e.message);msg("#panMsg",esc(e.message))}
+  finally{$("#pubOk").disabled=false;render()}
+});
+$("#pubOk").addEventListener("click",closeM);
+
+/* ---------- ajustes ---------- */
+$("#btnCfg").addEventListener("click",()=>{$("#cWa").value=DATA?DATA.whatsapp:"";$("#cUser").value=USER;$("#cPass").value=$("#cPass2").value="";msg("#cMsg","");openM("#mCfg")});
+$("#cSaveWa").addEventListener("click",()=>{const v=$("#cWa").value.replace(/\D/g,"");if(v.length<8)return msg("#cMsg","Número no válido.");DATA.whatsapp=v;closeM();render();msg("#panMsg","Número guardado. Pulsa «Publicar cambios».","info")});
+$("#cSaveCred").addEventListener("click",async()=>{
+  const u=$("#cUser").value.trim(),p1=$("#cPass").value,p2=$("#cPass2").value;
+  if(!u)return msg("#cMsg","Escribe el usuario.");if(p1.length<8)return msg("#cMsg","La contraseña debe tener al menos 8 caracteres.");if(p1!==p2)return msg("#cMsg","Las contraseñas no coinciden.");
+  try{msg("#cMsg","Guardando…","info");await putFile(ACCESS_PATH,txt64(JSON.stringify(await seal(TOKEN,u,p1),null,1)),"Admin: cambiar acceso");
+    USER=u;sessionStorage.setItem("usa-adm",JSON.stringify({token:TOKEN,user:USER}));$("#whoName").textContent=USER;msg("#cMsg","Acceso cambiado. Usa los datos nuevos la próxima vez.","okk")}
+  catch(e){msg("#cMsg",esc(e.message))}
+});
+
+boot();
+</script>
+</body>
+</html>
