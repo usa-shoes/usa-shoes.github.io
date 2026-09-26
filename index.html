@@ -610,7 +610,7 @@ function init(){
   const tape=[...marcas.filter(m=>m!=="Genérico"),"Modelos únicos","Ordena por WhatsApp"];
   /* dos copias idénticas: al moverse la mitad el bucle es continuo; velocidad fija y lenta (~28 px/s) */
   const mq=$("#mq1"),one=[...tape,"Ordena y eleva tu estilo",...tape,"Stock limitado"].map(t=>`<span>${esc(t)}</span>`).join("");
-  mq.innerHTML=one+one;requestAnimationFrame(()=>mq.style.setProperty("--dur",Math.max(40,Math.round(mq.scrollWidth/2/28))+"s"));
+  mq.innerHTML=one+one;const setDur=()=>{const w=mq.scrollWidth;if(w)mq.style.setProperty("--dur",Math.max(40,Math.round(w/2/28))+"s")};setDur();addEventListener("resize",setDur);
   /* estilos */
   const estilos=[...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))];
   $("#tiles").innerHTML=estilos.map(e=>{const ps=PRODUCTOS.filter(p=>p.estilo===e);const f=ps.find(p=>!p.vendido)||ps[0];
