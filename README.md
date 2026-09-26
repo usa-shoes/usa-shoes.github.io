@@ -5,7 +5,7 @@ Tienda web de tenis con pedidos por WhatsApp. Publicada en **https://usa-shoes.g
 ## Cómo actualizar el catálogo
 Todo está en `index.html`, en el bloque **EDITA AQUÍ** (al principio del `<script>`):
 
-- `WHATSAPP` — número que recibe los pedidos (sin + ni espacios).
+- `WHATSAPP` — número que recibe los pedidos (sin + ni espacios). Ahora: 5351120177.
 - `PRODUCTS` — un renglón por modelo:
   - `img`: nombre de la foto en la carpeta `img/` (sin `.jpg`).
   - `sizes`: tallas disponibles, por ejemplo `["36","38½"]`.
