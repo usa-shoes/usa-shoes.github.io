@@ -129,12 +129,10 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .stats b{font-size:clamp(36px,4.6vw,56px);font-weight:900;line-height:1;letter-spacing:-.03em;text-shadow:0 3px 18px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.6)}
 .stats span{margin-top:6px;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;text-align:center;text-shadow:0 1px 8px rgba(0,0,0,.9),0 1px 2px rgba(0,0,0,.7)}
 /* cintas inclinadas con marcas */
-.tapes{position:relative;height:clamp(130px,14vw,180px);overflow:hidden;margin:0 0 clamp(18px,3vw,34px);pointer-events:none}
-.tape{position:absolute;left:-10%;width:120%;padding:14px 0;overflow:hidden;box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
-.tape.t1{top:44%;background:var(--blue);color:#fff;transform:rotate(-3deg)}
-.tape.t2{top:40%;background:#111;color:#fff;transform:rotate(2.5deg)}
-.mq{display:flex;gap:34px;width:max-content;animation:mq 110s linear infinite;font-weight:900;font-style:italic;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
-.t2 .mq{animation-direction:reverse;animation-duration:140s;opacity:.9}
+.tapes{position:relative;height:clamp(84px,9vw,110px);overflow:hidden;margin:clamp(-40px,-3vw,-20px) 0 clamp(26px,4vw,44px);pointer-events:none}
+.tape{position:absolute;left:-10%;width:120%;padding:12px 0;overflow:hidden;box-shadow:0 10px 24px -14px rgba(11,92,213,.6)}
+.tape.t1{top:50%;background:var(--blue);color:#fff;transform:translateY(-50%) rotate(-2.5deg)}
+.mq{display:flex;gap:34px;width:max-content;animation:mq var(--dur,120s) linear infinite;will-change:transform;font-weight:900;font-style:italic;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
 .mq span{display:flex;align-items:center;gap:34px}
 .mq span::after{content:"★";font-style:normal;font-size:.7em;color:#ffd24a}
 @keyframes mq{to{transform:translateX(-50%)}}
@@ -149,6 +147,12 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .colors button.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 .colors button small{font-size:11px;color:var(--muted);font-weight:700}
 .colors .clr{border-style:dashed;color:var(--muted);padding:6px 12px}
+.entrega{display:grid;gap:8px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:10px;padding:4px;gap:4px}
+.seg button{padding:10px;border-radius:8px;font-weight:800;font-size:14px;color:var(--muted)}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.entrega select,.entrega input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:16px;background:#fff}
+.tot small{display:block;font-size:12px;font-weight:600;color:var(--muted);text-align:right}
 /* botones */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:8px;background:var(--ink-2);color:#fff;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.02em;transition:background .25s,transform .25s}
 .btn:hover{background:#000}
@@ -409,7 +413,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   </section>
 
   <section id="catalogo" style="padding-top:0">
-    <div class="tapes" aria-hidden="true"><div class="tape t2"><div class="mq" id="mq2"></div></div><div class="tape t1"><div class="mq" id="mq1"></div></div></div>
+    <div class="tapes" aria-hidden="true"><div class="tape t1"><div class="mq" id="mq1"></div></div></div>
     <div class="wrap">
       <h2 class="h-sec rv">Lo nuevo en la tienda</h2>
       <div class="tabs" id="tabs"></div>
@@ -532,6 +536,13 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   <div class="dh"><h3>Tu bolsa</h3><button class="x" data-close aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <div class="items" id="items"></div>
   <div class="df">
+    <div class="entrega" id="entrega" hidden>
+      <div class="seg" id="entSeg"><button data-ent="recoger" class="on">Recoger</button><button data-ent="domicilio">🚚 A domicilio</button></div>
+      <div id="entDom" hidden>
+        <select id="zona" aria-label="Zona de entrega"></select>
+        <input id="dir" placeholder="Dirección de entrega" autocomplete="street-address">
+      </div>
+    </div>
     <div class="tot"><span>Total</span><b id="tot">—</b></div>
     <input id="cName" placeholder="Tu nombre (opcional)" autocomplete="name">
     <button class="btn wa" id="send">Ordenar por WhatsApp</button>
@@ -584,7 +595,7 @@ const watch=()=>$$(".rv:not(.in)").forEach(el=>io.observe(el));
 
 /* carga de datos */
 fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d=>{
-  WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
+  WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
 }).catch(()=>{$("#grid").innerHTML='<p class="empty">No se pudo cargar el catálogo. Recarga la página.</p>';watch()});
 
 let fA="Todos",fB="Todas",fE="",fC="",q="";
@@ -597,9 +608,9 @@ function init(){
   $("#stM").textContent=PRODUCTOS.filter(p=>!p.vendido).length;
   $("#stB").textContent=marcas.filter(m=>m!=="Genérico").length;
   const tape=[...marcas.filter(m=>m!=="Genérico"),"Modelos únicos","Ordena por WhatsApp"];
-  $("#mq1").innerHTML=[...tape,...tape,...tape].map(t=>`<span>${esc(t)}</span>`).join("");
-  const t2=["Ordena y eleva tu estilo","Stock limitado","Un par por modelo"];
-  $("#mq2").innerHTML=[...t2,...t2,...t2,...t2].map(t=>`<span>${esc(t)}</span>`).join("");
+  /* dos copias idénticas: al moverse la mitad el bucle es continuo; velocidad fija y lenta (~28 px/s) */
+  const mq=$("#mq1"),one=[...tape,"Ordena y eleva tu estilo",...tape,"Stock limitado"].map(t=>`<span>${esc(t)}</span>`).join("");
+  mq.innerHTML=one+one;requestAnimationFrame(()=>mq.style.setProperty("--dur",Math.max(40,Math.round(mq.scrollWidth/2/28))+"s"));
   /* estilos */
   const estilos=[...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))];
   $("#tiles").innerHTML=estilos.map(e=>{const ps=PRODUCTOS.filter(p=>p.estilo===e);const f=ps.find(p=>!p.vendido)||ps[0];
@@ -633,7 +644,7 @@ function init(){
   </div>
 </article>`).join("")+'<p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>';
   const qs=new URLSearchParams(location.search).get("q");if(qs){$("#q").value=qs;q=qs.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");setTimeout(toCat,300)}
-  filter();watch();renderCart();seoLd();
+  setupEntrega();filter();watch();renderCart();seoLd();
   const m=location.hash.match(/^#n(\d+)$/);if(m)openP(+m[1]);
 }
 /* datos estructurados de productos para Google */
@@ -706,15 +717,32 @@ function renderCart(){
   if(!cart.length){$("#items").innerHTML='<p class="dnone">Tu bolsa está vacía.<br>Elige un par del catálogo.</p>';$("#tot").textContent="—";return}
   $("#items").innerHTML=cart.map((n,i)=>{const p=PRODUCTOS.find(x=>x.num===n);return `<div class="it"><img src="${esc(p.thumb||p.img)}" alt="" loading="lazy"><div><small>Nº ${nn(p.num)} · ${esc(p.marca)}</small><b>${esc(p.modelo)}</b><small>Talla ${esc(talla(p).toLowerCase())} · ${money(p.precio)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
   const pr=cart.map(n=>PRODUCTOS.find(x=>x.num===n).precio);
-  const sum=pr.filter(v=>v!=null).reduce((a,b)=>a+ +b,0),ask=pr.some(v=>v==null);
-  $("#tot").textContent=sum?money(sum)+(ask?" + a consultar":""):"A consultar";
+  let sum=pr.filter(v=>v!=null).reduce((a,b)=>a+ +b,0);const ask=pr.some(v=>v==null);
+  const z=zonaSel();if(z)sum+= +z.precio||0;
+  $("#tot").innerHTML=(sum?money(sum)+(ask?" + a consultar":""):"A consultar")+(z?`<small>incluye domicilio ${esc(z.nombre)}: ${money(+z.precio||0)}</small>`:"");
 }
 $("#items").addEventListener("click",e=>{const b=e.target.closest(".rm");if(!b)return;cart.splice(+b.dataset.i,1);save();renderCart();syncBuy()});
+/* entrega a domicilio (se activa desde la administración) */
+let DOM={activo:false,recoger:true,zonas:[]},ENT="recoger";
+function zonaSel(){if(!DOM.activo||ENT!=="domicilio")return null;return DOM.zonas[+$("#zona").value]||null}
+function setupEntrega(){
+  const ok=DOM.activo&&DOM.zonas.length>0;$("#entrega").hidden=!ok;if(!ok){ENT="recoger";return}
+  $("#zona").innerHTML=DOM.zonas.map((z,i)=>`<option value="${i}">${esc(z.nombre)} · ${money(+z.precio||0)}</option>`).join("");
+  if(DOM.recoger===false){ENT="domicilio";$("#entSeg").hidden=true}
+  const upd=()=>{$$("#entSeg [data-ent]").forEach(b=>b.classList.toggle("on",b.dataset.ent===ENT));$("#entDom").hidden=ENT!=="domicilio";renderCart()};
+  $("#entSeg").onclick=e=>{const b=e.target.closest("[data-ent]");if(b){ENT=b.dataset.ent;upd()}};
+  $("#zona").onchange=renderCart;upd();
+  const pr=$(".promo");if(pr&&!pr.dataset.dom){pr.dataset.dom=1;pr.insertAdjacentHTML("beforeend"," · 🚚 <b>Domicilio disponible</b>")}
+}
 $("#send").addEventListener("click",()=>{
   if(!cart.length){toast("Tu bolsa está vacía");return}
   const nm=$("#cName").value.trim();
   const lines=cart.map(n=>{const p=PRODUCTOS.find(x=>x.num===n);return `• Nº ${nn(p.num)} — ${titulo(p)} — talla ${talla(p).toLowerCase()} — ${money(p.precio)}`});
-  window.open(waLink(`Hola USA Shoes 👟${nm?", soy "+nm:""}. Quiero ordenar estos pares:\n\n${lines.join("\n")}\n\nTotal: ${$("#tot").textContent}\n¿Están disponibles?`),"_blank","noopener");
+  const z=zonaSel(),dir=$("#dir").value.trim();
+  if(z&&!dir){toast("Escribe la dirección de entrega");$("#dir").focus();return}
+  const ent=DOM.activo&&DOM.zonas.length?(z?`\nEntrega: a domicilio · ${z.nombre} (${money(+z.precio||0)})\nDirección: ${dir}`:"\nEntrega: recojo en persona"):"";
+  const tot=$("#tot").childNodes[0].textContent;
+  window.open(waLink(`Hola USA Shoes 👟${nm?", soy "+nm:""}. Quiero ordenar estos pares:\n\n${lines.join("\n")}${ent}\n\nTotal: ${tot}\n¿Están disponibles?`),"_blank","noopener");
 });
 $("#bagBtn").addEventListener("click",()=>show("#drawer"));
 function show(sel){$$(".modal,.drawer").forEach(x=>x.classList.remove("on"));$(sel).classList.add("on");$("#veil").classList.add("on");document.body.style.overflow="hidden"}

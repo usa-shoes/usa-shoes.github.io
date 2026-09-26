@@ -1,6 +1,11 @@
 {
  "whatsapp": "5351120177",
  "moneda": "USD",
+ "domicilio": {
+  "activo": false,
+  "recoger": true,
+  "zonas": []
+ },
  "productos": [
   {
    "num": 1,
