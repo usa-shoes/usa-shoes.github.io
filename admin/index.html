@@ -84,6 +84,10 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
 .foot{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:8px}
 .log{font-family:ui-monospace,monospace;font-size:13px;background:#111;color:#cfe;padding:12px;border-radius:10px;max-height:220px;overflow:auto;white-space:pre-wrap;margin-top:12px}
 .hint{font-size:13px;color:var(--muted)}
+.ulist{display:grid;gap:8px;margin-bottom:14px}
+.urow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.urow b{font-weight:800}.urow small{color:var(--muted);margin-left:6px}
+.urow .btn{padding:7px 12px;font-size:12px}
 @media(max-width:560px){#whoName,.logo small{display:none}.top .btn{padding:9px 11px;font-size:12px}.bar .r .btn{flex:1}}
 </style>
 </head>
@@ -166,6 +170,7 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
     <label>Modelo<input id="eModelo" placeholder="Softride · gris y rosa"></label>
     <label>Para<select id="ePara"><option>Mujer</option><option>Hombre</option><option>Juvenil</option><option>Niña</option><option>Niño</option><option>Unisex</option></select></label>
     <label>Estilo<input id="eEstilo" list="dlEstilos" placeholder="Running, Slip-on…"></label>
+    <label>Color principal<select id="eColor"><option value="">—</option><option>Negro</option><option>Blanco</option><option>Gris</option><option>Rojo</option><option>Rosa</option><option>Azul</option><option>Marrón</option><option>Verde</option><option>Amarillo</option><option>Naranja</option><option>Beige</option><option>Morado</option><option>Multicolor</option></select></label>
   </div>
   <label>Descripción<textarea id="eDesc" placeholder="Materiales, colores, para qué sirve…"></textarea></label>
   <div style="display:flex;flex-wrap:wrap;gap:18px;margin:4px 0 14px">
@@ -195,12 +200,22 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
   <label>WhatsApp que recibe los pedidos <small>solo números, con código de país</small><input id="cWa" inputmode="numeric" placeholder="5351120177"></label>
   <button class="btn blue" id="cSaveWa">Guardar número</button>
   <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
-  <h2 style="margin-bottom:10px">Cambiar usuario o contraseña</h2>
-  <label>Usuario nuevo<input id="cUser" autocomplete="username"></label>
-  <label>Contraseña nueva<input id="cPass" type="password" autocomplete="new-password"></label>
-  <label>Repite la contraseña<input id="cPass2" type="password" autocomplete="new-password"></label>
+  <div class="mh" style="margin-bottom:8px"><h2>Usuarios</h2><button class="btn blue" id="btnAddUser">+ Agregar usuario</button></div>
+  <div id="uList" class="ulist"></div>
   <div id="cMsg"></div>
-  <button class="btn" id="cSaveCred">Cambiar acceso</button>
+  <button class="btn line" id="btnMyPass">Cambiar mi contraseña</button>
+</div>
+
+<!-- Usuario nuevo / contraseña -->
+<div class="modal" id="mUser" hidden>
+  <div class="mh"><h2 id="uTitle">Agregar usuario</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <p class="hint" id="uHint" style="margin-bottom:12px">Esta persona podrá entrar a la administración con este usuario y contraseña. No tendrá acceso a tu cuenta de GitHub.</p>
+  <label>Usuario<input id="uUser" autocomplete="off" autocapitalize="none"></label>
+  <label>Contraseña <small>mínimo 8 caracteres</small><input id="uPass" type="password" autocomplete="new-password"></label>
+  <label>Repite la contraseña<input id="uPass2" type="password" autocomplete="new-password"></label>
+  <label class="chk" style="margin-bottom:14px"><input type="checkbox" id="uShow">Mostrar contraseña</label>
+  <div id="uMsg"></div>
+  <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="uSave">Guardar</button></div></div>
 </div>
 
 <!-- Progreso de publicación -->
@@ -235,6 +250,17 @@ async function seal(token,user,pass){
   const data=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,enc.encode(JSON.stringify({token,user:user.trim()})));
   return {v:1,kdf:"PBKDF2-SHA256-310000",salt:b64(salt),iv:b64(iv),data:b64(data)};
 }
+async function userId(user){const h=await crypto.subtle.digest("SHA-256",enc.encode("usa-shoes:"+user.trim().toLowerCase()));return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("")}
+async function tokKey(token){const h=await crypto.subtle.digest("SHA-256",enc.encode("usa-shoes-names:"+token));return crypto.subtle.importKey("raw",h,"AES-GCM",false,["encrypt","decrypt"])}
+async function makeEntry(token,user,pass,role){
+  const b=await seal(token,user,pass);const niv=crypto.getRandomValues(new Uint8Array(12));
+  const n=await crypto.subtle.encrypt({name:"AES-GCM",iv:niv},await tokKey(token),enc.encode(user.trim()));
+  return {id:await userId(user),role:role||"staff",salt:b.salt,iv:b.iv,data:b.data,niv:b64(niv),n:b64(n)};
+}
+const norm=a=>!a?null:(a.v===2?a:{v:2,users:[{legacy:true,role:"owner",salt:a.salt,iv:a.iv,data:a.data}]});
+async function userNames(acc,token){const k=await tokKey(token);return Promise.all(acc.users.map(async u=>{try{return dec.decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(u.niv)},k,unb64(u.n)))}catch(e){return "(usuario antiguo)"}}))}
+async function loadAccess(){const f=await getFile(ACCESS_PATH);return f?norm(JSON.parse(b64txt(f.content))):{v:2,users:[]}}
+async function saveAccess(acc,msgText){await putFile(ACCESS_PATH,txt64(JSON.stringify(acc,null,1)),msgText)}
 async function unseal(box,user,pass){
   const key=await derive(user,pass,unb64(box.salt));
   const out=await crypto.subtle.decrypt({name:"AES-GCM",iv:unb64(box.iv)},key,unb64(box.data));
@@ -290,8 +316,7 @@ $("#btnSetup").addEventListener("click",async()=>{
     TOKEN=tok;
     const r=await gh("");if(!r.ok)throw new Error("La llave no tiene acceso al repositorio "+REPO+".");
     const repo=await r.json();if(!repo.permissions||!repo.permissions.push)throw new Error("La llave puede leer pero no escribir. Dale permiso «Contents: Read and write».");
-    const box=await seal(tok,user,p1);
-    await putFile(ACCESS_PATH,txt64(JSON.stringify(box,null,1)),"Admin: configurar acceso");
+    await saveAccess({v:2,users:[await makeEntry(tok,user,p1,"owner")]},"Admin: configurar acceso");
     USER=user;sessionStorage.setItem("usa-adm",JSON.stringify({token:TOKEN,user:USER}));
     $("#sTok").value=$("#sPass").value=$("#sPass2").value="";
     await openPanel();msg("#panMsg","Acceso creado. Desde ahora entras con tu usuario y contraseña.","okk");
@@ -300,7 +325,11 @@ $("#btnSetup").addEventListener("click",async()=>{
 
 $("#fLogin").addEventListener("submit",async e=>{
   e.preventDefault();const b=$("#btnLogin");b.disabled=true;msg("#logMsg","Entrando…","info");
-  try{const o=await unseal(BOX,$("#lUser").value,$("#lPass").value);TOKEN=o.token;USER=o.user;
+  try{const acc=norm(BOX),u=$("#lUser").value,pw=$("#lPass").value,id=await userId(u);
+    const cands=acc.users.filter(x=>x.id===id).concat(acc.users.filter(x=>x.legacy));
+    let o=null;for(const c of cands){try{o=await unseal(c,u,pw);break}catch(e){}}
+    if(!o){const e=new Error("x");e.name="OperationError";throw e}
+    TOKEN=o.token;USER=o.user;
     sessionStorage.setItem("usa-adm",JSON.stringify({token:TOKEN,user:USER}));$("#lPass").value="";await openPanel();}
   catch(err){TOKEN=null;msg("#logMsg",err&&err.name==="OperationError"?"Usuario o contraseña incorrectos.":esc(err.message||err))}
   finally{b.disabled=false}
@@ -315,6 +344,7 @@ async function openPanel(){
   try{
     const f=await getFile(DATA_PATH);if(!f)throw new Error("No se encontró productos.json en la tienda.");
     DATA=JSON.parse(b64txt(f.content));ORIG=JSON.stringify(DATA);PENDING={};msg("#panMsg","");render();
+    const m=location.hash.match(/^#agregar-([\w.@-]+)$/);if(m){history.replaceState(null,"",location.pathname);openUser("add",m[1])}
   }catch(e){msg("#panMsg",esc(e.message));if(/no es válida/.test(e.message)){sessionStorage.removeItem("usa-adm")}}
 }
 function lists(){
@@ -323,7 +353,7 @@ function lists(){
   $("#dlEstilos").innerHTML=[...new Set(["Running","Slip-on","Retro y ante","Cancha","Baloncesto","Tipo media",...ps.map(p=>p.estilo).filter(Boolean)])].map(m=>`<option value="${esc(m)}">`).join("");
   $("#dlTallas").innerHTML=["35","35½","36","36½","37","37½","38","38½","39","40","41","42","43","44","45"].map(t=>`<option value="${t}">`).join("");
 }
-const imgSrc=p=>PENDING[p.img]?"data:image/jpeg;base64,"+PENDING[p.img]:"../"+p.img;
+const imgSrc=p=>{const k=p.thumb||p.img;return PENDING[k]?`data:image/${/\.webp$/.test(k)?"webp":"jpeg"};base64,${PENDING[k]}`:"../"+k};
 function render(){
   const q=$("#q").value.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");
   const ps=DATA.productos.slice().sort((a,b)=>a.num-b.num).filter(p=>!q||(/^\d+$/.test(q)?p.num===+q:(p.marca+" "+p.modelo+" "+p.para+" "+(p.estilo||"")).toLowerCase().includes(q)));
@@ -331,10 +361,10 @@ function render(){
   $("#list").innerHTML=ps.map(p=>`
   <div class="item">
     <div class="ph"><img src="${esc(imgSrc(p))}" alt="" loading="lazy"><span class="n">Nº ${nn(p.num)}</span>
-      <span class="st">${PENDING[p.img]?'<span class="tag new">Foto nueva</span>':""}${p.oferta?'<span class="tag of">Oferta</span>':""}${p.vendido?'<span class="tag sold">Vendido</span>':""}</span></div>
+      <span class="st">${PENDING[p.thumb||p.img]?'<span class="tag new">Foto nueva</span>':""}${p.oferta?'<span class="tag of">Oferta</span>':""}${p.vendido?'<span class="tag sold">Vendido</span>':""}</span></div>
     <div class="b">
       <b>${esc(p.modelo)}</b>
-      <span class="meta">${esc(p.marca)} · ${esc(p.para)} · ${esc(p.estilo||"sin estilo")}</span>
+      <span class="meta">${esc(p.marca)} · ${esc(p.para)} · ${esc(p.estilo||"sin estilo")}${p.color?" · "+esc(p.color):""}</span>
       <div class="row"><span class="${p.talla?"":"miss"}">Talla ${esc(p.talla||"—")}</span><span class="${p.precio==null?"miss":""}">${p.precio==null?"Sin precio":"$"+p.precio+" "+esc(DATA.moneda||"USD")}</span></div>
       <div class="acts"><button class="btn line" data-edit="${p.num}">Editar</button><button class="btn line" data-sold="${p.num}">${p.vendido?"Disponible":"Vendido"}</button></div>
     </div>
@@ -362,7 +392,7 @@ function openEdit(num){
   const next=Math.max(0,...DATA.productos.map(x=>x.num))+1;
   $("#eTitle").textContent=p?`Editar Nº ${nn(p.num)}`:"Nuevo modelo";
   $("#eNum").value=p?p.num:next;$("#eTalla").value=p&&p.talla||"";$("#ePrecio").value=p&&p.precio!=null?p.precio:"";
-  $("#eMarca").value=p?p.marca:"";$("#eModelo").value=p?p.modelo:"";$("#ePara").value=p?p.para:"Unisex";$("#eEstilo").value=p&&p.estilo||"";
+  $("#eMarca").value=p?p.marca:"";$("#eModelo").value=p?p.modelo:"";$("#ePara").value=p?p.para:"Unisex";$("#eEstilo").value=p&&p.estilo||"";$("#eColor").value=p&&p.color||"";
   $("#eDesc").value=p&&p.descripcion||"";$("#eOferta").checked=!!(p&&p.oferta);$("#eVendido").checked=!!(p&&p.vendido);$("#eIa").checked=!!(p&&p.ia);
   $("#eFile").value="";setPv(p?imgSrc(p):null);$("#eDel").hidden=!p;openM("#mEdit");
 }
@@ -370,11 +400,13 @@ function setPv(src){const pv=$("#ePv");pv.style.backgroundImage=src?`url("${src}
 $("#btnNew").addEventListener("click",()=>openEdit(0));
 $("#eFile").addEventListener("change",async e=>{
   const f=e.target.files[0];if(!f)return;msg("#eMsg","Preparando la foto…","info");
-  try{NEWIMG=await resize(f,1000,.82);setPv("data:image/jpeg;base64,"+NEWIMG);msg("#eMsg","")}catch(err){NEWIMG=null;msg("#eMsg","No se pudo leer esa imagen. Prueba con JPG o PNG.")}
+  try{const big=await resize(f,900,.8),th=await resize(f,480,.74);NEWIMG={big,th};setPv(`data:${th.mime};base64,${th.b64}`);msg("#eMsg","")}catch(err){NEWIMG=null;msg("#eMsg","No se pudo leer esa imagen. Prueba con JPG o PNG.")}
 });
 function resize(file,max,q){return new Promise((ok,bad)=>{const u=URL.createObjectURL(file);const im=new Image();
   im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
-    const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL("image/jpeg",q).split(",")[1])};
+    const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);
+    let d=c.toDataURL("image/webp",q);const ext=d.startsWith("data:image/webp")?"webp":"jpg";if(ext==="jpg")d=c.toDataURL("image/jpeg",q);
+    ok({b64:d.split(",")[1],ext,mime:ext==="webp"?"image/webp":"image/jpeg"})};
   im.onerror=()=>{URL.revokeObjectURL(u);bad()};im.src=u})}
 $("#eSave").addEventListener("click",()=>{
   const num=parseInt($("#eNum").value,10);
@@ -384,16 +416,18 @@ $("#eSave").addEventListener("click",()=>{
   if(!EDIT&&!NEWIMG)return msg("#eMsg","Sube la foto del zapato.");
   const pr=$("#ePrecio").value.trim();
   const p=EDIT||{};
-  Object.assign(p,{num,marca:$("#eMarca").value.trim(),modelo:$("#eModelo").value.trim(),para:$("#ePara").value,estilo:$("#eEstilo").value.trim(),
+  Object.assign(p,{num,marca:$("#eMarca").value.trim(),modelo:$("#eModelo").value.trim(),para:$("#ePara").value,estilo:$("#eEstilo").value.trim(),color:$("#eColor").value||null,
     talla:$("#eTalla").value.trim()||null,precio:pr===""?null:+pr,descripcion:$("#eDesc").value.trim(),oferta:$("#eOferta").checked,vendido:$("#eVendido").checked,ia:$("#eIa").checked});
-  if(NEWIMG){const path=`img/p${nn(num)}-${Date.now().toString(36)}.jpg`;PENDING[path]=NEWIMG;if(p.img&&PENDING[p.img])delete PENDING[p.img];p.img=path}
+  if(NEWIMG){const stamp=`img/p${nn(num)}-${Date.now().toString(36)}`;
+    [p.img,p.thumb].forEach(x=>{if(x&&PENDING[x])delete PENDING[x]});
+    p.img=`${stamp}.${NEWIMG.big.ext}`;p.thumb=`${stamp}-480.${NEWIMG.th.ext}`;PENDING[p.img]=NEWIMG.big.b64;PENDING[p.thumb]=NEWIMG.th.b64}
   if(p.oferta)DATA.productos.forEach(x=>{if(x!==p)x.oferta=false});
   if(!EDIT)DATA.productos.push(p);
   closeM();render();msg("#panMsg",`Nº ${nn(num)} guardado. Pulsa «Publicar cambios» para que se vea en la tienda.`,"info");
 });
 $("#eDel").addEventListener("click",()=>{
   if(!EDIT||!confirm(`¿Eliminar el Nº ${nn(EDIT.num)} de la tienda?`))return;
-  if(PENDING[EDIT.img])delete PENDING[EDIT.img];
+  [EDIT.img,EDIT.thumb].forEach(x=>{if(x&&PENDING[x])delete PENDING[x]});
   DATA.productos=DATA.productos.filter(x=>x!==EDIT);closeM();render();msg("#panMsg","Modelo eliminado. Publica para aplicarlo.","info");
 });
 
@@ -434,14 +468,49 @@ $("#btnPub").addEventListener("click",async()=>{
 $("#pubOk").addEventListener("click",closeM);
 
 /* ---------- ajustes ---------- */
-$("#btnCfg").addEventListener("click",()=>{$("#cWa").value=DATA?DATA.whatsapp:"";$("#cUser").value=USER;$("#cPass").value=$("#cPass2").value="";msg("#cMsg","");openM("#mCfg")});
+$("#btnCfg").addEventListener("click",()=>{$("#cWa").value=DATA?DATA.whatsapp:"";msg("#cMsg","");openM("#mCfg");renderUsers()});
 $("#cSaveWa").addEventListener("click",()=>{const v=$("#cWa").value.replace(/\D/g,"");if(v.length<8)return msg("#cMsg","Número no válido.");DATA.whatsapp=v;closeM();render();msg("#panMsg","Número guardado. Pulsa «Publicar cambios».","info")});
-$("#cSaveCred").addEventListener("click",async()=>{
-  const u=$("#cUser").value.trim(),p1=$("#cPass").value,p2=$("#cPass2").value;
-  if(!u)return msg("#cMsg","Escribe el usuario.");if(p1.length<8)return msg("#cMsg","La contraseña debe tener al menos 8 caracteres.");if(p1!==p2)return msg("#cMsg","Las contraseñas no coinciden.");
-  try{msg("#cMsg","Guardando…","info");await putFile(ACCESS_PATH,txt64(JSON.stringify(await seal(TOKEN,u,p1),null,1)),"Admin: cambiar acceso");
-    USER=u;sessionStorage.setItem("usa-adm",JSON.stringify({token:TOKEN,user:USER}));$("#whoName").textContent=USER;msg("#cMsg","Acceso cambiado. Usa los datos nuevos la próxima vez.","okk")}
-  catch(e){msg("#cMsg",esc(e.message))}
+async function renderUsers(){
+  $("#uList").innerHTML='<p class="hint">Cargando usuarios…</p>';
+  try{const acc=await loadAccess();const names=await userNames(acc,TOKEN);const me=await userId(USER);
+    const mine=acc.users.find(u=>u.id===me)||acc.users.find(u=>u.legacy);const owner=!mine||mine.role==="owner";
+    $("#btnAddUser").hidden=!owner;
+    $("#uList").innerHTML=acc.users.map((u,i)=>`<div class="urow"><span><b>${esc(names[i])}</b><small>${u.role==="owner"?"dueño":"administrador"}${u.id===me?" · tú":""}</small></span>${u.id===me||!owner?"":`<button class="btn red" data-deluser="${esc(u.id||"legacy")}" data-name="${esc(names[i])}">Quitar</button>`}</div>`).join("")||'<p class="hint">No hay usuarios.</p>';
+  }catch(e){$("#uList").innerHTML="";msg("#cMsg",esc(e.message))}
+}
+$("#uList").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-deluser]");if(!b)return;
+  if(!confirm(`¿Quitar el acceso de «${b.dataset.name}»? Ya no podrá entrar.`))return;
+  try{msg("#cMsg","Quitando…","info");const acc=await loadAccess();acc.users=acc.users.filter(u=>(u.id||"legacy")!==b.dataset.deluser);
+    await saveAccess(acc,"Admin: quitar usuario");msg("#cMsg","Usuario quitado.","okk");renderUsers()}catch(err){msg("#cMsg",esc(err.message))}
+});
+let UMODE="add";
+function openUser(mode,preset){UMODE=mode;$("#uTitle").textContent=mode==="add"?"Agregar usuario":"Cambiar mi contraseña";
+  $("#uHint").hidden=mode!=="add";$("#uUser").value=mode==="add"?(preset||""):USER;$("#uUser").disabled=mode!=="add";
+  $("#uPass").value=$("#uPass2").value="";$("#uShow").checked=false;$("#uPass").type=$("#uPass2").type="password";msg("#uMsg","");openM("#mUser");
+  setTimeout(()=>(mode==="add"&&!preset?$("#uUser"):$("#uPass")).focus(),50)}
+$("#btnAddUser").addEventListener("click",()=>openUser("add","adminshoes"));
+$("#btnMyPass").addEventListener("click",()=>openUser("me"));
+$("#uShow").addEventListener("change",e=>{$("#uPass").type=$("#uPass2").type=e.target.checked?"text":"password"});
+$("#uSave").addEventListener("click",async()=>{
+  const u=$("#uUser").value.trim(),p1=$("#uPass").value,p2=$("#uPass2").value;
+  if(!u||!/^[\w.@-]{3,40}$/.test(u))return msg("#uMsg","Usuario no válido: usa letras, números, punto o guion (mínimo 3).");
+  if(p1.length<8)return msg("#uMsg","La contraseña debe tener al menos 8 caracteres.");
+  if(p1!==p2)return msg("#uMsg","Las contraseñas no coinciden.");
+  const b=$("#uSave");b.disabled=true;msg("#uMsg","Guardando…","info");
+  try{
+    const acc=await loadAccess();const id=await userId(u);
+    if(UMODE==="add"&&acc.users.some(x=>x.id===id))throw new Error("Ya existe un usuario con ese nombre.");
+    const me=await userId(USER);const mine=acc.users.find(x=>x.id===me)||acc.users.find(x=>x.legacy);
+    if(UMODE==="add"&&mine&&mine.role!=="owner")throw new Error("Solo el dueño puede agregar usuarios.");
+    const role=UMODE==="me"?(mine?mine.role:"owner"):"staff";
+    acc.users=acc.users.filter(x=>x.id!==id&&!(UMODE==="me"&&(x.id===me||x.legacy)));
+    acc.users.push(await makeEntry(TOKEN,u,p1,role));
+    await saveAccess(acc,UMODE==="add"?"Admin: agregar usuario":"Admin: cambiar contraseña");
+    $("#uPass").value=$("#uPass2").value="";
+    closeM();openM("#mCfg");renderUsers();
+    msg("#cMsg",UMODE==="add"?`Usuario «${esc(u)}» creado. Ya puede entrar con su contraseña.`:"Contraseña cambiada. Úsala la próxima vez que entres.","okk");
+  }catch(e){msg("#uMsg",esc(e.message))}finally{b.disabled=false}
 });
 
 boot();
