@@ -633,10 +633,10 @@ function init(){
   $("#stM").textContent=PRODUCTOS.filter(p=>!p.vendido).length;
   $("#stB").textContent=marcas.filter(m=>m!=="Genérico").length;
   const tape=[...marcas.filter(m=>m!=="Genérico"),"Modelos únicos","Ordena por WhatsApp"];
-  /* dos copias idénticas: al moverse la mitad el bucle es continuo; velocidad fija y lenta: 30 px/s */
+  /* dos copias idénticas: al moverse la mitad el bucle es continuo; velocidad fija y lenta: 20 px/s */
   const CTA="\u0001",span=t=>t===CTA?'<span class="cta">Compra ahora <i>→</i></span>':`<span>${esc(t)}</span>`;
   const mq=$("#mq1"),one=[...tape,CTA,"Ordena y eleva tu estilo",...tape,CTA,"Stock limitado"].map(span).join("");
-  mq.innerHTML=one+one;const PXS=30,setDur=()=>{const w=mq.scrollWidth;if(w)mq.style.setProperty("--dur",Math.round(w/2/PXS)+"s")};
+  mq.innerHTML=one+one;const PXS=20,setDur=()=>{const w=mq.scrollWidth;if(w)mq.style.setProperty("--dur",Math.round(w/2/PXS)+"s")};
   setDur();addEventListener("resize",setDur);document.fonts&&document.fonts.ready.then(setDur);
   /* estilos */
   const estilos=[...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))];
