@@ -229,19 +229,18 @@ section{padding:clamp(44px,6vw,80px) 0}
 .cbtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round}
 .cbtn.i{bottom:14px;left:10px;width:34px;height:34px;background:rgba(255,255,255,.22);color:#fff;border:1.5px solid rgba(255,255,255,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
 .cbtn.i b{font:italic 800 17px Georgia,serif;line-height:1}
-.cbtn.i:hover{background:#25d366;border-color:#25d366;transform:scale(1.08)}
 .cbtn.add{right:8px;bottom:8px;width:46px;height:46px;color:#fff;background:linear-gradient(145deg,#2f7bff,#0b5cd5 60%,#0842a0);box-shadow:0 10px 22px -8px rgba(11,92,213,.9),inset 0 1px 0 rgba(255,255,255,.35)}
 .cbtn.add::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(47,123,255,.7);animation:ping 2.2s cubic-bezier(0,0,.2,1) infinite}
 @keyframes ping{0%{transform:scale(.9);opacity:.9}80%,100%{transform:scale(1.35);opacity:0}}
-.cbtn.add:hover{transform:scale(1.1) rotate(90deg)}
 .cbtn.add.in-bag{background:linear-gradient(145deg,#34c26b,#1f8a4c)}
 .cbtn.add.in-bag::before{display:none}
 .cbtn.add[disabled]{background:#666;box-shadow:none;cursor:default}
 .cbtn.add[disabled]::before{display:none}
 .cbtn .tip{position:absolute;right:calc(100% + 8px);top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(0,0,0,.75);color:#fff;font:800 11px var(--f);letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:99px;pointer-events:none;opacity:0;transition:opacity .2s}
-.cbtn:hover .tip,.cbtn:focus-visible .tip{opacity:1}
-.media .cbtn.i .tip{right:auto;left:calc(100% + 8px)}
-@media(max-width:640px){.cbtn.add{width:42px;height:42px}.cbtn.i{width:32px;height:32px;left:10px;bottom:13px}}
+/* efectos al pasar el ratón solo en computadoras: en el teléfono no se quedan pegados */
+@media(hover:hover){.cbtn:hover .tip,.cbtn:focus-visible .tip{opacity:1}.cbtn.add:hover{transform:scale(1.1) rotate(90deg)}.media .cbtn.i:hover{background:rgba(255,255,255,.4)}.mtop .cbtn.i:hover{background:#eafaf0}}
+.media .cbtn.i:focus{outline:none}
+@media(max-width:640px){.cbtn.add{width:42px;height:42px}.cbtn.i{width:30px;height:30px;left:10px;bottom:14px}}
 .info{padding:12px 2px 0;display:grid;gap:3px}
 .aud{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--blue)}
 .aud .ic{font-size:14px}
@@ -280,8 +279,9 @@ section{padding:clamp(44px,6vw,80px) 0}
 .collage{display:grid;grid-template-columns:1.1fr .9fr 1fr;grid-template-rows:1fr 1fr;gap:8px;height:clamp(320px,38vw,520px)}
 .collage img{width:100%;height:100%;object-fit:cover;border-radius:4px;background:var(--soft)}
 .collage .a{grid-column:1;grid-row:1/3}.collage .d{grid-column:3;grid-row:1/3}
-.split-t{text-align:center}
-.split-t h2{font-size:clamp(34px,4.6vw,60px);font-weight:900;text-transform:uppercase;color:var(--ink-2)}
+.split-t{text-align:center;min-width:0}
+.split-t h2{font-size:clamp(20px,2.6vw,40px);font-weight:900;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;letter-spacing:-.01em;line-height:1.1}
+[data-fit]>span{display:inline-block}
 .split-t p{font-size:clamp(17px,1.6vw,21px);color:var(--ink-2);margin:16px 0 24px}
 @media(max-width:860px){.split{grid-template-columns:1fr}.collage{height:auto;grid-template-columns:1fr 1fr;grid-template-rows:auto}.collage img{aspect-ratio:1}.collage .a,.collage .d{grid-row:auto;grid-column:auto}}
 
@@ -336,7 +336,6 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .mtop .acts{margin-left:auto;display:flex;align-items:center;gap:10px}
 .mtop .cbtn{position:relative;inset:auto!important}
 .mtop .cbtn.i{background:#fff;color:#1f8a4c;border:1.5px solid #25d366;text-shadow:none}
-.mtop .cbtn.i:hover{background:#25d366;color:#fff}
 .mtop .cbtn.add{width:52px;height:52px}
 .mtop .cbtn.add svg{width:24px;height:24px}
 .mbody{padding:clamp(22px,3.4vw,38px);display:flex;flex-direction:column;gap:14px}
@@ -384,7 +383,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .df input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:16px}
 .toast{position:fixed;left:50%;bottom:24px;z-index:120;transform:translate(-50%,calc(100% + 60px));visibility:hidden;padding:13px 20px;border-radius:10px;background:var(--ink);color:#fff;font-weight:700;font-size:14px;transition:transform .45s var(--ease),visibility .45s;white-space:nowrap}
 .toast.on{transform:translate(-50%,0);visibility:visible}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
@@ -491,7 +490,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
         <img class="d" src="img/z11-480.webp" alt="" loading="lazy">
       </div>
       <div class="split-t rv">
-        <h2>Eleva tu estilo</h2>
+        <h2 data-fit><span>Eleva tu look desde el suelo</span></h2>
         <p>Modelos únicos para cada día: casual, deporte y calle. Un par por modelo, sin repetir.</p>
         <a class="btn" href="#catalogo">Compra la colección</a>
       </div>
@@ -616,7 +615,7 @@ const slow=navigator.connection&&(navigator.connection.saveData||/2g/.test(navig
 const PORTADAS=[1,2,3,4].map(n=>"video/portada-"+n);
 const elegido=PORTADAS[Math.floor(Math.random()*PORTADAS.length)];
 vid.poster=elegido+".webp";
-if(!slow&&!matchMedia("(prefers-reduced-motion:reduce)").matches){vid.src=elegido+".mp4";vid.play().catch(()=>{});}
+if(!slow){vid.defaultPlaybackRate=vid.playbackRate=.8;vid.src=elegido+".mp4";vid.addEventListener("loadedmetadata",()=>{vid.playbackRate=.8});vid.play().catch(()=>{});}
 else{vid.removeAttribute("autoplay");$("#playBtn").remove();}
 vid.addEventListener("error",()=>{$("#playBtn")&&$("#playBtn").remove();});
 $("#playBtn")&&$("#playBtn").addEventListener("click",e=>{const b=e.currentTarget;if(vid.paused){vid.play();b.innerHTML=ic("i-pause")}else{vid.pause();b.innerHTML=ic("i-play")}});
@@ -632,7 +631,6 @@ const watch=()=>$$(".rv:not(.in)").forEach(el=>io.observe(el));
 /* cinta de marcas: se mueve por tiempo real a una velocidad FIJA (px por segundo), igual en cualquier teléfono */
 const CINTA_PXS=10;
 function cinta(mq,n){
-  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
   let x=0,last=0,on=false,raf=0,half=0;
   const medir=()=>{const k=mq.children;half=k[n]?k[n].offsetLeft-k[0].offsetLeft:mq.scrollWidth/2};
   const paso=t=>{if(last){const dt=Math.min(.05,(t-last)/1000);x-=CINTA_PXS*dt;if(half>0&&-x>=half)x+=half}
@@ -640,6 +638,9 @@ function cinta(mq,n){
   new IntersectionObserver(es=>es.forEach(e=>{on=e.isIntersecting;if(on&&!raf){medir();last=0;raf=requestAnimationFrame(paso)}})).observe(mq.parentNode);
   addEventListener("resize",medir);document.fonts&&document.fonts.ready.then(medir);
 }
+/* títulos que deben caber en una sola línea: achica la letra lo justo */
+const fitAll=()=>$$("[data-fit]").forEach(el=>{el.style.fontSize="";const s=el.firstElementChild,max=parseFloat(getComputedStyle(el).fontSize),w=el.clientWidth,sw=s.offsetWidth;if(w&&sw>w)el.style.fontSize=Math.floor(max*w/sw*.97)+"px"});
+fitAll();addEventListener("resize",fitAll);document.fonts&&document.fonts.ready.then(fitAll);
 /* carga de datos */
 fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d=>{
   WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
@@ -680,7 +681,7 @@ function init(){
   <div class="media" data-open="${p.num}">
     <img src="${esc(p.thumb||p.img)}" alt="Nº ${nn(p.num)} ${esc(titulo(p))} · tenis ${esc(p.para)} ${esc(p.color||"")}" loading="${i<4?"eager":"lazy"}" decoding="async" width="480" height="480">
     ${p.vendido?'<span class="sold-t">VENDIDO</span>':p.oferta?'<span class="flag">Oferta</span>':""}
-    <a class="cbtn i" data-wa="${p.num}" href="${waLink(`Hola USA Shoes, quiero más información del Nº ${nn(p.num)}: ${titulo(p)}.`)}" target="_blank" rel="noopener" aria-label="Más información del Nº ${nn(p.num)} por WhatsApp"><b>i</b><span class="tip">Info por WhatsApp</span></a>
+    <a class="cbtn i" data-wa="${p.num}" href="${waLink(`Hola USA Shoes, quiero más información del Nº ${nn(p.num)}: ${titulo(p)}.`)}" target="_blank" rel="noopener" aria-label="Más información del Nº ${nn(p.num)} por WhatsApp"><b>i</b></a>
     <button class="cbtn add${cart.includes(p.num)?" in-bag":""}" data-buy="${p.num}" ${p.vendido?"disabled":""} aria-label="Ordenar el Nº ${nn(p.num)}">${cart.includes(p.num)?'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>':'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'}<span class="tip">${p.vendido?"Vendido":cart.includes(p.num)?"En tu bolsa":"Ordenar"}</span></button>
   </div>
   <div class="info">
