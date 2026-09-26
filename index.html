@@ -329,9 +329,10 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .zoom{position:relative;aspect-ratio:1;overflow:hidden;background:var(--soft);cursor:zoom-in}
 .zoom img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease-out}
 .zoom.z img{transform:scale(2.2)}.zoom.z{cursor:zoom-out}
-.zhint{position:absolute;left:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.9);font-size:12px;font-weight:700;pointer-events:none}
-.zoom.z .zhint{opacity:0}
-.zhint{top:12px;bottom:auto!important}
+.zhint{position:absolute;left:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;padding:4px 13px 4px 4px;border-radius:99px;background:rgba(12,14,20,.32);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-shadow:0 1px 3px rgba(0,0,0,.45);pointer-events:none;transition:opacity .3s,transform .3s}
+.zhint i{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;flex:none}
+.zhint svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
+.zoom.z .zhint{opacity:0;transform:translateY(6px)}
 .mtop .acts{margin-left:auto;display:flex;align-items:center;gap:10px}
 .mtop .cbtn{position:relative;inset:auto!important}
 .mtop .cbtn.i{background:#fff;color:#1f8a4c;border:1.5px solid #25d366;text-shadow:none}
@@ -551,7 +552,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 <div class="veil" id="veil"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mName">
   <button class="x" data-close aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button>
-  <div class="zoom" id="zoom"><img id="mImg" alt=""><span class="zhint"><svg class="ic"><use href="#i-search"/></svg>Toca para ampliar</span>
+  <div class="zoom" id="zoom"><img id="mImg" alt=""><span class="zhint"><i><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20M10.5 8v5M8 10.5h5"/></svg></i>Toca para ampliar</span>
     </div>
   <div class="mbody">
     <div class="mtop"><span class="mnum" id="mNum"></span><span class="brand" id="mBrand"></span><div class="acts"><a class="cbtn i" id="mWa" target="_blank" rel="noopener" aria-label="Más información por WhatsApp" title="Más información por WhatsApp"><b>i</b></a><button class="cbtn add" id="mAdd" aria-label="Ordenar" title="Ordenar"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
