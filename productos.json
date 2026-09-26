@@ -2,9 +2,22 @@
  "whatsapp": "5351120177",
  "moneda": "USD",
  "domicilio": {
-  "activo": false,
+  "activo": true,
   "recoger": true,
-  "zonas": []
+  "zonas": [
+   {
+    "nombre": "Parque Cespedes",
+    "precio": 500
+   },
+   {
+    "nombre": "Plaza de Marte",
+    "precio": 1000
+   },
+   {
+    "nombre": "Ferreiro",
+    "precio": 2000
+   }
+  ]
  },
  "productos": [
   {
