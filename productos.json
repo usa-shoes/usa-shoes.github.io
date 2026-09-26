@@ -4,7 +4,7 @@
  "productos": [
   {
    "num": 1,
-   "img": "img/z01.jpg",
+   "img": "img/z01.webp",
    "marca": "Puma",
    "modelo": "Softride · gris perla y rosa",
    "para": "Mujer",
@@ -14,11 +14,13 @@
    "descripcion": "Running ligero en malla gris claro con líneas rosa y detalle turquesa en el talón. Suela blanca acolchada para el día a día.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Gris",
+   "thumb": "img/z01-480.webp"
   },
   {
    "num": 2,
-   "img": "img/z02.jpg",
+   "img": "img/z02.webp",
    "marca": "RBX",
    "modelo": "Retro runner · ante azul royal",
    "para": "Unisex",
@@ -28,11 +30,13 @@
    "descripcion": "Clásico retro de ante azul intenso con franja lateral gris y suela negra. Combina con jeans y ropa casual.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Azul",
+   "thumb": "img/z02-480.webp"
   },
   {
    "num": 3,
-   "img": "img/z03.jpg",
+   "img": "img/z03.webp",
    "marca": "Nautica",
    "modelo": "Slip-on knit · negro",
    "para": "Hombre",
@@ -42,11 +46,13 @@
    "descripcion": "Sin cordones: malla transpirable negra, banda elástica con logo y suela blanca de espuma. Se pone en un segundo.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Negro",
+   "thumb": "img/z03-480.webp"
   },
   {
    "num": 4,
-   "img": "img/z04.jpg",
+   "img": "img/z04.webp",
    "marca": "Puma",
    "modelo": "Roma · ante rosa con perlas",
    "para": "Mujer",
@@ -56,11 +62,13 @@
    "descripcion": "Ante rosa pálido con cordones de satén, dijes de perla y corazón dorado, y suela caramelo. Elegante y femenino.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Rosa",
+   "thumb": "img/z04-480.webp"
   },
   {
    "num": 5,
-   "img": "img/z05.jpg",
+   "img": "img/z05.webp",
    "marca": "Puma",
    "modelo": "Caven 2.0 · gris y grafito",
    "para": "Juvenil",
@@ -70,11 +78,13 @@
    "descripcion": "Estilo cancha en piel gris con paneles de ante grafito y logo dorado. Suela blanca clásica.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Gris",
+   "thumb": "img/z05-480.webp"
   },
   {
    "num": 6,
-   "img": "img/z06.jpg",
+   "img": "img/z06.webp",
    "marca": "Nike",
    "modelo": "Giannis Immortality · azul noche",
    "para": "Juvenil",
@@ -84,11 +94,13 @@
    "descripcion": "Tenis de baloncesto con líneas turquesa, swoosh cobre y suela ondulada con buen agarre. Ligero y con carácter.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Azul",
+   "thumb": "img/z06-480.webp"
   },
   {
    "num": 7,
-   "img": "img/z07.jpg",
+   "img": "img/z07.webp",
    "marca": "Puma",
    "modelo": "Axelion · negro y rojo",
    "para": "Hombre",
@@ -98,11 +110,13 @@
    "descripcion": "Todo negro en malla con el felino rojo bordado y amortiguación en el talón. Discreto, cómodo y versátil.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Negro",
+   "thumb": "img/z07-480.webp"
   },
   {
    "num": 8,
-   "img": "img/z08.jpg",
+   "img": "img/z08.webp",
    "marca": "Genérico",
    "modelo": "Sock runner · rojo",
    "para": "Unisex",
@@ -112,11 +126,13 @@
    "descripcion": "Caña alta de tejido elástico tipo media en rojo intenso con suela escultural. Llamativo y muy cómodo.",
    "oferta": true,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Rojo",
+   "thumb": "img/z08-480.webp"
   },
   {
    "num": 9,
-   "img": "img/z09.jpg",
+   "img": "img/z09.webp",
    "marca": "Genérico",
    "modelo": "Air cushion · blanco",
    "para": "Mujer",
@@ -126,11 +142,13 @@
    "descripcion": "Tejido blanco transpirable con cámara de aire en el talón. Ideal para caminar y para el gimnasio.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Blanco",
+   "thumb": "img/z09-480.webp"
   },
   {
    "num": 10,
-   "img": "img/z10.jpg",
+   "img": "img/z10.webp",
    "marca": "Puma",
    "modelo": "Softride Enzo · rojo",
    "para": "Juvenil",
@@ -140,11 +158,13 @@
    "descripcion": "Malla roja con detalles negros y talón acolchado. Deportivo, ligero y con mucha presencia.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Rojo",
+   "thumb": "img/z10-480.webp"
   },
   {
    "num": 11,
-   "img": "img/z11.jpg",
+   "img": "img/z11.webp",
    "marca": "Avia",
    "modelo": "Running · blanco, marino y lima",
    "para": "Mujer",
@@ -154,11 +174,13 @@
    "descripcion": "Tejido blanco con talón azul marino y toque verde lima. Muy ligero, pensado para correr o caminar.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Blanco",
+   "thumb": "img/z11-480.webp"
   },
   {
    "num": 12,
-   "img": "img/z12.jpg",
+   "img": "img/z12.webp",
    "marca": "Nike",
    "modelo": "Flex Runner · fucsia",
    "para": "Niña",
@@ -168,11 +190,13 @@
    "descripcion": "Fucsia vibrante sin cordones, con banda elástica y tira trasera para calzarse sola. Flexible y resistente.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Rosa",
+   "thumb": "img/z12-480.webp"
   },
   {
    "num": 13,
-   "img": "img/z13.jpg",
+   "img": "img/z13.webp",
    "marca": "Puma",
    "modelo": "Astro Kick · ante chocolate",
    "para": "Unisex",
@@ -182,11 +206,13 @@
    "descripcion": "Ante marrón chocolate con franja blanca de piel y suela caramelo. Un clásico que no pasa de moda.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Marrón",
+   "thumb": "img/z13-480.webp"
   },
   {
    "num": 14,
-   "img": "img/z14.jpg",
+   "img": "img/z14.webp",
    "marca": "Nautica",
    "modelo": "Slip-on knit · azul marino",
    "para": "Hombre",
@@ -196,11 +222,13 @@
    "descripcion": "Malla azul marino con banda NAUTICA y suela blanca de espuma. Cómodo y fácil de combinar.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Azul",
+   "thumb": "img/z14-480.webp"
   },
   {
    "num": 15,
-   "img": "img/z15.jpg",
+   "img": "img/z15.webp",
    "marca": "Genérico",
    "modelo": "Knit air · gris jaspeado",
    "para": "Hombre",
@@ -210,11 +238,13 @@
    "descripcion": "Tejido gris jaspeado con cámara de aire visible en el talón. Para todo el día.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Gris",
+   "thumb": "img/z15-480.webp"
   },
   {
    "num": 16,
-   "img": "img/z16.jpg",
+   "img": "img/z16.webp",
    "marca": "Puma",
    "modelo": "Smash Platform · blanco",
    "para": "Mujer",
@@ -224,7 +254,9 @@
    "descripcion": "Piel blanca con franja negra, logo dorado y suela plataforma que estiliza. Combina con todo.",
    "oferta": false,
    "vendido": false,
-   "ia": true
+   "ia": true,
+   "color": "Blanco",
+   "thumb": "img/z16-480.webp"
   }
  ]
 }

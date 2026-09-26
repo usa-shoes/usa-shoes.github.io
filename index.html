@@ -3,12 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>USA Shoes — Ordena y eleva tu estilo</title>
-<meta name="description" content="USA Shoes: tenis seleccionados, un par por modelo. Elige tu preferido y ordena por WhatsApp.">
+<title>USA Shoes · Tenis y zapatos deportivos en Cuba | Ordena por WhatsApp</title>
+<meta name="description" content="Tienda de tenis y zapatos deportivos en Cuba: Puma, Nike, Nautica, Avia y más. Modelos únicos numerados para mujer, hombre y niños. Elige tu preferido y ordena por WhatsApp.">
+<meta name="keywords" content="tenis, zapatos deportivos, tenis Cuba, zapatillas, sneakers, Puma, Nike, Nautica, Avia, tenis mujer, tenis hombre, tenis niños, slip-on, running">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="USA Shoes">
+<link rel="canonical" href="https://usa-shoes.github.io/">
+<link rel="sitemap" type="application/xml" href="https://usa-shoes.github.io/sitemap.xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="USA Shoes">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://usa-shoes.github.io/">
 <meta name="theme-color" content="#0b5cd5">
-<meta property="og:title" content="USA Shoes — Ordena y eleva tu estilo">
-<meta property="og:description" content="Elige tu preferido y ordena por WhatsApp.">
-<meta property="og:image" content="img/z16.jpg">
+<meta property="og:title" content="USA Shoes · Ordena y eleva tu estilo">
+<meta property="og:description" content="Tenis y zapatos deportivos, modelos únicos numerados. Elige tu preferido y ordena por WhatsApp.">
+<meta property="og:image" content="https://usa-shoes.github.io/img/coleccion.jpg">
+<meta property="og:image:alt" content="Colección de tenis de USA Shoes numerados del 01 al 16">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="USA Shoes · Ordena y eleva tu estilo">
+<meta name="twitter:description" content="Tenis y zapatos deportivos, modelos únicos. Ordena por WhatsApp.">
+<meta name="twitter:image" content="https://usa-shoes.github.io/img/coleccion.jpg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"ShoeStore","@id":"https://usa-shoes.github.io/#tienda","name":"USA Shoes","url":"https://usa-shoes.github.io/","logo":"https://usa-shoes.github.io/img/coleccion.jpg","image":"https://usa-shoes.github.io/img/coleccion.jpg","description":"Tienda de tenis y zapatos deportivos con modelos únicos numerados. Pedidos por WhatsApp.","slogan":"Ordena y eleva tu estilo","telephone":"+5351120177","priceRange":"$$","currenciesAccepted":"USD","areaServed":{"@type":"Country","name":"Cuba"},"address":{"@type":"PostalAddress","addressCountry":"CU"},"contactPoint":{"@type":"ContactPoint","telephone":"+5351120177","contactType":"sales","availableLanguage":"es","url":"https://wa.me/5351120177"}},
+ {"@type":"WebSite","@id":"https://usa-shoes.github.io/#web","url":"https://usa-shoes.github.io/","name":"USA Shoes","inLanguage":"es","publisher":{"@id":"https://usa-shoes.github.io/#tienda"},"potentialAction":{"@type":"SearchAction","target":"https://usa-shoes.github.io/?q={search_term_string}","query-input":"required name=search_term_string"}}
+]}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b5cd5'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='900' font-style='italic' font-size='26' fill='white' text-anchor='middle'%3EUS%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,9 +83,17 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 @media(max-width:700px){.cats{justify-content:flex-start}.logo{font-size:25px}}
 
 /* héroe con video a pantalla completa */
-.hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:#0d0f14 url(video/ajustando-pista.jpg) center/cover;color:#fff;display:grid;align-items:end}
-.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,10,16,.55) 0%,rgba(8,10,16,.05) 30%,rgba(8,10,16,.15) 55%,rgba(8,10,16,.8) 100%)}
+.hero{position:relative;height:100svh;min-height:560px;overflow:hidden;background:radial-gradient(90% 70% at 80% 40%,#16305f 0%,#0d0f14 60%);color:#fff;display:grid;align-items:end}
+.hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d0f14}
+@media(min-width:900px){
+ .hero video{inset:auto;right:clamp(24px,6vw,110px);top:110px;height:calc(100% - 170px);width:auto;aspect-ratio:9/16;border-radius:26px;z-index:2;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.12)}
+ .hero::before{background:linear-gradient(90deg,rgba(8,10,16,.35),rgba(8,10,16,0) 60%)!important}
+ .hero-in{justify-items:start!important;text-align:left!important;align-self:center;padding-bottom:0!important;padding-top:70px;padding-right:calc(clamp(24px,6vw,110px) + (100svh - 170px)*9/16 + 30px)}
+ .hero .big{font-size:clamp(46px,6.4vw,110px)}
+ .hero .glass .gbtns{justify-content:flex-start}
+ .play{right:calc(clamp(24px,6vw,110px) + 16px)!important;bottom:76px!important}
+}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,10,16,.5) 0%,rgba(8,10,16,0) 22%,rgba(8,10,16,0) 42%,rgba(8,10,16,.55) 72%,rgba(8,10,16,.82) 100%)}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(60% 50% at 50% 90%,rgba(11,92,213,.28),transparent 70%)}
 .hero-in{position:relative;z-index:2;padding-bottom:clamp(70px,11vh,120px);text-align:center;display:grid;justify-items:center}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;font-size:clamp(10px,2.6vw,12px);font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.28);opacity:0;animation:rise .9s var(--ease) forwards .3s}
@@ -78,8 +106,9 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 @keyframes upx{to{transform:none}}
 @keyframes shine{to{background-position:-200% 0}}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.glass{width:min(560px,100%);padding:clamp(18px,2.4vw,26px);border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transform:translateZ(0);box-shadow:0 30px 60px -30px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.25);opacity:0;animation:rise 1s var(--ease) forwards .9s}
-.glass p{font-size:clamp(15px,1.4vw,17px);font-weight:600;opacity:.95}
+.glass{width:min(560px,100%);padding:0;background:none;border:0;opacity:0;animation:rise 1s var(--ease) forwards .9s}
+.glass p{font-size:clamp(15px,1.5vw,18px);font-weight:700;text-shadow:0 2px 14px rgba(0,0,0,.85),0 1px 3px rgba(0,0,0,.6)}
+.glass .btn.light{border-radius:99px;padding:15px 34px;box-shadow:0 12px 30px -10px rgba(0,0,0,.6)}
 .gbtns{display:flex;justify-content:center;margin:16px 0 8px}
 .btn.light{background:#fff;color:var(--ink)}.btn.light:hover{background:var(--blue);color:#fff}
 .btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.45)}.btn.ghost:hover{background:#25d366;border-color:#25d366;color:#082a14}
@@ -94,18 +123,18 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 @media(max-width:700px){.glass{padding:16px}.gbtns .btn{flex:1}.cue{display:none}.play{top:130px;bottom:auto}.tapes{margin-top:-40px}}
 
 /* estadísticas: número grande y texto debajo */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:6px;border-top:1px solid rgba(255,255,255,.25)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:10px}
 .stats div{display:grid;justify-items:center;text-align:center;padding:14px 6px 2px}
-.stats div+div{border-left:1px solid rgba(255,255,255,.25)}
-.stats b{font-size:clamp(34px,4.4vw,52px);font-weight:900;line-height:1;letter-spacing:-.03em}
-.stats span{margin-top:6px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.9;text-align:center}
+.stats div+div{border-left:1px solid rgba(255,255,255,.45)}
+.stats b{font-size:clamp(36px,4.6vw,56px);font-weight:900;line-height:1;letter-spacing:-.03em;text-shadow:0 3px 18px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.6)}
+.stats span{margin-top:6px;font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;text-align:center;text-shadow:0 1px 8px rgba(0,0,0,.9),0 1px 2px rgba(0,0,0,.7)}
 /* cintas inclinadas con marcas */
-.tapes{position:relative;height:clamp(120px,14vw,170px);overflow:hidden;margin-top:-60px;z-index:4;pointer-events:none}
+.tapes{position:relative;height:clamp(130px,14vw,180px);overflow:hidden;margin:0 0 clamp(18px,3vw,34px);pointer-events:none}
 .tape{position:absolute;left:-10%;width:120%;padding:14px 0;overflow:hidden;box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
 .tape.t1{top:44%;background:var(--blue);color:#fff;transform:rotate(-3deg)}
 .tape.t2{top:40%;background:#111;color:#fff;transform:rotate(2.5deg)}
-.mq{display:flex;gap:34px;width:max-content;animation:mq 28s linear infinite;font-weight:900;font-style:italic;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
-.t2 .mq{animation-direction:reverse;animation-duration:34s;opacity:.9}
+.mq{display:flex;gap:34px;width:max-content;animation:mq 110s linear infinite;font-weight:900;font-style:italic;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.t2 .mq{animation-direction:reverse;animation-duration:140s;opacity:.9}
 .mq span{display:flex;align-items:center;gap:34px}
 .mq span::after{content:"★";font-style:normal;font-size:.7em;color:#ffd24a}
 @keyframes mq{to{transform:translateX(-50%)}}
@@ -113,6 +142,11 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .tile small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 .card.sold .media img{filter:grayscale(1) opacity(.6)}
 .sold-t{position:absolute;inset:auto 0 42%;text-align:center;font-weight:900;font-size:20px;letter-spacing:.2em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.colors{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-10px 0 24px}
+.colors .lbl{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.colors button{display:inline-flex;align-items:center;gap:7px;padding:6px 12px 6px 7px;border:1px solid var(--line);border-radius:99px;font-size:13px;font-weight:700;transition:all .2s}
+.colors button i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.colors button.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
 /* botones */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:8px;background:var(--ink-2);color:#fff;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:.02em;transition:background .25s,transform .25s}
 .btn:hover{background:#000}
@@ -162,10 +196,15 @@ section{padding:clamp(44px,6vw,80px) 0}
 .card:hover .media img{transform:scale(1.06)}
 .num{position:absolute;bottom:8px;left:8px;z-index:1;display:inline-flex;align-items:baseline;gap:2px;padding:3px 9px 3px 7px;border-radius:99px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:12px;letter-spacing:.04em;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.55)}
 .num small{font-size:9px;font-weight:700;opacity:.85}
-.flag{position:absolute;top:8px;right:8px;padding:3px 9px;border-radius:99px;background:rgba(214,38,44,.55);border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;line-height:1.3}
-.quick{position:absolute;left:10px;right:10px;bottom:10px;padding:11px;border-radius:8px;background:rgba(255,255,255,.95);font-weight:800;font-size:13px;text-transform:uppercase;text-align:center;transform:translateY(130%);transition:transform .45s var(--ease)}
-.card:hover .quick{transform:none}
-@media(hover:none){.quick{display:none}}
+.flag{position:absolute;top:8px;left:8px;padding:3px 9px;border-radius:99px;background:rgba(214,38,44,.55);border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:10px;letter-spacing:.08em;text-transform:uppercase;line-height:1.3}
+.info-b{position:absolute;top:8px;right:8px;z-index:2;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font:italic 800 16px Georgia,serif;text-shadow:0 1px 3px rgba(0,0,0,.5);transition:background .2s,transform .2s}
+.info-b:hover{background:rgba(255,255,255,.4);transform:scale(1.08)}
+.buy{position:absolute;right:8px;bottom:8px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:rgba(11,92,213,.82);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 6px 16px -6px rgba(0,0,0,.5);transition:background .2s,transform .2s}
+.buy:hover{background:var(--blue);transform:translateY(-1px)}
+.buy .ic{font-size:15px}
+.buy.in-bag{background:rgba(31,138,76,.85)}
+.buy[disabled]{background:rgba(60,60,60,.7);cursor:default}
+@media(max-width:640px){.buy{padding:6px 10px;font-size:11px}.buy span{display:none}.buy .ic{font-size:17px}.info-b{width:30px;height:30px}}
 .info{padding:12px 2px 0;display:grid;gap:3px}
 .aud{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--blue)}
 .aud .ic{font-size:14px}
@@ -253,8 +292,13 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .zoom{position:relative;aspect-ratio:1;overflow:hidden;background:var(--soft);cursor:zoom-in}
 .zoom img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease-out}
 .zoom.z img{transform:scale(2.2)}.zoom.z{cursor:zoom-out}
-.zhint{position:absolute;left:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.9);font-size:12px;font-weight:700;pointer-events:none}
+.zhint{position:absolute;left:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:99px;background:rgba(255,255,255,.9);font-size:12px;font-weight:700;pointer-events:none}
 .zoom.z .zhint{opacity:0}
+.zhint{top:12px;bottom:auto!important}
+.mact{position:absolute;left:12px;right:12px;bottom:12px;z-index:3;display:flex;gap:8px}
+.mact .btn{flex:1;box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
+.mact .wa-c{flex:none;width:52px;padding:0;border-radius:10px;background:#25d366;color:#fff}
+.mact .btn[disabled]{background:#666}
 .mbody{padding:clamp(22px,3.4vw,38px);display:flex;flex-direction:column;gap:14px}
 .mtop{display:flex;align-items:center;gap:10px}
 .mnum{background:var(--ink);color:#fff;font-weight:900;font-size:13px;padding:5px 10px;border-radius:6px}
@@ -328,9 +372,9 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 
 <main>
   <section class="hero" id="hero">
-    <video id="vid" muted loop playsinline autoplay preload="auto" poster="video/ajustando-pista.jpg" data-src="video/ajustando-pista.mp4" aria-label="Persona ajustándose los cordones de sus tenis en la pista"></video>
+    <video id="vid" muted loop playsinline autoplay preload="auto" aria-label="Persona ajustándose los tenis"></video>
     <div class="hero-in wrap">
-      <span class="pill">Stock de modelos únicos numerados</span>
+      <p class="pill">Stock de modelos únicos numerados</p>
       <h1 class="big"><span class="l"><span>Ordena y eleva</span></span><span class="l"><span>tu estilo</span></span></h1>
       <div class="glass">
         <p>Tenis seleccionados, cada modelo en talla única. Elige tu preferido y ordénalo por WhatsApp en un minuto.</p>
@@ -341,7 +385,6 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
     <button class="play" id="playBtn" aria-label="Pausar video"><svg class="ic"><use href="#i-pause"/></svg></button>
     <a href="#catalogo" class="cue" aria-label="Bajar al catálogo"><span></span></a>
   </section>
-<div class="tapes" aria-hidden="true"><div class="tape t2"><div class="mq" id="mq2"></div></div><div class="tape t1"><div class="mq" id="mq1"></div></div></div>
 <div class="sub"><b>Stock de modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
 <nav class="wrap cats" id="cats"></nav>
 
@@ -354,6 +397,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   </section>
 
   <section id="catalogo" style="padding-top:0">
+    <div class="tapes" aria-hidden="true"><div class="tape t2"><div class="mq" id="mq2"></div></div><div class="tape t1"><div class="mq" id="mq1"></div></div></div>
     <div class="wrap">
       <h2 class="h-sec rv">Lo nuevo en la tienda</h2>
       <div class="tabs" id="tabs"></div>
@@ -362,13 +406,14 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
         <div class="brands" id="brands"></div>
         <span class="count" id="count"></span>
       </div>
+      <div class="colors" id="colors" aria-label="Filtrar por color"></div>
       <div class="grid" id="grid"></div>
     </div>
   </section>
 
   <div class="vband">
-    <img src="video/caminando.jpg" alt="" loading="lazy">
-    <video class="lazyv" muted loop playsinline preload="none" poster="video/caminando.jpg" data-src="video/caminando.mp4" aria-label="Persona caminando con tenis blancos"></video>
+    <img src="video/caminando.webp" alt="" loading="lazy">
+    <video class="lazyv" muted loop playsinline preload="none" poster="video/caminando.webp" data-src="video/caminando.mp4" aria-label="Persona caminando con tenis blancos"></video>
     <div class="wrap">
       <h2>Anda con estilo</h2>
       <p>Cada paso cuenta. Encuentra el par que va contigo.</p>
@@ -389,10 +434,10 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   <section>
     <div class="wrap split">
       <div class="collage rv">
-        <img class="a" src="img/z16.jpg" alt="" loading="lazy">
-        <img src="img/z04.jpg" alt="" loading="lazy">
-        <img src="img/z13.jpg" alt="" loading="lazy">
-        <img class="d" src="img/z11.jpg" alt="" loading="lazy">
+        <img class="a" src="img/z16-480.webp" alt="" loading="lazy">
+        <img src="img/z04-480.webp" alt="" loading="lazy">
+        <img src="img/z13-480.webp" alt="" loading="lazy">
+        <img class="d" src="img/z11-480.webp" alt="" loading="lazy">
       </div>
       <div class="split-t rv">
         <h2>Eleva tu estilo</h2>
@@ -405,7 +450,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   <section class="insp">
     <div class="wrap">
       <h2 class="h-sec rv">La colección completa</h2>
-      <figure class="col rv"><img src="img/coleccion.jpg" alt="Póster con los 16 modelos de USA Shoes numerados del 01 al 16" loading="lazy"></figure>
+      <figure class="col rv"><img src="img/coleccion.webp" width="1100" height="2424" decoding="async" alt="Póster con los 16 modelos de USA Shoes numerados del 01 al 16" loading="lazy"></figure>
       <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:24px">
         <a class="btn" href="img/coleccion.jpg" download="USA-Shoes-coleccion.jpg">Descargar el póster</a>
         <a class="btn blue" href="#catalogo">Elige tu preferido</a>
@@ -428,7 +473,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
     <div class="wrap">
       <h2 class="h-sec rv">Cómo ordenar</h2>
       <div class="how">
-      <div class="how-v rv"><img src="video/ajustando-calle.jpg" alt="" loading="lazy"><video class="lazyv" muted loop playsinline preload="none" poster="video/ajustando-calle.jpg" data-src="video/ajustando-calle.mp4" aria-label="Persona atándose los tenis en la calle"></video></div>
+      <div class="how-v rv"><img src="video/ajustando-calle.webp" alt="" loading="lazy"><video class="lazyv" muted loop playsinline preload="none" poster="video/ajustando-calle.webp" data-src="video/ajustando-calle.mp4" aria-label="Persona atándose los tenis en la calle"></video></div>
       <div class="steps rv">
         <div class="step"><b>Elige tu preferido</b><span>Toca la foto para ver marca, modelo, talla y para quién es.</span></div>
         <div class="step"><b>Añádelo a la bolsa</b><span>Puedes llevar varios modelos en el mismo pedido.</span></div>
@@ -442,7 +487,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 <footer>
   <div class="wrap">
     <div class="fcols">
-      <div><a href="#" class="logo" style="display:inline-block;margin-bottom:12px">USA<span>Shoes</span></a><p>Ordena y eleva tu estilo.</p></div>
+      <div><a href="#" class="logo" style="display:inline-block;margin-bottom:12px">USA<span>Shoes</span></a><p>Ordena y eleva tu estilo.</p><p class="hint" style="font-size:13px;color:var(--muted);margin-top:8px">Tienda de tenis y zapatos deportivos en Cuba: running, slip-on, retro, cancha y baloncesto para mujer, hombre y niños. Modelos únicos numerados, con fotos reales y pedidos por WhatsApp.</p></div>
       <div><h4>Tienda</h4><a href="#" data-foot="Mujer">Mujer</a><a href="#" data-foot="Hombre">Hombre</a><a href="#" data-foot="Juvenil">Juvenil</a><a href="#" data-foot="Niña">Niñas y niños</a></div>
       <div><h4>Ayuda</h4><a href="#ordenar">Cómo ordenar</a><a href="#catalogo">Buscar por número</a></div>
       <div><h4>Contacto</h4><a id="waFoot" target="_blank" rel="noopener">WhatsApp +53 5112 0177</a><a class="btn wa" id="waFoot2" target="_blank" rel="noopener" style="margin-top:6px">Escríbenos</a></div>
@@ -456,7 +501,8 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 <div class="veil" id="veil"></div>
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mName">
   <button class="x" data-close aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button>
-  <div class="zoom" id="zoom"><img id="mImg" alt=""><span class="zhint"><svg class="ic"><use href="#i-search"/></svg>Toca para ampliar</span></div>
+  <div class="zoom" id="zoom"><img id="mImg" alt=""><span class="zhint"><svg class="ic"><use href="#i-search"/></svg>Toca para ampliar</span>
+    <div class="mact"><button class="btn blue" id="mAdd">Ordenar</button><a class="btn wa-c" id="mWa" target="_blank" rel="noopener" aria-label="Preguntar por WhatsApp"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></a></div></div>
   <div class="mbody">
     <div class="mtop"><span class="mnum" id="mNum"></span><span class="brand" id="mBrand"></span></div>
     <h3 id="mName"></h3>
@@ -468,10 +514,6 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
       <div><span>Estilo</span><b id="mEst"></b></div>
     </div>
     <p id="mDesc"></p>
-    <div class="mbtns">
-      <button class="btn blue" id="mAdd">Añadir a la bolsa</button>
-      <a class="btn line" id="mWa" target="_blank" rel="noopener" style="color:var(--ink)">Preguntar por WhatsApp</a>
-    </div>
   </div>
 </div>
 <aside class="drawer" id="drawer" aria-label="Bolsa">
@@ -488,6 +530,9 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 <script>
 /* Los datos de la tienda viven en productos.json y se editan desde /admin */
 const AUD_IC={Todos:"i-all",Mujer:"i-woman",Hombre:"i-man",Niña:"i-girl",Niño:"i-boy",Juvenil:"i-teen",Unisex:"i-uni"};
+const PX=id=>`https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&fm=webp&w=440`;
+const ESTILO_IMG={"Running":PX(39644724),"Retro y ante":PX(11919823),"Slip-on":PX(38154599),"Cancha":PX(3036875),"Baloncesto":PX(9634936),"Tipo media":PX(25745305)};
+const COLOR_HEX={Negro:"#151515",Blanco:"#ffffff",Gris:"#9aa0a6",Rojo:"#d62828",Rosa:"#ec6fa8",Azul:"#1e4fd8",Marrón:"#7a4a2a",Verde:"#2e9e4f",Amarillo:"#f3c623",Naranja:"#f07a1a",Beige:"#d8c3a5",Morado:"#7b4bc4",Multicolor:"conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#d62828)"};
 const ESTILO_TXT={"Running":"Ligeros y acolchados para correr o caminar","Slip-on":"Sin cordones, se ponen en un segundo","Retro y ante":"Clásicos de ante con aire retro","Cancha":"Estilo court para el día a día","Baloncesto":"Agarre y soporte para la cancha","Tipo media":"Caña de tejido elástico, muy urbanos"};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const ic=id=>`<svg class="ic"><use href="#${id}"/></svg>`;
@@ -509,7 +554,10 @@ addEventListener("scroll",hdrUpd,{passive:true});hdrUpd();
 /* video del héroe */
 const vid=$("#vid");
 const slow=navigator.connection&&(navigator.connection.saveData||/2g/.test(navigator.connection.effectiveType||""));
-if(!slow&&!matchMedia("(prefers-reduced-motion:reduce)").matches){vid.src=vid.dataset.src;vid.play().catch(()=>{});}
+const PORTADAS=[1,2,3,4].map(n=>"video/portada-"+n);
+const elegido=PORTADAS[Math.floor(Math.random()*PORTADAS.length)];
+vid.poster=elegido+".webp";
+if(!slow&&!matchMedia("(prefers-reduced-motion:reduce)").matches){vid.src=elegido+".mp4";vid.play().catch(()=>{});}
 else{vid.removeAttribute("autoplay");$("#playBtn").remove();}
 vid.addEventListener("error",()=>{$("#playBtn")&&$("#playBtn").remove();});
 $("#playBtn")&&$("#playBtn").addEventListener("click",e=>{const b=e.currentTarget;if(vid.paused){vid.play();b.innerHTML=ic("i-pause")}else{vid.pause();b.innerHTML=ic("i-play")}});
@@ -527,7 +575,7 @@ fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d
   WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
 }).catch(()=>{$("#grid").innerHTML='<p class="empty">No se pudo cargar el catálogo. Recarga la página.</p>';watch()});
 
-let fA="Todos",fB="Todas",fE="",q="";
+let fA="Todos",fB="Todas",fE="",fC="",q="";
 function init(){
   cart=cart.filter(n=>PRODUCTOS.some(p=>p.num===n&&!p.vendido));save();
   const hi=waLink("Hola USA Shoes, quiero información sobre sus tenis.");
@@ -543,12 +591,15 @@ function init(){
   /* estilos */
   const estilos=[...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))];
   $("#tiles").innerHTML=estilos.map(e=>{const ps=PRODUCTOS.filter(p=>p.estilo===e);const f=ps.find(p=>!p.vendido)||ps[0];
-    return `<div class="tile" data-est="${esc(e)}"><div class="ph"><img loading="lazy" alt="Estilo ${esc(e)}" src="${esc(f.img)}"></div><span>${esc(e)}</span><small>${esc(ESTILO_TXT[e]||"")}${ESTILO_TXT[e]?" · ":""}${ps.length} ${ps.length===1?"modelo":"modelos"}</small></div>`}).join("");
+    return `<div class="tile" data-est="${esc(e)}"><div class="ph"><img loading="lazy" alt="Persona con tenis de estilo ${esc(e)}" src="${esc(ESTILO_IMG[e]||f.thumb||f.img)}"></div><span>${esc(e)}</span><small>${esc(ESTILO_TXT[e]||"")}${ESTILO_TXT[e]?" · ":""}${ps.length} ${ps.length===1?"modelo":"modelos"}</small></div>`}).join("");
   /* pestañas por público y marcas */
   const ORD=["Mujer","Hombre","Juvenil","Niña","Niño","Unisex"].filter(a=>PRODUCTOS.some(p=>p.para===a));
   $("#tabs").innerHTML=["Todos",...ORD].map(a=>`<button class="${a==="Todos"?"on":""}" data-a="${a}">${ic(AUD_IC[a])}${a==="Todos"?"Todo":a}</button>`).join("");
   $("#cats").innerHTML=ORD.map(a=>`<button data-a="${a}">${a}</button>`).join("")+(PRODUCTOS.some(p=>p.oferta&&!p.vendido)?`<button data-offer>Ofertas</button>`:"");
   $("#brands").innerHTML=["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
+  /* colores */
+  const colores=[...new Set(PRODUCTOS.map(p=>p.color).filter(Boolean))].sort((a,b)=>Object.keys(COLOR_HEX).indexOf(a)-Object.keys(COLOR_HEX).indexOf(b));
+  $("#colors").innerHTML=colores.length?'<span class="lbl">Color</span>'+colores.map(c=>`<button data-c="${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i>${esc(c)}</button>`).join(""):"";
   /* oferta */
   const of=PRODUCTOS.find(p=>p.oferta&&!p.vendido);
   if(of){$("#oferta").hidden=false;$("#ofT").textContent=`Nº ${nn(of.num)} · ${of.modelo}`+(of.precio!=null?` a ${money(of.precio)}`:"");$("#ofD").textContent=of.descripcion+" Solo hay un par.";$("#ofBtn").textContent="Ver el Nº "+nn(of.num);$("#ofBtn").onclick=()=>openP(of.num)}
@@ -556,10 +607,11 @@ function init(){
   $("#grid").innerHTML=PRODUCTOS.map((p,i)=>`
 <article class="card rv${p.vendido?" sold":""}" data-num="${p.num}" style="transition-delay:${(i%4)*70}ms">
   <div class="media" data-open="${p.num}">
-    <img src="${esc(p.img)}" alt="Nº ${nn(p.num)} ${esc(titulo(p))}" loading="lazy" decoding="async">
+    <img src="${esc(p.thumb||p.img)}" alt="Nº ${nn(p.num)} ${esc(titulo(p))} · tenis ${esc(p.para)} ${esc(p.color||"")}" loading="${i<4?"eager":"lazy"}" decoding="async" width="480" height="480">
     <span class="num"><small>Nº</small>${nn(p.num)}</span>
     ${p.vendido?'<span class="sold-t">VENDIDO</span>':p.oferta?'<span class="flag">Oferta</span>':""}
-    <span class="quick">Vista rápida</span>
+    <button class="info-b" data-info="${p.num}" aria-label="Más información del Nº ${nn(p.num)}">i</button>
+    <button class="buy${cart.includes(p.num)?" in-bag":""}" data-buy="${p.num}" ${p.vendido?"disabled":""} aria-label="Ordenar el Nº ${nn(p.num)}">${ic("i-bag")}<span>${p.vendido?"Vendido":cart.includes(p.num)?"En bolsa":"Ordenar"}</span></button>
   </div>
   <div class="info">
     <span class="aud">${ic(AUD_IC[p.para]||"i-uni")}${esc(p.para)} · ${esc(p.estilo||"")}</span>
@@ -568,16 +620,27 @@ function init(){
     <div class="row2"><span class="price${p.precio==null?" ask":""}">${money(p.precio)}</span><span class="size${p.talla?"":" tbd"}">${p.talla?"Talla "+esc(p.talla):"Talla por confirmar"}</span></div>
   </div>
 </article>`).join("")+'<p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>';
-  filter();watch();renderCart();
+  const qs=new URLSearchParams(location.search).get("q");if(qs){$("#q").value=qs;q=qs.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");setTimeout(toCat,300)}
+  filter();watch();renderCart();seoLd();
   const m=location.hash.match(/^#n(\d+)$/);if(m)openP(+m[1]);
+}
+/* datos estructurados de productos para Google */
+function seoLd(){
+  const base=location.origin+location.pathname.replace(/index\.html$/,"");
+  const ld={"@context":"https://schema.org","@type":"ItemList","name":"Catálogo de tenis USA Shoes","numberOfItems":PRODUCTOS.length,
+    "itemListElement":PRODUCTOS.map((p,i)=>{const prod={"@type":"Product","name":titulo(p)+" (Nº "+nn(p.num)+")","sku":"USA-"+nn(p.num),"image":base+p.img,"description":p.descripcion||"","brand":{"@type":"Brand","name":p.marca},"category":"Zapatos deportivos > "+(p.estilo||"Tenis"),"color":p.color||undefined,"audience":{"@type":"PeopleAudience","suggestedGender":p.para==="Mujer"||p.para==="Niña"?"female":p.para==="Hombre"||p.para==="Niño"?"male":"unisex"},"url":base+"#n"+p.num};
+      if(p.talla)prod.size=p.talla;
+      if(p.precio!=null)prod.offers={"@type":"Offer","price":String(p.precio),"priceCurrency":MONEDA,"availability":p.vendido?"https://schema.org/SoldOut":"https://schema.org/InStock","itemCondition":"https://schema.org/NewCondition","url":base+"#n"+p.num,"seller":{"@type":"Organization","name":"USA Shoes"}};
+      return {"@type":"ListItem","position":i+1,"item":prod}})};
+  const sc=document.createElement("script");sc.type="application/ld+json";sc.textContent=JSON.stringify(ld);document.head.appendChild(sc);
 }
 function filter(){
   let n=0;
   $$(".card").forEach(c=>{const p=PRODUCTOS.find(x=>x.num==c.dataset.num);
-    const txt=(p.num+" "+nn(p.num)+" "+p.marca+" "+p.modelo+" "+p.para+" "+(p.estilo||"")).toLowerCase();
-    const ok=(fA==="Todos"||p.para===fA)&&(fB==="Todas"||p.marca===fB)&&(!fE||p.estilo===fE)&&(!q||(/^\d+$/.test(q)?p.num===+q:txt.includes(q)));
+    const txt=(p.num+" "+nn(p.num)+" "+p.marca+" "+p.modelo+" "+p.para+" "+(p.estilo||"")+" "+(p.color||"")).toLowerCase();
+    const ok=(fA==="Todos"||p.para===fA)&&(fB==="Todas"||p.marca===fB)&&(!fE||p.estilo===fE)&&(!fC||p.color===fC)&&(!q||(/^\d+$/.test(q)?p.num===+q:txt.includes(q)));
     c.classList.toggle("hide",!ok);if(ok){n++;c.classList.add("in")}});
-  $("#count").textContent=(fE?fE+" · ":"")+n+(n===1?" modelo":" modelos");$("#empty").hidden=n>0;
+  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+n+(n===1?" modelo":" modelos");$("#empty").hidden=n>0;
 }
 function setAud(a){fA=a;$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.a===a));filter()}
 const toCat=()=>$("#catalogo").scrollIntoView({behavior:"smooth"});
@@ -586,6 +649,7 @@ $("#cats").addEventListener("click",e=>{const b=e.target.closest("button");if(!b
 $("#tiles").addEventListener("click",e=>{const t=e.target.closest(".tile");if(!t)return;fE=t.dataset.est;setAud("Todos");toCat()});
 $$("[data-foot]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();fE="";setAud(a.dataset.foot);toCat()}));
 $("#brands").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fB=b.dataset.b;$$("#brands button").forEach(x=>x.classList.toggle("on",x===b));filter()});
+$("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(!b)return;fC=fC===b.dataset.c?"":b.dataset.c;$$("#colors [data-c]").forEach(x=>x.classList.toggle("on",x.dataset.c===fC));filter()});
 $("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");filter()});
 $("#goSearch").addEventListener("click",()=>setTimeout(()=>$("#q").focus(),500));
 
@@ -605,25 +669,33 @@ function openP(num){
   $(".ai").hidden=!cur.ia;
   $("#mWa").href=waLink(`Hola USA Shoes, me interesa el Nº ${nn(cur.num)}: ${titulo(cur)}. ¿Está disponible?`);
   const add=$("#mAdd");add.disabled=!!cur.vendido;
-  add.textContent=cur.vendido?"Vendido":cart.includes(cur.num)?"Ya está en tu bolsa":"Añadir a la bolsa";
+  add.innerHTML=ic("i-bag")+(cur.vendido?"Vendido":cart.includes(cur.num)?"En tu bolsa · ver":"Ordenar");
   show("#modal");
 }
-$("#grid").addEventListener("click",e=>{const m=e.target.closest("[data-open]");if(m)openP(m.dataset.open)});
-$("#mAdd").addEventListener("click",()=>{
-  if(cur.vendido)return;
+$("#grid").addEventListener("click",e=>{
+  const b=e.target.closest("[data-buy]");if(b){e.stopPropagation();addToBag(+b.dataset.buy);return}
+  const i=e.target.closest("[data-info]");if(i){openP(i.dataset.info);return}
+  const m=e.target.closest("[data-open]");if(m)openP(m.dataset.open)});
+function syncBuy(){$$("[data-buy]").forEach(b=>{const n=+b.dataset.buy,p=PRODUCTOS.find(x=>x.num===n);if(!p||p.vendido)return;const inb=cart.includes(n);b.classList.toggle("in-bag",inb);b.querySelector("span").textContent=inb?"En bolsa":"Ordenar"})}
+function addToBag(n){const p=PRODUCTOS.find(x=>x.num===n);if(!p||p.vendido)return;
+  if(cart.includes(n)){show("#drawer");return}
+  cart.push(n);save();renderCart();syncBuy();toast("Añadido: Nº "+nn(n)+" · toca la bolsa para ordenar");
+  const bn=$("#bagN");bn.classList.remove("pop");void bn.offsetWidth;bn.classList.add("pop");}
+$("#mAdd").addEventListener("click",e=>{
+  e.stopPropagation();if(cur.vendido)return;
   if(cart.includes(cur.num)){show("#drawer");return}
-  cart.push(cur.num);save();renderCart();hide();toast("Añadido: Nº "+nn(cur.num)+" · "+cur.modelo);
-  const b=$("#bagN");b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
+  hide();addToBag(cur.num);
 });
+$("#mWa").addEventListener("click",e=>e.stopPropagation());
 function renderCart(){
   $("#bagN").textContent=cart.length;
   if(!cart.length){$("#items").innerHTML='<p class="dnone">Tu bolsa está vacía.<br>Elige un par del catálogo.</p>';$("#tot").textContent="—";return}
-  $("#items").innerHTML=cart.map((n,i)=>{const p=PRODUCTOS.find(x=>x.num===n);return `<div class="it"><img src="${esc(p.img)}" alt=""><div><small>Nº ${nn(p.num)} · ${esc(p.marca)}</small><b>${esc(p.modelo)}</b><small>Talla ${esc(talla(p).toLowerCase())} · ${money(p.precio)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
+  $("#items").innerHTML=cart.map((n,i)=>{const p=PRODUCTOS.find(x=>x.num===n);return `<div class="it"><img src="${esc(p.thumb||p.img)}" alt="" loading="lazy"><div><small>Nº ${nn(p.num)} · ${esc(p.marca)}</small><b>${esc(p.modelo)}</b><small>Talla ${esc(talla(p).toLowerCase())} · ${money(p.precio)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
   const pr=cart.map(n=>PRODUCTOS.find(x=>x.num===n).precio);
   const sum=pr.filter(v=>v!=null).reduce((a,b)=>a+ +b,0),ask=pr.some(v=>v==null);
   $("#tot").textContent=sum?money(sum)+(ask?" + a consultar":""):"A consultar";
 }
-$("#items").addEventListener("click",e=>{const b=e.target.closest(".rm");if(!b)return;cart.splice(+b.dataset.i,1);save();renderCart()});
+$("#items").addEventListener("click",e=>{const b=e.target.closest(".rm");if(!b)return;cart.splice(+b.dataset.i,1);save();renderCart();syncBuy()});
 $("#send").addEventListener("click",()=>{
   if(!cart.length){toast("Tu bolsa está vacía");return}
   const nm=$("#cName").value.trim();
