@@ -85,6 +85,16 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
 .log{font-family:ui-monospace,monospace;font-size:13px;background:#111;color:#cfe;padding:12px;border-radius:10px;max-height:220px;overflow:auto;white-space:pre-wrap;margin-top:12px}
 .hint{font-size:13px;color:var(--muted)}
 .ulist{display:grid;gap:8px;margin-bottom:14px}
+.switch{display:flex;align-items:center;gap:12px;cursor:pointer;margin:0}
+.switch input{display:none}
+.switch .sl{position:relative;width:54px;height:30px;border-radius:99px;background:#cfcfcf;transition:background .2s;flex:none}
+.switch .sl::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:transform .2s}
+.switch input:checked+.sl{background:var(--ok)}
+.switch input:checked+.sl::after{transform:translateX(24px)}
+.switch b{font-size:16px}
+.zlist{display:grid;gap:8px}
+.zrow{display:grid;grid-template-columns:1fr 120px 40px;gap:8px;align-items:center}
+.zrow button{height:40px;border-radius:9px;background:var(--soft);font-weight:900;color:var(--bad)}
 .urow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
 .urow b{font-weight:800}.urow small{color:var(--muted);margin-left:6px}
 .urow .btn{padding:7px 12px;font-size:12px}
@@ -140,6 +150,7 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
       <div class="l"><h2>Modelos <span class="hint" id="cnt"></span></h2><input class="search" id="q" type="search" placeholder="Buscar nº, marca, modelo"></div>
       <div class="r">
         <span class="pending" id="pend" hidden></span>
+        <button class="btn line" id="btnDom">🚚 Domicilio</button>
         <button class="btn line" id="btnImport">Importar tallas y precios</button>
         <button class="btn blue" id="btnNew">+ Nuevo modelo</button>
         <button class="btn ok" id="btnPub" disabled>Publicar cambios</button>
@@ -192,6 +203,19 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
   <textarea id="iTxt" style="min-height:200px" placeholder="1, 36, 25&#10;2, 38½, 30&#10;3  43  28"></textarea>
   <div id="iMsg" style="margin-top:10px"></div>
   <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="iGo">Aplicar</button></div></div>
+</div>
+
+<!-- Domicilio -->
+<div class="modal" id="mDom" hidden>
+  <div class="mh"><h2>Servicio a domicilio</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <label class="switch"><input type="checkbox" id="dAct"><span class="sl"></span><b id="dActTxt">Desactivado</b></label>
+  <p class="hint" style="margin:6px 0 14px">Cuando está activo, el cliente elige en la bolsa si recoge o se lo llevan, escoge su zona y el precio del domicilio se suma al total del pedido.</p>
+  <label class="chk" style="margin-bottom:14px"><input type="checkbox" id="dRec">También permitir recoger en persona</label>
+  <h3 style="font-size:16px;font-weight:900;margin-bottom:8px">Zonas y precio del domicilio</h3>
+  <div id="dZonas" class="zlist"></div>
+  <button class="btn line" id="dAdd" style="margin:6px 0 14px">+ Agregar zona</button>
+  <div id="dMsg"></div>
+  <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="dSave">Guardar</button></div></div>
 </div>
 
 <!-- Ajustes -->
@@ -466,6 +490,26 @@ $("#btnPub").addEventListener("click",async()=>{
   finally{$("#pubOk").disabled=false;render()}
 });
 $("#pubOk").addEventListener("click",closeM);
+
+/* ---------- domicilio ---------- */
+function zRow(z={nombre:"",precio:""}){return `<div class="zrow"><input class="zn" placeholder="Zona o barrio (ej. Centro)" value="${esc(z.nombre)}"><input class="zp" type="number" min="0" step="0.5" inputmode="decimal" placeholder="Precio USD" value="${z.precio===""||z.precio==null?"":esc(z.precio)}"><button type="button" class="zdel" aria-label="Quitar zona">×</button></div>`}
+const dActTxt=()=>{$("#dActTxt").textContent=$("#dAct").checked?"Activado":"Desactivado"};
+$("#btnDom").addEventListener("click",()=>{
+  const dm=DATA.domicilio||{activo:false,recoger:true,zonas:[]};
+  $("#dAct").checked=!!dm.activo;$("#dRec").checked=dm.recoger!==false;dActTxt();
+  $("#dZonas").innerHTML=(dm.zonas.length?dm.zonas:[{nombre:"",precio:""}]).map(zRow).join("");msg("#dMsg","");openM("#mDom");
+});
+$("#dAct").addEventListener("change",dActTxt);
+$("#dAdd").addEventListener("click",()=>{$("#dZonas").insertAdjacentHTML("beforeend",zRow());$$("#dZonas .zn").pop().focus()});
+$("#dZonas").addEventListener("click",e=>{const b=e.target.closest(".zdel");if(b)b.parentElement.remove()});
+$("#dSave").addEventListener("click",()=>{
+  const zonas=$$("#dZonas .zrow").map(r=>({nombre:r.querySelector(".zn").value.trim(),precio:r.querySelector(".zp").value.trim()})).filter(z=>z.nombre||z.precio);
+  if(zonas.some(z=>!z.nombre||z.precio===""||isNaN(+z.precio)))return msg("#dMsg","Cada zona necesita nombre y precio (0 si es gratis).");
+  const act=$("#dAct").checked;
+  if(act&&!zonas.length)return msg("#dMsg","Agrega al menos una zona para activar el domicilio.");
+  DATA.domicilio={activo:act,recoger:$("#dRec").checked,zonas:zonas.map(z=>({nombre:z.nombre,precio:+z.precio}))};
+  closeM();render();msg("#panMsg",`Domicilio ${act?"activado":"desactivado"} con ${zonas.length} zona${zonas.length===1?"":"s"}. Pulsa «Publicar cambios».`,"info");
+});
 
 /* ---------- ajustes ---------- */
 $("#btnCfg").addEventListener("click",()=>{$("#cWa").value=DATA?DATA.whatsapp:"";msg("#cMsg","");openM("#mCfg");renderUsers()});
