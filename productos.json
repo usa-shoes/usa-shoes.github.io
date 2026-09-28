@@ -287,5 +287,20 @@
   "texto": "OFERTAS ESPECIAL EN PAGO EFECTIVO 10%",
   "tema": "rojo",
   "pausa": 10
- }
+ },
+ "monedas": [
+  {
+   "cod": "USD",
+   "simbolo": "$",
+   "tasa": 1,
+   "nombre": "Dólar"
+  },
+  {
+   "cod": "CUP",
+   "simbolo": "$",
+   "tasa": 730,
+   "nombre": ""
+  }
+ ],
+ "monedaDefecto": "USD"
 }
