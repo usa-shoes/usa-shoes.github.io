@@ -99,6 +99,20 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
 .urow b{font-weight:800}.urow small{color:var(--muted);margin-left:6px}
 .urow .btn{padding:7px 12px;font-size:12px}
 @media(max-width:560px){#whoName,.logo small{display:none}.top .btn{padding:9px 11px;font-size:12px}.bar .r .btn{flex:1}}
+.posr{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center;margin-top:8px}
+.posr input[type=range]{padding:0;height:28px;border:0;background:none}
+.posr .btn{padding:8px 12px;font-size:12px}
+@media(max-width:560px){.posr{grid-template-columns:1fr 1fr}.posr .btn{grid-column:1/-1}}
+.pv{cursor:grab;touch-action:none}
+.pv.drag{cursor:grabbing}
+.mrow{display:grid;grid-template-columns:96px 78px 1fr 40px;gap:8px;align-items:center}
+.mrow button{height:40px;border-radius:9px;background:var(--soft);font-weight:900;color:var(--bad)}
+.mrow .fix{background:var(--soft);color:var(--muted);text-align:center;font-weight:800;border-radius:9px;padding:11px 0}
+@media(max-width:560px){.mrow{grid-template-columns:1fr 1fr 40px}.mrow .mt{grid-column:1/3}}
+.sw{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.sw button{padding:9px 14px;border-radius:99px;font-weight:900;font-size:12px;text-transform:uppercase;border:2px solid transparent;box-shadow:0 0 0 1px var(--line)}
+.sw button.on{border-color:var(--ink)}
+.bpv{height:110px;border-radius:12px;background:var(--soft) center/cover no-repeat;border:1px dashed #bbb;display:grid;place-items:center;color:var(--muted);font-size:13px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -150,6 +164,8 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
       <div class="r">
         <span class="pending" id="pend" hidden></span>
         <button class="btn line" id="btnDom">🚚 Domicilio</button>
+        <button class="btn line" id="btnMon">💱 Monedas</button>
+        <button class="btn line" id="btnCinta">📣 Cinta</button>
         <button class="btn line" id="btnImport">Importar tallas y precios</button>
         <button class="btn blue" id="btnNew">+ Nuevo modelo</button>
         <button class="btn ok" id="btnPub" disabled>Publicar cambios</button>
@@ -168,6 +184,8 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
     <div>
       <label>Foto del zapato <small>JPG o PNG. Se ajusta sola a 1000 px.</small><input type="file" id="eFile" accept="image/*"></label>
       <p class="hint">Consejo: foto cuadrada o vertical, con el par completo y buena luz.</p>
+      <p class="hint" style="margin-top:8px"><b>Encuadre:</b> arrastra la foto del recuadro (o usa las barras) para centrar el zapato dentro del marco de la tienda.</p>
+      <div class="posr"><input type="range" id="ePosX" min="0" max="100" value="50" aria-label="Mover a los lados"><input type="range" id="ePosY" min="0" max="100" value="50" aria-label="Mover arriba y abajo"><button class="btn line" id="ePosR" type="button">Centrar</button></div>
     </div>
   </div>
   <div class="grid3">
@@ -217,11 +235,46 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
   <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="dSave">Guardar</button></div></div>
 </div>
 
+<!-- Monedas -->
+<div class="modal" id="mMon" hidden>
+  <div class="mh"><h2>Monedas</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <p class="hint" style="margin-bottom:12px">Los precios de los modelos se escriben siempre en <b>USD</b>. Aquí agregas otras monedas con su <b>tasa</b>: cuántas unidades de esa moneda vale 1 USD (ejemplo: CUP, tasa 440). El cliente cambia la moneda arriba, en la cabecera de la tienda.</p>
+  <div class="zlist" id="monList"></div>
+  <button class="btn line" id="monAdd" style="margin:8px 0 16px">+ Agregar moneda</button>
+  <label>Moneda que se muestra por defecto<select id="monDef"></select></label>
+  <div id="monMsg"></div>
+  <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="monSave">Guardar</button></div></div>
+</div>
+
+<!-- Cinta promocional -->
+<div class="modal" id="mCinta" hidden>
+  <div class="mh"><h2>Cinta promocional</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <label class="switch"><input type="checkbox" id="kAct"><span class="sl"></span><b id="kActTxt">Desactivada</b></label>
+  <p class="hint" style="margin:8px 0 14px">Cuando está activa, la cinta pasa una vuelta por encima de la barra azul de la cabecera, vuelve la barra azul y a los segundos vuelve a pasar.</p>
+  <label>Texto de la cinta<input id="kTxt" maxlength="120" placeholder="Rebaja de fin de semana · 10% en todos los tenis"></label>
+  <label>Cada cuánto vuelve a pasar<select id="kPausa"><option value="6">6 segundos</option><option value="10">10 segundos</option><option value="20">20 segundos</option><option value="40">40 segundos</option></select></label>
+  <p style="font-weight:800;font-size:13px;margin:8px 0 8px">Colores de la cinta</p>
+  <div class="sw" id="kSw"></div>
+  <p style="font-weight:800;font-size:13px;margin:14px 0 8px">Así se verá</p>
+  <div id="kPrev" style="border-radius:9px;padding:11px 14px;font-weight:900;text-transform:uppercase;font-size:13px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis"> </div>
+  <div id="kMsg" style="margin-top:12px"></div>
+  <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="kSave">Guardar</button></div></div>
+</div>
+
 <!-- Ajustes -->
 <div class="modal" id="mCfg" hidden>
   <div class="mh"><h2>Ajustes</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
   <label>WhatsApp que recibe los pedidos <small>solo números, con código de país</small><input id="cWa" inputmode="numeric" placeholder="5351120177"></label>
   <button class="btn blue" id="cSaveWa">Guardar número</button>
+  <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
+  <h2 style="margin-bottom:8px">Presentación de la tienda</h2>
+  <p class="hint" style="margin-bottom:12px">Esto sale en la página del catálogo completo (tienda.html): la foto grande de arriba, el título y el texto que explica la tienda.</p>
+  <div class="bpv" id="cBanPv">Sin foto de banner</div>
+  <label>Foto del banner <small>horizontal, se ajusta sola a 1600 px</small><input type="file" id="cBanFile" accept="image/*"></label>
+  <label>Título<input id="cTit" maxlength="60" placeholder="Toda la tienda"></label>
+  <label>Descripción general<textarea id="cDesc" maxlength="400" placeholder="Tenis y zapatos deportivos seleccionados uno a uno. Cada modelo es único…"></textarea></label>
+  <label>Modelo destacado <small>ocupa el bloque grande de la portada</small><select id="cDest"></select></label>
+  <button class="btn blue" id="cSaveTienda">Guardar presentación</button>
   <hr style="border:0;border-top:1px solid var(--line);margin:20px 0">
   <div class="mh" style="margin-bottom:8px"><h2>Usuarios</h2><button class="btn blue" id="btnAddUser">+ Agregar usuario</button></div>
   <div id="uList" class="ulist"></div>
@@ -383,7 +436,7 @@ function render(){
   $("#cnt").textContent=`(${DATA.productos.length} · ${DATA.productos.filter(p=>p.vendido).length} vendidos)`;
   $("#list").innerHTML=ps.map(p=>`
   <div class="item">
-    <div class="ph"><img src="${esc(imgSrc(p))}" alt="" loading="lazy"><span class="n">Nº ${nn(p.num)}</span>
+    <div class="ph"><img src="${esc(imgSrc(p))}" alt="" loading="lazy" style="object-position:${esc(p.pos||"50% 50%")}"><span class="n">Nº ${nn(p.num)}</span>
       <span class="st">${PENDING[p.thumb||p.img]?'<span class="tag new">Foto nueva</span>':""}${p.oferta?'<span class="tag of">Oferta</span>':""}${p.vendido?'<span class="tag sold">Vendido</span>':""}</span></div>
     <div class="b">
       <b>${esc(p.modelo)}</b>
@@ -409,7 +462,25 @@ $$("[data-close]").forEach(b=>b.addEventListener("click",closeM));
 $("#veil").addEventListener("click",()=>{if($("#mPub").hidden)closeM()});
 
 /* ---------- editor ---------- */
-let EDIT=null, NEWIMG=null;
+let EDIT=null, NEWIMG=null, EPOS="50% 50%";
+/* combinaciones de color de la cinta (las mismas que usa la tienda) */
+const TEMAS={azul:{bg:"#0b5cd5",fg:"#ffffff",n:"Azul"},negro:{bg:"#111111",fg:"#ffd24a",n:"Negro y amarillo"},rojo:{bg:"#d62828",fg:"#ffffff",n:"Rojo"},amarillo:{bg:"#ffd24a",fg:"#111111",n:"Amarillo"},verde:{bg:"#1f8a4c",fg:"#ffffff",n:"Verde"},blanco:{bg:"#ffffff",fg:"#0b5cd5",n:"Blanco y azul"},nb:{bg:"#111111",fg:"#ffffff",n:"Negro y blanco"},naranja:{bg:"#f07a1a",fg:"#111111",n:"Naranja"}};
+function setPos(v){
+  EPOS=v||"50% 50%";const m=EPOS.match(/(-?[\d.]+)%\s+(-?[\d.]+)%/);
+  $("#ePv").style.backgroundPosition=EPOS;$("#ePosX").value=m?+m[1]:50;$("#ePosY").value=m?+m[2]:50;
+}
+const posDe=()=>$("#ePosX").value+"% "+$("#ePosY").value+"%";
+$("#ePosX").addEventListener("input",()=>setPos(posDe()));
+$("#ePosY").addEventListener("input",()=>setPos(posDe()));
+$("#ePosR").addEventListener("click",()=>setPos("50% 50%"));
+(()=>{const pv=$("#ePv");let on=false,sx=0,sy=0,bx=50,by=50;
+ pv.addEventListener("pointerdown",e=>{if(!pv.style.backgroundImage)return;on=true;pv.classList.add("drag");pv.setPointerCapture(e.pointerId);
+   sx=e.clientX;sy=e.clientY;bx=+$("#ePosX").value;by=+$("#ePosY").value});
+ pv.addEventListener("pointermove",e=>{if(!on)return;const r=pv.getBoundingClientRect();
+   const x=Math.max(0,Math.min(100,bx-(e.clientX-sx)/r.width*110)),y=Math.max(0,Math.min(100,by-(e.clientY-sy)/r.height*110));
+   setPos(Math.round(x)+"% "+Math.round(y)+"%")});
+ ["pointerup","pointercancel"].forEach(ev=>pv.addEventListener(ev,()=>{on=false;pv.classList.remove("drag")}));
+})();
 function openEdit(num){
   const p=num?DATA.productos.find(x=>x.num===num):null;EDIT=p;NEWIMG=null;msg("#eMsg","");
   const next=Math.max(0,...DATA.productos.map(x=>x.num))+1;
@@ -417,7 +488,7 @@ function openEdit(num){
   $("#eNum").value=p?p.num:next;$("#eTalla").value=p&&p.talla||"";$("#ePrecio").value=p&&p.precio!=null?p.precio:"";
   $("#eMarca").value=p?p.marca:"";$("#eModelo").value=p?p.modelo:"";$("#ePara").value=p?p.para:"Unisex";$("#eEstilo").value=p&&p.estilo||"";$("#eColor").value=p&&p.color||"";
   $("#eDesc").value=p&&p.descripcion||"";$("#eOferta").checked=!!(p&&p.oferta);$("#eVendido").checked=!!(p&&p.vendido);$("#eIa").checked=!!(p&&p.ia);
-  $("#eFile").value="";setPv(p?imgSrc(p):null);$("#eDel").hidden=!p;openM("#mEdit");
+  $("#eFile").value="";setPv(p?imgSrc(p):null);setPos(p&&p.pos||"50% 50%");$("#eDel").hidden=!p;openM("#mEdit");
 }
 function setPv(src){const pv=$("#ePv");pv.style.backgroundImage=src?`url("${src}")`:"";pv.textContent=src?"":"Sin foto"}
 $("#btnNew").addEventListener("click",()=>openEdit(0));
@@ -441,6 +512,7 @@ $("#eSave").addEventListener("click",()=>{
   const p=EDIT||{};
   Object.assign(p,{num,marca:$("#eMarca").value.trim(),modelo:$("#eModelo").value.trim(),para:$("#ePara").value,estilo:$("#eEstilo").value.trim(),color:$("#eColor").value||null,
     talla:$("#eTalla").value.trim()||null,precio:pr===""?null:+pr,descripcion:$("#eDesc").value.trim(),oferta:$("#eOferta").checked,vendido:$("#eVendido").checked,ia:$("#eIa").checked});
+  if(EPOS&&EPOS!=="50% 50%")p.pos=EPOS;else delete p.pos;
   if(NEWIMG){const stamp=`img/p${nn(num)}-${Date.now().toString(36)}`;
     [p.img,p.thumb].forEach(x=>{if(x&&PENDING[x])delete PENDING[x]});
     p.img=`${stamp}.${NEWIMG.big.ext}`;p.thumb=`${stamp}-480.${NEWIMG.th.ext}`;PENDING[p.img]=NEWIMG.big.b64;PENDING[p.thumb]=NEWIMG.th.b64}
@@ -510,8 +582,86 @@ $("#dSave").addEventListener("click",()=>{
   closeM();render();msg("#panMsg",`Domicilio ${act?"activado":"desactivado"} con ${zonas.length} zona${zonas.length===1?"":"s"}. Pulsa «Publicar cambios».`,"info");
 });
 
+/* ---------- monedas ---------- */
+const monBase=()=>({cod:(DATA.moneda||"USD").toUpperCase(),simbolo:"$",tasa:1,nombre:""});
+function monRow(m){return `<div class="mrow"><input class="mc" maxlength="4" placeholder="CUP" value="${esc(m.cod||"")}"><input class="ms" maxlength="3" placeholder="$" value="${esc(m.simbolo||"")}"><input class="mt" type="number" min="0" step="0.0001" inputmode="decimal" placeholder="1 USD = ?" value="${m.tasa==null?"":esc(m.tasa)}"><button type="button" class="mdel" aria-label="Quitar moneda">×</button></div>`}
+function monDefOpts(){
+  const base=monBase().cod, cods=[base,...$$("#monList .mrow").map(r=>r.querySelector(".mc").value.trim().toUpperCase()).filter(Boolean)];
+  const v=$("#monDef").value||DATA.monedaDefecto||base;
+  $("#monDef").innerHTML=[...new Set(cods)].map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+  $("#monDef").value=[...new Set(cods)].includes(v)?v:base;
+}
+$("#btnMon").addEventListener("click",()=>{
+  const base=monBase(), otras=(DATA.monedas||[]).filter(m=>String(m.cod).toUpperCase()!==base.cod);
+  $("#monList").innerHTML=`<div class="mrow"><input class="mc" value="${esc(base.cod)}" readonly><input class="ms" id="monSimBase" value="${esc((DATA.monedas||[]).find(m=>String(m.cod).toUpperCase()===base.cod)?.simbolo||"$")}" maxlength="3"><div class="fix">tasa 1 · base</div><span></span></div>`+otras.map(monRow).join("");
+  $("#monDef").value=DATA.monedaDefecto||base.cod;monDefOpts();msg("#monMsg","");openM("#mMon");
+});
+$("#monAdd").addEventListener("click",()=>{$("#monList").insertAdjacentHTML("beforeend",monRow({}));$$("#monList .mc").pop().focus();monDefOpts()});
+$("#monList").addEventListener("click",e=>{const b=e.target.closest(".mdel");if(b){b.parentElement.remove();monDefOpts()}});
+$("#monList").addEventListener("input",e=>{if(e.target.classList.contains("mc"))monDefOpts()});
+$("#monSave").addEventListener("click",()=>{
+  const base=monBase().cod, filas=$$("#monList .mrow").slice(1), out=[{cod:base,simbolo:($("#monSimBase").value||"$").trim(),tasa:1,nombre:"Dólar"}];
+  for(const r of filas){
+    const cod=r.querySelector(".mc").value.trim().toUpperCase(), sim=r.querySelector(".ms").value.trim(), tasa=parseFloat(r.querySelector(".mt").value);
+    if(!cod&&!r.querySelector(".mt").value)continue;
+    if(!/^[A-Z]{2,4}$/.test(cod))return msg("#monMsg","El código de la moneda va en letras, de 2 a 4 (ejemplo: CUP, MLC, EUR).");
+    if(!(tasa>0))return msg("#monMsg",`Escribe la tasa de ${esc(cod)}: cuántos ${esc(cod)} vale 1 USD.`);
+    if(cod===base)return msg("#monMsg","El dólar ya está en la lista como moneda base.");
+    if(out.some(m=>m.cod===cod))return msg("#monMsg","La moneda "+esc(cod)+" está repetida.");
+    out.push({cod,simbolo:sim,tasa,nombre:""});
+  }
+  DATA.monedas=out;DATA.monedaDefecto=out.some(m=>m.cod===$("#monDef").value)?$("#monDef").value:base;
+  closeM();render();msg("#panMsg",`Monedas guardadas (${out.map(m=>m.cod).join(", ")}). Pulsa «Publicar cambios».`,"info");
+});
+
+/* ---------- cinta promocional ---------- */
+let KTEMA="azul";
+function kPinta(){
+  const t=TEMAS[KTEMA]||TEMAS.azul, pv=$("#kPrev");
+  $("#kSw").innerHTML=Object.entries(TEMAS).map(([k,v])=>`<button type="button" data-t="${k}" class="${k===KTEMA?"on":""}" style="background:${v.bg};color:${v.fg}">${esc(v.n)}</button>`).join("");
+  pv.style.background=t.bg;pv.style.color=t.fg;pv.textContent=$("#kTxt").value.trim()||"Tu texto se verá así";
+}
+$("#btnCinta").addEventListener("click",()=>{
+  const c=DATA.cinta||{};$("#kAct").checked=!!c.activa;$("#kTxt").value=c.texto||"";KTEMA=TEMAS[c.tema]?c.tema:"azul";
+  $("#kPausa").value=String(c.pausa||10);if(!$("#kPausa").value)$("#kPausa").value="10";$("#kActTxt").textContent=c.activa?"Activada":"Desactivada";msg("#kMsg","");kPinta();openM("#mCinta");
+});
+$("#kAct").addEventListener("change",e=>$("#kActTxt").textContent=e.target.checked?"Activada":"Desactivada");
+$("#kTxt").addEventListener("input",kPinta);
+$("#kSw").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(!b)return;KTEMA=b.dataset.t;kPinta()});
+$("#kSave").addEventListener("click",()=>{
+  const act=$("#kAct").checked, txt=$("#kTxt").value.trim();
+  if(act&&!txt)return msg("#kMsg","Escribe el texto que va a pasar en la cinta.");
+  DATA.cinta={activa:act,texto:txt,tema:KTEMA,pausa:+$("#kPausa").value||10};
+  closeM();render();msg("#panMsg",`Cinta ${act?"activada":"desactivada"}. Pulsa «Publicar cambios».`,"info");
+});
+
 /* ---------- ajustes ---------- */
-$("#btnCfg").addEventListener("click",()=>{$("#cWa").value=DATA?DATA.whatsapp:"";msg("#cMsg","");openM("#mCfg");renderUsers()});
+let NEWBAN=null;
+$("#btnCfg").addEventListener("click",()=>{
+  $("#cWa").value=DATA?DATA.whatsapp:"";msg("#cMsg","");NEWBAN=null;
+  $("#cTit").value=DATA.tituloTienda||"";$("#cDesc").value=DATA.descripcion||"";$("#cBanFile").value="";
+  const bpv=$("#cBanPv"), b=DATA.banner;
+  bpv.style.backgroundImage=b?`url("${PENDING[b]?`data:image/webp;base64,${PENDING[b]}`:"../"+b}")`:"";bpv.textContent=b?"":"Sin foto de banner";
+  const ps=DATA.productos.slice().sort((a,b)=>a.num-b.num);
+  $("#cDest").innerHTML=`<option value="">Automático (el que esté en oferta)</option>`+ps.map(p=>`<option value="${p.num}">Nº ${nn(p.num)} · ${esc(p.modelo)}</option>`).join("");
+  $("#cDest").value=DATA.destacado?String(DATA.destacado):"";
+  openM("#mCfg");renderUsers();
+});
+$("#cBanFile").addEventListener("change",async e=>{
+  const f=e.target.files[0];if(!f)return;msg("#cMsg","Preparando la foto del banner…","info");
+  try{const big=await resize(f,1600,.78);NEWBAN=big;
+    $("#cBanPv").style.backgroundImage=`url("data:${big.mime};base64,${big.b64}")`;$("#cBanPv").textContent="";msg("#cMsg","")}
+  catch(err){NEWBAN=null;msg("#cMsg","No se pudo leer esa imagen. Prueba con JPG o PNG.")}
+});
+$("#cSaveTienda").addEventListener("click",()=>{
+  DATA.tituloTienda=$("#cTit").value.trim()||undefined;
+  DATA.descripcion=$("#cDesc").value.trim()||undefined;
+  DATA.destacado=$("#cDest").value?+$("#cDest").value:undefined;
+  if(NEWBAN){const ruta=`img/banner-${Date.now().toString(36)}.${NEWBAN.ext}`;
+    if(DATA.banner&&PENDING[DATA.banner])delete PENDING[DATA.banner];
+    DATA.banner=ruta;PENDING[ruta]=NEWBAN.b64;NEWBAN=null}
+  closeM();render();msg("#panMsg","Presentación de la tienda guardada. Pulsa «Publicar cambios».","info");
+});
 $("#cSaveWa").addEventListener("click",()=>{const v=$("#cWa").value.replace(/\D/g,"");if(v.length<8)return msg("#cMsg","Número no válido.");DATA.whatsapp=v;closeM();render();msg("#panMsg","Número guardado. Pulsa «Publicar cambios».","info")});
 async function renderUsers(){
   $("#uList").innerHTML='<p class="hint">Cargando usuarios…</p>';
