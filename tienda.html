@@ -163,13 +163,20 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .tile small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 .card.sold .media img{filter:grayscale(1) opacity(.6)}
 .sold-t{position:absolute;inset:auto 0 42%;text-align:center;font-weight:900;font-size:20px;letter-spacing:.2em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
-.colors{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-10px 0 24px}
-.colors .lbl{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:4px}
-.colors button{display:inline-flex;align-items:center;gap:7px;padding:6px 12px 6px 7px;border:1px solid var(--line);border-radius:99px;font-size:13px;font-weight:700;transition:all .2s}
-.colors button i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
-.colors button.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.colors button small{font-size:11px;color:var(--muted);font-weight:700}
-.colors .clr{border-style:dashed;color:var(--muted);padding:6px 12px}
+/* colores: solo los círculos, en una sola fila que se desliza */
+.colors{display:flex;flex-wrap:nowrap;gap:10px;align-items:center;margin:-8px 0 24px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.colors::-webkit-scrollbar{display:none}
+.colors button{flex:none;scroll-snap-align:start;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
+.colors button i{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.colors button.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+@media(hover:hover){.colors button:hover{transform:scale(1.08)}}
+/* tallas: misma fila de pestañas que los públicos */
+.sizes{display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none;margin:-4px 0 18px;padding-bottom:2px}
+.sizes::-webkit-scrollbar{display:none}
+.sizes .lbl{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sizes .lbl .ic{font-size:15px}
+.sizes button{flex:none;padding:7px 14px;border:1px solid var(--line);border-radius:99px;font-weight:800;font-size:14px;color:var(--ink-2);transition:all .2s}
+.sizes button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .entrega{display:grid;gap:8px}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:10px;padding:4px;gap:4px}
 .seg button{padding:10px;border-radius:8px;font-weight:800;font-size:14px;color:var(--muted)}
@@ -498,6 +505,7 @@ body{padding-top:var(--hdrH,104px)}
         <div class="brands" id="brands"></div>
         <span class="count" id="count"></span>
       </div>
+      <div class="sizes" id="sizes" aria-label="Filtrar por talla"></div>
       <div class="colors" id="colors" aria-label="Filtrar por color"></div>
       <nav class="catnav" id="catnav"><div class="in"></div></nav>
       <div id="cats-wrap"></div>
@@ -619,7 +627,10 @@ fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d
   if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
 }).catch(()=>{$("#cats-wrap").innerHTML='<p class="empty">No se pudo cargar el catálogo. Recarga la página.</p>';watch()});
 
-let fA="Todos",fB="Todas",fE="",fC="",q="";
+let fA="Todos",fB="Todas",fE="",fC="",fT="",q="";
+/* una talla como "36 y 38" o "35½ y 37½" cuenta para las dos */
+const TALLAS=p=>String(p.talla||"").replace(/[.,]5/g,"½").match(/\d+½?/g)||[];
+const tNum=t=>parseFloat(String(t).replace("½",".5"));
 function init(){
   cart=cart.filter(n=>PRODUCTOS.some(p=>p.num===n&&!p.vendido));save();
   const hi=waLink("Hola USA Shoes, quiero información sobre sus tenis.");
@@ -638,7 +649,10 @@ function init(){
   $("#brands").innerHTML=["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
   /* colores */
   const colores=[...new Set(PRODUCTOS.map(p=>p.color).filter(Boolean))].sort((a,b)=>Object.keys(COLOR_HEX).indexOf(a)-Object.keys(COLOR_HEX).indexOf(b));
-  $("#colors").innerHTML=colores.length?'<span class="lbl">Color</span><button data-c="" class="on"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i>Todos</button>'+colores.map(c=>`<button data-c="${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i>${esc(c)} <small>${PRODUCTOS.filter(p=>p.color===c).length}</small></button>`).join("")+'<button class="clr" data-c="" hidden aria-label="Quitar filtro de color">✕ Quitar color</button>':"";
+  $("#colors").innerHTML=colores.length?'<button data-c="" class="on" title="Todos los colores" aria-label="Todos los colores"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i></button>'+colores.map(c=>`<button data-c="${esc(c)}" title="${esc(c)} (${PRODUCTOS.filter(p=>p.color===c).length})" aria-label="Color ${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i></button>`).join(""):"";
+  /* tallas */
+  const tallas=[...new Set(PRODUCTOS.flatMap(TALLAS))].sort((a,b)=>tNum(a)-tNum(b));
+  $("#sizes").innerHTML=tallas.length?`<span class="lbl">${ic("i-ruler")}Talla</span><button data-t="" class="on">Todas</button>`+tallas.map(t=>`<button data-t="${esc(t)}">${esc(t)}</button>`).join(""):"";
   /* todos los modelos, agrupados por categoría */
   const orden=[...new Set(PRODUCTOS.map(p=>p.estilo||"Otros"))];
   const card=(p,i)=>`
@@ -662,7 +676,17 @@ function init(){
       <div class="grid">${ps.map(card).join("")}</div>
     </section>`}).join("");
   $("#catnav .in").innerHTML=`<button data-cat="" class="on">Todas</button>`+orden.map(e=>`<button data-cat="${esc(e)}">${esc(e)}</button>`).join("");
-  const qs=new URLSearchParams(location.search).get("q");if(qs){$("#q").value=qs;q=qs.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");setTimeout(toCat,300)}
+  /* filtros que llegan desde la portada */
+  const P=new URLSearchParams(location.search);
+  if(P.get("q")){$("#q").value=P.get("q");q=P.get("q").trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"")}
+  if(P.get("a")&&["Todos",...ORD].includes(P.get("a")))fA=P.get("a");
+  if(P.get("b")&&marcas.includes(P.get("b")))fB=P.get("b");
+  if(P.get("e"))fE=P.get("e");if(P.get("c"))fC=P.get("c");if(P.get("t"))fT=P.get("t");
+  $$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.a===fA));
+  $$("#brands button").forEach(b=>b.classList.toggle("on",b.dataset.b===fB));
+  $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",x.dataset.c===fC));
+  $$("#sizes [data-t]").forEach(x=>x.classList.toggle("on",(x.dataset.t||"")===fT));
+  if([...P.keys()].length)setTimeout(toCat,350);
   setupEntrega();setupCur();setupCinta();filter();watch();renderCart();seoLd();
   const m=location.hash.match(/^#n(\d+)$/);if(m)openP(+m[1]);
 }
@@ -680,9 +704,9 @@ function filter(){
   let n=0;
   $$(".card").forEach(c=>{const p=PRODUCTOS.find(x=>x.num==c.dataset.num);
     const txt=(p.num+" "+nn(p.num)+" "+p.marca+" "+p.modelo+" "+p.para+" "+(p.estilo||"")+" "+(p.color||"")).toLowerCase();
-    const ok=(fA==="Todos"||p.para===fA)&&(fB==="Todas"||p.marca===fB)&&(!fE||p.estilo===fE)&&(!fC||p.color===fC)&&(!q||(/^\d+$/.test(q)?p.num===+q:txt.includes(q)));
+    const ok=(fA==="Todos"||p.para===fA)&&(fB==="Todas"||p.marca===fB)&&(!fE||p.estilo===fE)&&(!fC||p.color===fC)&&(!fT||TALLAS(p).includes(fT))&&(!q||(/^\d+$/.test(q)?p.num===+q:txt.includes(q)));
     c.classList.toggle("hide",!ok);if(ok){n++;c.classList.add("in")}});
-  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+n+(n===1?" modelo":" modelos");$("#empty").hidden=n>0;
+  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+(fT?"Talla "+fT+" · ":"")+n+(n===1?" modelo":" modelos");$("#empty").hidden=n>0;
   $$(".cat").forEach(sec=>{const v=[...sec.querySelectorAll(".card")].filter(c=>!c.classList.contains("hide")).length;
     sec.classList.toggle("hide",!v);const cn=sec.querySelector(".cn");if(cn)cn.textContent=v+(v===1?" modelo":" modelos")});
   $$("#catnav button").forEach(b=>b.classList.toggle("on",(b.dataset.cat||"")===fE));
@@ -696,7 +720,9 @@ $("#catnav").addEventListener("click",e=>{const b=e.target.closest("button");if(
 $$("[data-foot]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();fE="";setAud(a.dataset.foot);toCat()}));
 $("#brands").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fB=b.dataset.b;$$("#brands button").forEach(x=>x.classList.toggle("on",x===b));filter()});
 $("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(!b)return;fC=(b.dataset.c&&fC!==b.dataset.c)?b.dataset.c:"";
-  $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",!x.classList.contains("clr")&&x.dataset.c===fC));$("#colors .clr").hidden=!fC;filter()});
+  $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",x.dataset.c===fC));filter()});
+$("#sizes").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(!b)return;fT=b.dataset.t||"";
+  $$("#sizes [data-t]").forEach(x=>x.classList.toggle("on",(x.dataset.t||"")===fT));filter()});
 $("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");filter()});
 $("#goSearch").addEventListener("click",()=>setTimeout(()=>$("#q").focus(),500));
 

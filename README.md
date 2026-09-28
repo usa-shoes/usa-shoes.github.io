@@ -11,6 +11,7 @@ Desde ahí puedes:
 - Marcar un modelo como **vendido** u **oferta**.
 - **Importar tallas y precios** pegando una tabla: `número, talla, precio` (una línea por zapato).
 - **💱 Monedas**: agregar monedas con su tasa (cuántas unidades vale 1 USD) y elegir la que se muestra por defecto. Los precios se escriben siempre en USD; el cliente cambia la moneda arriba, en la cabecera.
+- **⭐ Portada**: elegir qué modelos se ven en la portada (lo ideal son 4). Los demás siguen en la tienda completa; si no se marca ninguno, la portada elige sola los primeros disponibles.
 - **📣 Cinta**: activar la cinta promocional de la cabecera, con su texto, sus colores y cada cuánto vuelve a pasar.
 - En **Ajustes**: el WhatsApp que recibe los pedidos, la **presentación de la tienda** (foto de banner, título, descripción general y modelo destacado) y los usuarios.
 
