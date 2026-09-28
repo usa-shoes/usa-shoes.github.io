@@ -3,7 +3,8 @@
 Tienda web de tenis con pedidos por WhatsApp. Publicada en **https://usa-shoes.github.io**
 
 ## Administración
-Entra en **https://usa-shoes.github.io/admin/** con tu usuario y contraseña.
+La administración **ya no vive en este sitio**: está fuera de GitHub y no es pública. La dirección la tiene el dueño de la tienda.
+La llave de GitHub ya no se guarda en el repositorio: queda cifrada en el dispositivo de cada administrador, con su usuario y contraseña.
 
 Desde ahí puedes:
 - Subir fotos de zapatos nuevos y llenar número, marca, modelo, para quién es, estilo, talla, precio y descripción.
@@ -21,5 +22,4 @@ Los cambios se guardan al pulsar **Publicar cambios** y se ven en la tienda en 1
 - `index.html` — la portada.
 - `tienda.html` — el catálogo completo por categorías (a donde lleva «Ver catálogo»).
 - `productos.json` — los datos del catálogo y los ajustes (lo edita la administración).
-- `admin/` — la administración. `admin/acceso.json` guarda la llave de GitHub **cifrada** con tu usuario y contraseña.
 - `img/` — fotos de los zapatos. `video/` — videos de la portada y las secciones.
