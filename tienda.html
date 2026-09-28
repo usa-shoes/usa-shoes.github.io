@@ -164,11 +164,11 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .card.sold .media img{filter:grayscale(1) opacity(.6)}
 .sold-t{position:absolute;inset:auto 0 42%;text-align:center;font-weight:900;font-size:20px;letter-spacing:.2em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 /* colores: solo los círculos, en una sola fila que se desliza */
-.colors{display:flex;flex-wrap:nowrap;gap:10px;align-items:center;margin:-8px 0 24px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.colors{display:flex;flex-wrap:nowrap;gap:10px;align-items:center;margin:-8px 0 24px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;-webkit-overflow-scrolling:touch}
 .colors .lbl{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:2px}
 .colors .lbl .ic{font-size:15px}
 .colors::-webkit-scrollbar{display:none}
-.colors button{flex:none;scroll-snap-align:start;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
+.colors button{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
 .colors button i{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
 .colors button.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
 @media(hover:hover){.colors button:hover{transform:scale(1.08)}}
@@ -444,6 +444,24 @@ body{padding-top:var(--hdrH,104px)}
 .cat-h p{color:var(--muted);font-size:14px;margin-top:2px;font-weight:600}
 .cat.hide{display:none}
 .volver{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--blue);margin:26px 0 0}
+/* botón de filtros y panel que se abre y se cierra solo */
+.fbtn{margin-right:auto;display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border:1px solid var(--line);border-radius:99px;font-weight:800;font-size:14px;transition:background .2s,color .2s,border-color .2s}
+.fbtn .ic{font-size:17px}
+.fbtn:hover{border-color:var(--ink)}
+.fbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fbtn.act:not(.on){border-color:var(--blue);color:var(--blue)}
+.fbtn b{min-width:21px;height:21px;padding:0 6px;border-radius:99px;background:var(--blue);color:#fff;font-size:11px;font-weight:900;display:grid;place-items:center}
+.fbtn.on b{background:#fff;color:var(--ink)}
+.fpanel{background:var(--soft);border-radius:14px;padding:14px 16px 4px;margin:-6px 0 22px;animation:fdown .3s var(--ease)}
+.fpanel.out{animation:fup .28s var(--ease) forwards}
+@keyframes fdown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes fup{to{opacity:0;transform:translateY(-10px)}}
+.fpanel .sizes{margin:0 0 12px}
+.fpanel .colors{margin:0 0 10px}
+.clearf{display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;padding:7px 14px;border:1px dashed #bbb;border-radius:99px;font-size:13px;font-weight:700;color:var(--muted)}
+.clearf:hover{border-color:var(--ink);color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.fpanel,.fpanel.out{animation:none}}
+@media(max-width:640px){.fbtn{padding:10px 15px;font-size:13px}.fpanel{padding:12px 12px 2px}}
 </style>
 </head>
 <body>
@@ -468,6 +486,7 @@ body{padding-top:var(--hdrH,104px)}
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z"/></symbol>
   <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
 </svg>
 
 <header id="hdr" class="t">
@@ -504,11 +523,15 @@ body{padding-top:var(--hdrH,104px)}
       <div class="tabs" id="tabs"></div>
       <div class="bar">
         <label class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Busca por nº, marca o modelo" aria-label="Buscar"></label>
+        <button class="fbtn" id="fBtn" aria-expanded="false" aria-controls="fPanel"><svg class="ic"><use href="#i-filter"/></svg>Filtros<b id="fN" hidden></b></button>
         <span class="count" id="count"></span>
       </div>
-      <div class="sizes" id="brands" aria-label="Filtrar por marca"></div>
-      <div class="sizes" id="sizes" aria-label="Filtrar por talla"></div>
-      <div class="colors" id="colors" aria-label="Filtrar por color"></div>
+      <div class="fpanel" id="fPanel" hidden>
+        <div class="sizes" id="brands" aria-label="Filtrar por marca"></div>
+        <div class="sizes" id="sizes" aria-label="Filtrar por talla"></div>
+        <div class="colors" id="colors" aria-label="Filtrar por color"></div>
+        <button class="clearf" id="fClear" hidden>✕ Quitar los filtros</button>
+      </div>
       <nav class="catnav" id="catnav"><div class="in"></div></nav>
       <div id="cats-wrap"></div>
       <p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>
@@ -708,7 +731,7 @@ function filter(){
     const txt=(p.num+" "+nn(p.num)+" "+p.marca+" "+p.modelo+" "+p.para+" "+(p.estilo||"")+" "+(p.color||"")).toLowerCase();
     const ok=(fA==="Todos"||p.para===fA)&&(fB==="Todas"||p.marca===fB)&&(!fE||p.estilo===fE)&&(!fC||p.color===fC)&&(!fT||TALLAS(p).includes(fT))&&(!q||(/^\d+$/.test(q)?p.num===+q:txt.includes(q)));
     c.classList.toggle("hide",!ok);if(ok){n++;c.classList.add("in")}});
-  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+(fT?"Talla "+fT+" · ":"")+n+(n===1?" modelo":" modelos");$("#empty").hidden=n>0;
+  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+(fT?"Talla "+fT+" · ":"")+n+(n===1?" modelo":" modelos");$("#empty").hidden=n>0;fUpd();
   $$(".cat").forEach(sec=>{const v=[...sec.querySelectorAll(".card")].filter(c=>!c.classList.contains("hide")).length;
     sec.classList.toggle("hide",!v);const cn=sec.querySelector(".cn");if(cn)cn.textContent=v+(v===1?" modelo":" modelos")});
   $$("#catnav button").forEach(b=>b.classList.toggle("on",(b.dataset.cat||"")===fE));
@@ -725,6 +748,31 @@ $("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-c]");i
   $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",x.dataset.c===fC));filter()});
 $("#sizes").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(!b)return;fT=b.dataset.t||"";
   $$("#sizes [data-t]").forEach(x=>x.classList.toggle("on",(x.dataset.t||"")===fT));filter()});
+/* ---- botón de filtros: abre el panel y lo cierra solo a los segundos de dejar de usarlo ---- */
+let fReloj=null;
+const fActivos=()=>(fB!=="Todas"?1:0)+(fT?1:0)+(fC?1:0)+(fE?1:0);
+function fUpd(){
+  const n=fActivos(),b=$("#fN");
+  b.hidden=!n;b.textContent=n;$("#fBtn").classList.toggle("act",!!n);$("#fClear").hidden=!n;
+}
+function fArmar(ms){clearTimeout(fReloj);fReloj=setTimeout(()=>fAbrir(false),ms||5000)}
+function fAbrir(v){
+  const p=$("#fPanel");clearTimeout(fReloj);
+  $("#fBtn").classList.toggle("on",v);$("#fBtn").setAttribute("aria-expanded",v);
+  if(v){p.classList.remove("out");p.hidden=false;fArmar(9000)}
+  else if(!p.hidden){p.classList.add("out");setTimeout(()=>{p.hidden=true;p.classList.remove("out")},280)}
+}
+$("#fBtn").addEventListener("click",e=>{e.stopPropagation();fAbrir($("#fPanel").hidden)});
+$("#fPanel").addEventListener("click",e=>{e.stopPropagation();fArmar(4000)});
+["pointermove","touchstart","scroll"].forEach(ev=>$("#fPanel").addEventListener(ev,()=>fArmar(5000),{passive:true}));
+$("#fClear").addEventListener("click",()=>{
+  fB="Todas";fT="";fC="";fE="";
+  $$("#brands button").forEach(x=>x.classList.toggle("on",x.dataset.b==="Todas"));
+  $$("#sizes [data-t]").forEach(x=>x.classList.toggle("on",!x.dataset.t));
+  $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",!x.dataset.c));
+  filter();fArmar(3000);
+});
+addEventListener("click",()=>{if(!$("#fPanel").hidden)fAbrir(false)});
 $("#q").addEventListener("input",e=>{q=e.target.value.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");filter()});
 $("#goSearch").addEventListener("click",()=>setTimeout(()=>$("#q").focus(),500));
 
