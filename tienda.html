@@ -165,6 +165,8 @@ header.s{box-shadow:0 6px 20px -12px rgba(0,0,0,.25)}
 .sold-t{position:absolute;inset:auto 0 42%;text-align:center;font-weight:900;font-size:20px;letter-spacing:.2em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 /* colores: solo los círculos, en una sola fila que se desliza */
 .colors{display:flex;flex-wrap:nowrap;gap:10px;align-items:center;margin:-8px 0 24px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.colors .lbl{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.colors .lbl .ic{font-size:15px}
 .colors::-webkit-scrollbar{display:none}
 .colors button{flex:none;scroll-snap-align:start;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);transition:transform .2s var(--ease),box-shadow .2s,border-color .2s}
 .colors button i{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
@@ -487,7 +489,7 @@ body{padding-top:var(--hdrH,104px)}
   <div class="bnr">
     <img id="bnrImg" src="video/caminando.webp" alt="Tenis de USA Shoes" fetchpriority="high">
     <div class="wrap">
-      <a class="mig" href="./">← Portada</a>
+      <a class="mig" href="./">← Inicio</a>
       <h1 id="bnrT">Toda la tienda</h1>
       <p id="bnrP">Todos los modelos por categorías. Cada par es único: un solo número por modelo, con su foto real, su talla y su precio.</p>
     </div>
@@ -502,15 +504,15 @@ body{padding-top:var(--hdrH,104px)}
       <div class="tabs" id="tabs"></div>
       <div class="bar">
         <label class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" type="search" placeholder="Busca por nº, marca o modelo" aria-label="Buscar"></label>
-        <div class="brands" id="brands"></div>
         <span class="count" id="count"></span>
       </div>
+      <div class="sizes" id="brands" aria-label="Filtrar por marca"></div>
       <div class="sizes" id="sizes" aria-label="Filtrar por talla"></div>
       <div class="colors" id="colors" aria-label="Filtrar por color"></div>
       <nav class="catnav" id="catnav"><div class="in"></div></nav>
       <div id="cats-wrap"></div>
       <p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>
-      <a class="volver" href="./">← Volver a la portada</a>
+      <a class="volver" href="./">← Volver al inicio</a>
     </div>
   </section>
 
@@ -646,10 +648,10 @@ function init(){
   const ORD=["Mujer","Hombre","Juvenil","Niña","Niño","Unisex"].filter(a=>PRODUCTOS.some(p=>p.para===a));
   $("#tabs").innerHTML=["Todos",...ORD].map(a=>`<button class="${a==="Todos"?"on":""}" data-a="${a}">${ic(AUD_IC[a])}${a==="Todos"?"Todo":a}</button>`).join("");
   $("#cats").innerHTML=ORD.map(a=>`<button data-a="${a}">${a}</button>`).join("")+(PRODUCTOS.some(p=>p.oferta&&!p.vendido)?`<button data-offer>Ofertas</button>`:"");
-  $("#brands").innerHTML=["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
+  $("#brands").innerHTML=`<span class="lbl">${ic("i-tag")}Marca</span>`+["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
   /* colores */
   const colores=[...new Set(PRODUCTOS.map(p=>p.color).filter(Boolean))].sort((a,b)=>Object.keys(COLOR_HEX).indexOf(a)-Object.keys(COLOR_HEX).indexOf(b));
-  $("#colors").innerHTML=colores.length?'<button data-c="" class="on" title="Todos los colores" aria-label="Todos los colores"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i></button>'+colores.map(c=>`<button data-c="${esc(c)}" title="${esc(c)} (${PRODUCTOS.filter(p=>p.color===c).length})" aria-label="Color ${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i></button>`).join(""):"";
+  $("#colors").innerHTML=colores.length?`<span class="lbl">${ic("i-spark")}Color</span>`+'<button data-c="" class="on" title="Todos los colores" aria-label="Todos los colores"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i></button>'+colores.map(c=>`<button data-c="${esc(c)}" title="${esc(c)} (${PRODUCTOS.filter(p=>p.color===c).length})" aria-label="Color ${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i></button>`).join(""):"";
   /* tallas */
   const tallas=[...new Set(PRODUCTOS.flatMap(TALLAS))].sort((a,b)=>tNum(a)-tNum(b));
   $("#sizes").innerHTML=tallas.length?`<span class="lbl">${ic("i-ruler")}Talla</span><button data-t="" class="on">Todas</button>`+tallas.map(t=>`<button data-t="${esc(t)}">${esc(t)}</button>`).join(""):"";
