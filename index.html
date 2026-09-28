@@ -948,7 +948,7 @@ function setupCur(){
   const box=$("#cur");if(!MONEDAS.length||MONEDAS.length<2){box.hidden=true;return}
   box.hidden=false;
   const pinta=()=>{$("#curCod").textContent=CUR;
-    $("#curList").innerHTML=MONEDAS.map(m=>`<li role="option"><button data-cod="${esc(m.cod)}" class="${m.cod===CUR?"on":""}"><span>${esc(m.cod)}${m.nombre?" · "+esc(m.nombre):""}</span>${+m.tasa===1?"":`<small>1 USD = ${fmtN(+m.tasa,m.tasa)}</small>`}</button></li>`).join("")};
+    $("#curList").innerHTML=MONEDAS.map(m=>`<li role="option"><button data-cod="${esc(m.cod)}" class="${m.cod===CUR?"on":""}"><span>${esc(m.cod)}${m.nombre?" · "+esc(m.nombre):""}</span>${+m.tasa===1?"":`<small>1 ${esc(MONEDA)} = ${fmtN(+m.tasa,m.tasa)}</small>`}</button></li>`).join("")};
   pinta();
   $("#curBtn").addEventListener("click",e=>{e.stopPropagation();const on=box.classList.toggle("on");$("#curBtn").setAttribute("aria-expanded",on)});
   $("#curList").addEventListener("click",e=>{const b=e.target.closest("[data-cod]");if(!b)return;
