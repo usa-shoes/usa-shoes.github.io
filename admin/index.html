@@ -113,6 +113,15 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
 .sw button{padding:9px 14px;border-radius:99px;font-weight:900;font-size:12px;text-transform:uppercase;border:2px solid transparent;box-shadow:0 0 0 1px var(--line)}
 .sw button.on{border-color:var(--ink)}
 .bpv{height:110px;border-radius:12px;background:var(--soft) center/cover no-repeat;border:1px dashed #bbb;display:grid;place-items:center;color:var(--muted);font-size:13px;margin-bottom:10px}
+.tag.port{background:#111;color:#fff}
+.plist{display:grid;gap:8px;max-height:50vh;overflow:auto;margin:8px 0 14px;padding-right:4px}
+.prow{display:grid;grid-template-columns:24px 52px 1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:0;font-weight:400;cursor:pointer}
+.prow.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.prow input{width:20px;height:20px}
+.prow img{width:52px;height:52px;object-fit:cover;border-radius:8px;background:var(--soft)}
+.prow b{font-weight:800;font-size:14px;display:block}
+.prow small{display:block;color:var(--muted);font-size:12px}
+.prow .sold{color:var(--bad);font-weight:800;font-size:11px;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -166,6 +175,7 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
         <button class="btn line" id="btnDom">🚚 Domicilio</button>
         <button class="btn line" id="btnMon">💱 Monedas</button>
         <button class="btn line" id="btnCinta">📣 Cinta</button>
+        <button class="btn line" id="btnPort">⭐ Portada</button>
         <button class="btn line" id="btnImport">Importar tallas y precios</button>
         <button class="btn blue" id="btnNew">+ Nuevo modelo</button>
         <button class="btn ok" id="btnPub" disabled>Publicar cambios</button>
@@ -233,6 +243,15 @@ details ol{padding-left:18px;margin-top:8px;display:grid;gap:6px;font-size:14px}
   <button class="btn line" id="dAdd" style="margin:6px 0 14px">+ Agregar zona</button>
   <div id="dMsg"></div>
   <div class="foot"><span></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="dSave">Guardar</button></div></div>
+</div>
+
+<!-- Modelos de la portada -->
+<div class="modal" id="mPort" hidden>
+  <div class="mh"><h2>Modelos en la portada</h2><button class="x" data-close aria-label="Cerrar">×</button></div>
+  <p class="hint" style="margin-bottom:6px">Marca los modelos que quieres que se vean en la <b>portada</b> (lo ideal son 4). Los demás siguen estando en la tienda completa. Si no marcas ninguno, la portada enseña sola los primeros disponibles. Los vendidos no se pueden marcar.</p>
+  <div id="portMsg"></div>
+  <div class="plist" id="portList"></div>
+  <div class="foot"><span class="hint" id="portN"></span><div style="display:flex;gap:8px"><button class="btn line" data-close>Cancelar</button><button class="btn blue" id="portSave">Guardar</button></div></div>
 </div>
 
 <!-- Monedas -->
@@ -437,7 +456,7 @@ function render(){
   $("#list").innerHTML=ps.map(p=>`
   <div class="item">
     <div class="ph"><img src="${esc(imgSrc(p))}" alt="" loading="lazy" style="object-position:${esc(p.pos||"50% 50%")}"><span class="n">Nº ${nn(p.num)}</span>
-      <span class="st">${PENDING[p.thumb||p.img]?'<span class="tag new">Foto nueva</span>':""}${p.oferta?'<span class="tag of">Oferta</span>':""}${p.vendido?'<span class="tag sold">Vendido</span>':""}</span></div>
+      <span class="st">${(DATA.portada||[]).includes(p.num)?'<span class="tag port">Portada</span>':""}${PENDING[p.thumb||p.img]?'<span class="tag new">Foto nueva</span>':""}${p.oferta?'<span class="tag of">Oferta</span>':""}${p.vendido?'<span class="tag sold">Vendido</span>':""}</span></div>
     <div class="b">
       <b>${esc(p.modelo)}</b>
       <span class="meta">${esc(p.marca)} · ${esc(p.para)} · ${esc(p.estilo||"sin estilo")}${p.color?" · "+esc(p.color):""}</span>
@@ -580,6 +599,24 @@ $("#dSave").addEventListener("click",()=>{
   if(act&&!zonas.length)return msg("#dMsg","Agrega al menos una zona para activar el domicilio.");
   DATA.domicilio={activo:act,recoger:$("#dRec").checked,zonas:zonas.map(z=>({nombre:z.nombre,precio:+z.precio}))};
   closeM();render();msg("#panMsg",`Domicilio ${act?"activado":"desactivado"} con ${zonas.length} zona${zonas.length===1?"":"s"}. Pulsa «Publicar cambios».`,"info");
+});
+
+/* ---------- modelos de la portada ---------- */
+function portN(){const n=$$("#portList input:checked").length;
+  $("#portN").textContent=n?n+" marcado"+(n===1?"":"s"):"Ninguno marcado · la portada elige sola"}
+$("#btnPort").addEventListener("click",()=>{
+  const sel=new Set((DATA.portada||[]).map(Number));
+  const ps=DATA.productos.slice().sort((a,b)=>a.num-b.num);
+  $("#portList").innerHTML=ps.map(p=>`<label class="prow${sel.has(p.num)?" on":""}"><input type="checkbox" value="${p.num}"${sel.has(p.num)?" checked":""}${p.vendido?" disabled":""}><img src="${esc(imgSrc(p))}" alt="" loading="lazy" style="object-position:${esc(p.pos||"50% 50%")}"><span><b>Nº ${nn(p.num)} · ${esc(p.modelo)}</b><small>${esc(p.marca)} · ${esc(p.para)}${p.talla?" · Talla "+esc(p.talla):""}</small></span>${p.vendido?'<span class="sold">Vendido</span>':""}</label>`).join("");
+  portN();msg("#portMsg","");openM("#mPort");
+});
+$("#portList").addEventListener("change",e=>{const r=e.target.closest(".prow");if(r)r.classList.toggle("on",e.target.checked);portN()});
+$("#portSave").addEventListener("click",()=>{
+  const sel=$$("#portList input:checked").map(i=>+i.value);
+  if(sel.length>8)return msg("#portMsg","Son muchos para la portada: marca 8 o menos (lo ideal son 4).");
+  if(sel.length)DATA.portada=sel;else delete DATA.portada;
+  closeM();render();
+  msg("#panMsg",sel.length?`Portada: ${sel.length} modelo${sel.length===1?"":"s"} elegido${sel.length===1?"":"s"}. Pulsa «Publicar cambios».`:"La portada vuelve a elegir sola los primeros modelos. Pulsa «Publicar cambios».","info");
 });
 
 /* ---------- monedas ---------- */
