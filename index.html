@@ -388,6 +388,26 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .toast{position:fixed;left:50%;bottom:24px;z-index:120;transform:translate(-50%,calc(100% + 60px));visibility:hidden;padding:13px 20px;border-radius:10px;background:var(--ink);color:#fff;font-weight:700;font-size:14px;transition:transform .45s var(--ease),visibility .45s;white-space:nowrap}
 .toast.on{transform:translate(-50%,0);visibility:visible}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+/* barra promo + cinta promocional de la administración */
+.pbar{position:relative}
+.cinta{position:absolute;inset:0;display:flex;align-items:center;overflow:hidden;white-space:nowrap;font-weight:900;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
+.cinta span{display:inline-block;will-change:transform;padding-right:44px}
+.cinta.fijo{justify-content:center}
+.cinta.fijo span{padding:0;white-space:normal;text-align:center}
+/* selector de moneda */
+.cur{position:relative}
+.cur>button{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 13px;border-radius:99px;border:1px solid var(--line);font-weight:900;font-size:13px;letter-spacing:.04em}
+.cur>button i{font-style:normal;font-size:10px;opacity:.75}
+header.t .cur>button{border-color:rgba(255,255,255,.55)}
+.cur ul{position:absolute;right:0;top:calc(100% + 6px);min-width:190px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 44px -22px rgba(0,0,0,.5);padding:6px;list-style:none;display:none;z-index:60}
+.cur.on ul{display:block}
+.cur li button{display:flex;width:100%;align-items:center;justify-content:space-between;gap:12px;padding:9px 10px;border-radius:8px;font-weight:700;font-size:14px;text-align:left}
+.cur li button:hover{background:var(--soft)}
+.cur li button.on{background:var(--blue);color:#fff}
+.cur li small{font-weight:600;opacity:.7}
+@media(max-width:700px){.cur>button{height:36px;padding:0 10px;font-size:12px}}
+/* foto del modelo destacado */
+#ofImg{width:min(300px,62%);aspect-ratio:1;object-fit:cover;border-radius:16px;margin:0 auto 20px;box-shadow:0 26px 54px -26px rgba(0,0,0,.7)}
 </style>
 </head>
 <body>
@@ -415,10 +435,14 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 </svg>
 
 <header id="hdr" class="t">
-  <div class="promo"><a href="#catalogo">Elige tu preferido</a> y <i>ordena por WhatsApp</i></div>
+  <div class="pbar">
+    <div class="promo"><a href="#catalogo">Elige tu preferido</a> y <i>ordena por WhatsApp</i></div>
+    <div class="cinta" id="cinta" hidden aria-hidden="true"><span id="cintaT"></span></div>
+  </div>
   <div class="wrap nav">
     <a href="#" class="logo">USA<span>Shoes</span></a>
     <div class="tools">
+      <div class="cur" id="cur" hidden><button id="curBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Cambiar la moneda"><b id="curCod">USD</b><i>▾</i></button><ul id="curList" role="listbox"></ul></div>
       <a class="tool" href="#catalogo" aria-label="Buscar" id="goSearch"><svg class="ic"><use href="#i-search"/></svg></a>
       <button class="tool" id="bagBtn" aria-label="Ver bolsa"><svg class="ic"><use href="#i-bag"/></svg><b id="bagN">0</b></button>
     </div>
@@ -433,7 +457,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
       <h1 class="big"><span class="l"><span>Ordena y eleva</span></span><span class="l"><span>tu estilo</span></span></h1>
       <div class="glass">
         <div class="stats"><div><b id="stM">16</b><span>Modelos</span></div><div><b id="stB">5</b><span>Marcas</span></div><div><b>1</b><span>Par por modelo</span></div></div>
-        <div class="gbtns"><a href="#catalogo" class="btn light">Ver catálogo</a></div>
+        <div class="gbtns"><a href="tienda.html" class="btn light">Ver catálogo</a></div>
         <p>Tenis seleccionados, cada modelo en talla única. Elige tu preferido y ordénalo por WhatsApp en un minuto.</p>
       </div>
     </div>
@@ -462,6 +486,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
       </div>
       <div class="colors" id="colors" aria-label="Filtrar por color"></div>
       <div class="grid" id="grid"></div>
+      <div style="text-align:center;margin-top:34px"><a class="btn blue" href="tienda.html">Ver toda la tienda por categorías</a></div>
     </div>
   </section>
 
@@ -476,12 +501,13 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
   </div>
 
   <div class="block" id="oferta" hidden>
-    <small>Precio especial</small>
+    <img id="ofImg" alt="" loading="lazy" hidden>
+    <small id="ofTag">Precio especial</small>
     <h2 id="ofT"></h2>
     <p id="ofD"></p>
     <div class="btns">
       <button class="btn line" id="ofBtn"></button>
-      <a class="btn line" href="#catalogo">Ver todo el catálogo</a>
+      <a class="btn line" href="tienda.html">Ver todo el catálogo</a>
     </div>
   </div>
 
@@ -594,13 +620,19 @@ const AUD_IC={Todos:"i-all",Mujer:"i-woman",Hombre:"i-man",Niña:"i-girl",Niño:
 const PX=id=>`https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&fm=webp&w=440`;
 const ESTILO_IMG={"Running":PX(39644724),"Retro y ante":PX(11919823),"Slip-on":PX(38154599),"Cancha":PX(3036875),"Baloncesto":PX(9634936),"Tipo media":PX(25745305)};
 const COLOR_HEX={Negro:"#151515",Blanco:"#ffffff",Gris:"#9aa0a6",Rojo:"#d62828",Rosa:"#ec6fa8",Azul:"#1e4fd8",Marrón:"#7a4a2a",Verde:"#2e9e4f",Amarillo:"#f3c623",Naranja:"#f07a1a",Beige:"#d8c3a5",Morado:"#7b4bc4",Multicolor:"conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#d62828)"};
+/* combinaciones de color de la cinta promocional (las mismas que salen en la administración) */
+const TEMAS={azul:{bg:"#0b5cd5",fg:"#ffffff"},negro:{bg:"#111111",fg:"#ffd24a"},rojo:{bg:"#d62828",fg:"#ffffff"},amarillo:{bg:"#ffd24a",fg:"#111111"},verde:{bg:"#1f8a4c",fg:"#ffffff"},blanco:{bg:"#ffffff",fg:"#0b5cd5"},nb:{bg:"#111111",fg:"#ffffff"},naranja:{bg:"#f07a1a",fg:"#111111"}};
 const ESTILO_TXT={"Running":"Ligeros y acolchados para correr o caminar","Slip-on":"Sin cordones, se ponen en un segundo","Retro y ante":"Clásicos de ante con aire retro","Cancha":"Estilo court para el día a día","Baloncesto":"Agarre y soporte para la cancha","Tipo media":"Caña de tejido elástico, muy urbanos"};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const ic=id=>`<svg class="ic"><use href="#${id}"/></svg>`;
 const nn=n=>String(n).padStart(2,"0");
 const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let WHATSAPP="5351120177", MONEDA="USD", PRODUCTOS=[];
-const money=n=>n==null||n===""?"Consultar":"$"+(+n).toFixed(n%1?2:0)+" "+MONEDA;
+/* los precios se guardan en USD y se convierten con la tasa que pone la administración */
+let MONEDAS=[], CUR="", CINTA=null, DEST=null, OF=null;
+const curObj=()=>MONEDAS.find(m=>m.cod===CUR)||{cod:MONEDA,simbolo:"$",tasa:1};
+const fmtN=(v,t)=>(+t>=20?Math.round(v):Math.round(v*100)/100).toLocaleString("es-ES",{maximumFractionDigits:+t>=20?0:2});
+const money=n=>{if(n==null||n==="")return "Consultar";const m=curObj();return (m.simbolo||"")+fmtN(+n*(+m.tasa||1),m.tasa)+" "+m.cod};
 const talla=p=>p.talla?p.talla:"Por confirmar";
 const titulo=p=>(p.marca==="Genérico"?"":p.marca+" ")+p.modelo;
 const waLink=t=>"https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(t);
@@ -647,7 +679,12 @@ const fitAll=()=>$$("[data-fit]").forEach(el=>{el.style.fontSize="";const s=el.f
 fitAll();addEventListener("resize",fitAll);document.fonts&&document.fonts.ready.then(fitAll);
 /* carga de datos */
 fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d=>{
-  WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
+  WHATSAPP=d.whatsapp||WHATSAPP;MONEDA=d.moneda||MONEDA;
+  MONEDAS=((d.monedas&&d.monedas.length?d.monedas:[{cod:MONEDA,simbolo:"$",tasa:1}])).map(m=>({cod:String(m.cod||MONEDA).toUpperCase(),simbolo:m.simbolo||"",tasa:+m.tasa||1,nombre:m.nombre||""}));
+  let guard="";try{guard=localStorage.getItem("usa-moneda")||""}catch(e){}
+  CUR=(MONEDAS.some(m=>m.cod===guard)&&guard)||(MONEDAS.some(m=>m.cod===d.monedaDefecto)?d.monedaDefecto:MONEDAS[0].cod);
+  CINTA=d.cinta||null;DEST=d.destacado||null;
+  if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
 }).catch(()=>{$("#grid").innerHTML='<p class="empty">No se pudo cargar el catálogo. Recarga la página.</p>';watch()});
 
 let fA="Todos",fB="Todas",fE="",fC="",q="";
@@ -676,14 +713,18 @@ function init(){
   /* colores */
   const colores=[...new Set(PRODUCTOS.map(p=>p.color).filter(Boolean))].sort((a,b)=>Object.keys(COLOR_HEX).indexOf(a)-Object.keys(COLOR_HEX).indexOf(b));
   $("#colors").innerHTML=colores.length?'<span class="lbl">Color</span><button data-c="" class="on"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i>Todos</button>'+colores.map(c=>`<button data-c="${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i>${esc(c)} <small>${PRODUCTOS.filter(p=>p.color===c).length}</small></button>`).join("")+'<button class="clr" data-c="" hidden aria-label="Quitar filtro de color">✕ Quitar color</button>':"";
-  /* oferta */
-  const of=PRODUCTOS.find(p=>p.oferta&&!p.vendido);
-  if(of){$("#oferta").hidden=false;$("#ofT").textContent=`Nº ${nn(of.num)} · ${of.modelo}`+(of.precio!=null?` a ${money(of.precio)}`:"");$("#ofD").textContent=of.descripcion+" Solo hay un par.";$("#ofBtn").textContent="Ver el Nº "+nn(of.num);$("#ofBtn").onclick=()=>openP(of.num)}
+  /* modelo destacado: el que elige la administración y, si no hay, el que esté en oferta */
+  OF=(DEST?PRODUCTOS.find(p=>p.num===+DEST&&!p.vendido):null)||PRODUCTOS.find(p=>p.oferta&&!p.vendido)||null;
+  if(OF){$("#oferta").hidden=false;
+    const im=$("#ofImg");im.src=OF.thumb||OF.img;im.alt="Nº "+nn(OF.num)+" "+titulo(OF);im.style.objectPosition=OF.pos||"50% 50%";im.hidden=false;
+    $("#ofTag").textContent=OF.oferta?"Precio especial":"Modelo destacado";
+    $("#ofD").textContent=(OF.descripcion||"")+" Solo hay un par.";
+    $("#ofBtn").textContent="Ver el Nº "+nn(OF.num);$("#ofBtn").onclick=()=>openP(OF.num);ofTxt()}
   /* rejilla */
   $("#grid").innerHTML=PRODUCTOS.map((p,i)=>`
 <article class="card rv${p.vendido?" sold":""}" data-num="${p.num}" style="transition-delay:${(i%4)*70}ms">
   <div class="media" data-open="${p.num}">
-    <img src="${esc(p.thumb||p.img)}" alt="Nº ${nn(p.num)} ${esc(titulo(p))} · tenis ${esc(p.para)} ${esc(p.color||"")}" loading="${i<4?"eager":"lazy"}" decoding="async" width="480" height="480">
+    <img src="${esc(p.thumb||p.img)}" alt="Nº ${nn(p.num)} ${esc(titulo(p))} · tenis ${esc(p.para)} ${esc(p.color||"")}" loading="${i<4?"eager":"lazy"}" decoding="async" width="480" height="480" style="object-position:${esc(p.pos||"50% 50%")}">
     ${p.vendido?'<span class="sold-t">VENDIDO</span>':p.oferta?'<span class="flag">Oferta</span>':""}
     <a class="cbtn i" data-wa="${p.num}" href="${waLink(`Hola USA Shoes, quiero más información del Nº ${nn(p.num)}: ${titulo(p)}.`)}" target="_blank" rel="noopener" aria-label="Más información del Nº ${nn(p.num)} por WhatsApp"><b>i</b></a>
     <button class="cbtn add${cart.includes(p.num)?" in-bag":""}" data-buy="${p.num}" ${p.vendido?"disabled":""} aria-label="Ordenar el Nº ${nn(p.num)}">${cart.includes(p.num)?'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>':'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'}<span class="tip">${p.vendido?"Vendido":cart.includes(p.num)?"En tu bolsa":"Ordenar"}</span></button>
@@ -696,7 +737,7 @@ function init(){
   </div>
 </article>`).join("")+'<p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>';
   const qs=new URLSearchParams(location.search).get("q");if(qs){$("#q").value=qs;q=qs.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");setTimeout(toCat,300)}
-  setupEntrega();filter();watch();renderCart();seoLd();
+  setupEntrega();setupCur();setupCinta();filter();watch();renderCart();seoLd();
   const m=location.hash.match(/^#n(\d+)$/);if(m)openP(+m[1]);
 }
 /* datos estructurados de productos para Google */
@@ -720,7 +761,7 @@ function filter(){
 function setAud(a){fA=a;$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.a===a));filter()}
 const toCat=()=>$("#catalogo").scrollIntoView({behavior:"smooth"});
 $("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){fE="";setAud(b.dataset.a)}});
-$("#cats").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.hasAttribute("data-offer")){const of=PRODUCTOS.find(p=>p.oferta&&!p.vendido);if(of)openP(of.num);return}fE="";setAud(b.dataset.a);toCat()});
+$("#cats").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;if(b.hasAttribute("data-offer")){const of=PRODUCTOS.find(p=>p.oferta&&!p.vendido)||OF;if(of)openP(of.num);return}fE="";setAud(b.dataset.a);toCat()});
 $("#tiles").addEventListener("click",e=>{const t=e.target.closest(".tile");if(!t)return;fE=t.dataset.est;setAud("Todos");toCat()});
 $$("[data-foot]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();fE="";setAud(a.dataset.foot);toCat()}));
 $("#brands").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;fB=b.dataset.b;$$("#brands button").forEach(x=>x.classList.toggle("on",x===b));filter()});
@@ -772,7 +813,7 @@ $("#mWa").addEventListener("click",e=>e.stopPropagation());
 function renderCart(){
   $("#bagN").textContent=cart.length;
   if(!cart.length){$("#items").innerHTML='<p class="dnone">Tu bolsa está vacía.<br>Elige un par del catálogo.</p>';$("#tot").textContent="—";return}
-  $("#items").innerHTML=cart.map((n,i)=>{const p=PRODUCTOS.find(x=>x.num===n);return `<div class="it"><img src="${esc(p.thumb||p.img)}" alt="" loading="lazy"><div><small>Nº ${nn(p.num)} · ${esc(p.marca)}</small><b>${esc(p.modelo)}</b><small>Talla ${esc(talla(p).toLowerCase())} · ${money(p.precio)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
+  $("#items").innerHTML=cart.map((n,i)=>{const p=PRODUCTOS.find(x=>x.num===n);return `<div class="it"><img src="${esc(p.thumb||p.img)}" alt="" loading="lazy" style="object-position:${esc(p.pos||"50% 50%")}"><div><small>Nº ${nn(p.num)} · ${esc(p.marca)}</small><b>${esc(p.modelo)}</b><small>Talla ${esc(talla(p).toLowerCase())} · ${money(p.precio)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
   const pr=cart.map(n=>PRODUCTOS.find(x=>x.num===n).precio);
   let sum=pr.filter(v=>v!=null).reduce((a,b)=>a+ +b,0);const ask=pr.some(v=>v==null);
   const z=zonaSel();if(z)sum+= +z.precio||0;
@@ -790,6 +831,43 @@ function setupEntrega(){
   $("#entSeg").onclick=e=>{const b=e.target.closest("[data-ent]");if(b){ENT=b.dataset.ent;upd()}};
   $("#zona").onchange=renderCart;upd();
   const pr=$(".promo");if(pr&&!pr.dataset.dom){pr.dataset.dom=1;pr.insertAdjacentHTML("beforeend"," · 🚚 <b>Domicilio disponible</b>")}
+}
+/* ---- moneda: el cliente la cambia arriba y todos los precios se recalculan ---- */
+function ofTxt(){if(OF)$("#ofT").textContent=`Nº ${nn(OF.num)} · ${OF.modelo}`+(OF.precio!=null?` a ${money(OF.precio)}`:"")}
+function reprice(){
+  $$(".card").forEach(c=>{const p=PRODUCTOS.find(x=>x.num==c.dataset.num);if(!p)return;const el=c.querySelector(".price");if(el){el.textContent=money(p.precio);el.className="price"+(p.precio==null?" ask":"")}});
+  ofTxt();
+  const z=$("#zona");if(z&&DOM.zonas&&DOM.zonas.length){const v=z.value;z.innerHTML=DOM.zonas.map((zz,i)=>`<option value="${i}">${esc(zz.nombre)} · ${money(+zz.precio||0)}</option>`).join("");z.value=v}
+  renderCart();
+  if(cur&&$("#modal").classList.contains("on"))$("#mPrice").textContent=money(cur.precio);
+}
+function setupCur(){
+  const box=$("#cur");if(!MONEDAS.length||MONEDAS.length<2){box.hidden=true;return}
+  box.hidden=false;
+  const pinta=()=>{$("#curCod").textContent=CUR;
+    $("#curList").innerHTML=MONEDAS.map(m=>`<li role="option"><button data-cod="${esc(m.cod)}" class="${m.cod===CUR?"on":""}"><span>${esc(m.cod)}${m.nombre?" · "+esc(m.nombre):""}</span>${+m.tasa===1?"":`<small>1 USD = ${fmtN(+m.tasa,m.tasa)}</small>`}</button></li>`).join("")};
+  pinta();
+  $("#curBtn").addEventListener("click",e=>{e.stopPropagation();const on=box.classList.toggle("on");$("#curBtn").setAttribute("aria-expanded",on)});
+  $("#curList").addEventListener("click",e=>{const b=e.target.closest("[data-cod]");if(!b)return;
+    CUR=b.dataset.cod;try{localStorage.setItem("usa-moneda",CUR)}catch(x){}
+    box.classList.remove("on");$("#curBtn").setAttribute("aria-expanded",false);pinta();reprice();toast("Precios en "+CUR)});
+  addEventListener("click",()=>box.classList.remove("on"));
+}
+/* ---- cinta promocional: pasa una vuelta, vuelve la barra azul y a los segundos repite ---- */
+function setupCinta(){
+  const c=CINTA,box=$("#cinta"),tx=$("#cintaT");
+  if(!c||!c.activa||!String(c.texto||"").trim()){box.hidden=true;return}
+  const t=TEMAS[c.tema]||TEMAS.azul;box.style.background=t.bg;box.style.color=t.fg;tx.textContent=c.texto;
+  const pausa=Math.max(3,+c.pausa||10)*1000, quieto=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const pasada=()=>{
+    if(document.hidden){setTimeout(pasada,3000);return}
+    box.hidden=false;
+    if(quieto){box.classList.add("fijo");setTimeout(()=>{box.hidden=true;setTimeout(pasada,pausa)},6000);return}
+    const w=box.offsetWidth,tw=tx.offsetWidth,dur=Math.max(4000,(w+tw)/95*1000);
+    const an=tx.animate([{transform:"translateX("+w+"px)"},{transform:"translateX("+(-tw)+"px)"}],{duration:dur,easing:"linear"});
+    an.onfinish=()=>{box.hidden=true;setTimeout(pasada,pausa)};
+  };
+  setTimeout(pasada,2500);
 }
 $("#send").addEventListener("click",()=>{
   if(!cart.length){toast("Tu bolsa está vacía");return}
