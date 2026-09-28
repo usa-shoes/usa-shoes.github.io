@@ -280,5 +280,11 @@
    "color": "Blanco",
    "thumb": "img/z16-480.webp"
   }
- ]
+ ],
+ "cinta": {
+  "activa": true,
+  "texto": "OFERTAS ESPECIAL EN PAGO EFECTIVO 10%",
+  "tema": "rojo",
+  "pausa": 10
+ }
 }
