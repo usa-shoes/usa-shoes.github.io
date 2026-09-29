@@ -400,10 +400,11 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 /* barra promo + cinta promocional de la administración */
 .pbar{position:relative}
 .cinta{position:absolute;inset:0;display:flex;align-items:center;overflow:hidden;white-space:nowrap;font-weight:900;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
-.cinta span{display:inline-block;will-change:transform;padding-right:44px}
-.cinta span i{font-style:normal;margin:0 26px;opacity:.9;font-size:.95em}
-.cinta.fijo{justify-content:center}
-.cinta.fijo span{padding:0;white-space:normal;text-align:center}
+.cinta span{display:inline-flex;align-items:center;flex:none;width:max-content;will-change:transform;transform:translate3d(100%,0,0)}
+.cinta span i{font-style:normal;margin:0 24px;opacity:.92}
+.cinta:hover span{animation-play-state:paused}
+@keyframes cintaPasa{from{transform:translate3d(var(--w,100%),0,0)}to{transform:translate3d(calc(var(--tw,100%) * -1),0,0)}}
+@keyframes cintaGira{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(var(--mitad,50%) * -1),0,0)}}
 /* selector de moneda */
 .cur{position:relative}
 .cur>button{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 13px;border-radius:99px;border:1px solid var(--line);font-weight:900;font-size:13px;letter-spacing:.04em}
@@ -910,17 +911,32 @@ function setupCinta(){
   const c=CINTA,box=$("#cinta"),tx=$("#cintaT");
   if(!c||!c.activa||!String(c.texto||"").trim()){box.hidden=true;return}
   const t=TEMAS[c.tema]||TEMAS.azul;box.style.background=t.bg;box.style.color=t.fg;
-  tx.innerHTML=esc(c.texto)+'<i>\u2605</i>'+esc(c.texto);
-  const pausa=Math.max(3,+c.pausa||10)*1000, vel=Math.max(6,+c.vel||CINTA_PXS), quieto=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const vel=Math.max(8,+c.vel||48), pausa=Math.max(0,+c.pausa||0)*1000;
+  const trozo=esc(c.texto)+'<i>\u2605</i>';
+  if(!pausa){                                   /* sin parar: dos copias y vuelta continua */
+    tx.innerHTML=trozo+trozo;box.hidden=false;
+    const medir=()=>{const mitad=tx.scrollWidth/2;
+      tx.style.setProperty("--mitad",mitad+"px");
+      tx.style.animation="none";void tx.offsetWidth;
+      tx.style.animation=`cintaGira ${(mitad/vel).toFixed(2)}s linear infinite`};
+    medir();addEventListener("resize",medir);document.fonts&&document.fonts.ready.then(medir);
+    return;
+  }
+  tx.innerHTML=esc(c.texto)+'<i>\u2605</i>'+esc(c.texto);   /* una pasada y vuelve a los segundos */
+  let corriendo=false;
   const pasada=()=>{
+    if(corriendo)return;
     if(document.hidden){setTimeout(pasada,3000);return}
-    box.hidden=false;
-    if(quieto){box.classList.add("fijo");setTimeout(()=>{box.hidden=true;setTimeout(pasada,pausa)},6000);return}
-    const w=box.offsetWidth,tw=tx.offsetWidth,dur=Math.max(4000,(w+tw)/vel*1000);
-    const an=tx.animate([{transform:"translateX("+w+"px)"},{transform:"translateX("+(-tw)+"px)"}],{duration:dur,easing:"linear"});
-    an.onfinish=()=>{box.hidden=true;setTimeout(pasada,pausa)};
+    box.hidden=false;corriendo=true;
+    const w=box.offsetWidth||innerWidth, tw=tx.scrollWidth;
+    tx.style.setProperty("--w",w+"px");tx.style.setProperty("--tw",tw+"px");
+    tx.style.animation="none";void tx.offsetWidth;
+    tx.style.animation=`cintaPasa ${((w+tw)/vel).toFixed(2)}s linear 1`;
   };
-  setTimeout(pasada,2500);
+  tx.addEventListener("animationend",()=>{
+    corriendo=false;tx.style.animation="none";box.hidden=true;setTimeout(pasada,pausa);
+  });
+  setTimeout(pasada,1800);
 }
 $("#send").addEventListener("click",()=>{
   if(!cart.length){toast("Tu bolsa está vacía");return}
