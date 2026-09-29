@@ -401,6 +401,7 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .pbar{position:relative}
 .cinta{position:absolute;inset:0;display:flex;align-items:center;overflow:hidden;white-space:nowrap;font-weight:900;font-size:13px;letter-spacing:.02em;text-transform:uppercase}
 .cinta span{display:inline-block;will-change:transform;padding-right:44px}
+.cinta span i{font-style:normal;margin:0 26px;opacity:.9;font-size:.95em}
 .cinta.fijo{justify-content:center}
 .cinta.fijo span{padding:0;white-space:normal;text-align:center}
 /* selector de moneda */
@@ -908,13 +909,14 @@ function setupCur(){
 function setupCinta(){
   const c=CINTA,box=$("#cinta"),tx=$("#cintaT");
   if(!c||!c.activa||!String(c.texto||"").trim()){box.hidden=true;return}
-  const t=TEMAS[c.tema]||TEMAS.azul;box.style.background=t.bg;box.style.color=t.fg;tx.textContent=c.texto;
-  const pausa=Math.max(3,+c.pausa||10)*1000, quieto=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const t=TEMAS[c.tema]||TEMAS.azul;box.style.background=t.bg;box.style.color=t.fg;
+  tx.innerHTML=esc(c.texto)+'<i>\u2605</i>'+esc(c.texto);
+  const pausa=Math.max(3,+c.pausa||10)*1000, vel=Math.max(6,+c.vel||CINTA_PXS), quieto=matchMedia("(prefers-reduced-motion:reduce)").matches;
   const pasada=()=>{
     if(document.hidden){setTimeout(pasada,3000);return}
     box.hidden=false;
     if(quieto){box.classList.add("fijo");setTimeout(()=>{box.hidden=true;setTimeout(pasada,pausa)},6000);return}
-    const w=box.offsetWidth,tw=tx.offsetWidth,dur=Math.max(4000,(w+tw)/95*1000);
+    const w=box.offsetWidth,tw=tx.offsetWidth,dur=Math.max(4000,(w+tw)/vel*1000);
     const an=tx.animate([{transform:"translateX("+w+"px)"},{transform:"translateX("+(-tw)+"px)"}],{duration:dur,easing:"linear"});
     an.onfinish=()=>{box.hidden=true;setTimeout(pasada,pausa)};
   };
