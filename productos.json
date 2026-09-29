@@ -26,7 +26,7 @@
  "productos": [
   {
    "num": 1,
-   "img": "img/z01.webp",
+   "img": "img/p01-mun604f0.webp",
    "marca": "Puma",
    "modelo": "Softride · gris perla y rosa",
    "para": "Mujer",
@@ -38,7 +38,7 @@
    "vendido": false,
    "ia": false,
    "color": "Gris",
-   "thumb": "img/z01-480.webp"
+   "thumb": "img/p01-mun604f0-480.webp"
   },
   {
    "num": 2,
