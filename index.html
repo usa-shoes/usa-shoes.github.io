@@ -450,6 +450,17 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
 .clearf:hover{border-color:var(--ink);color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.fpanel,.fpanel.out{animation:none}}
 @media(max-width:640px){.fbtn{padding:10px 15px;font-size:13px}.fpanel{padding:12px 12px 2px}}
+/* aviso de horario */
+.hor{display:inline-flex;align-items:center;gap:7px;font-weight:800;color:var(--ink)}
+.hor i{width:8px;height:8px;border-radius:50%;background:#1f8a4c;box-shadow:0 0 0 3px rgba(31,138,76,.18)}
+.hor.off i{background:#c62828;box-shadow:0 0 0 3px rgba(198,40,40,.16)}
+.hor.off{color:var(--ink-2)}
+.horl{margin-top:10px;font-size:13px;color:var(--ink-2)}
+.horl div{display:flex;justify-content:space-between;gap:12px;padding:3px 0;max-width:230px}
+.horl div b{font-weight:700}
+.horl .cer{color:var(--muted)}
+.horl .hoy{color:var(--blue);font-weight:800}
+.horl p{margin-top:8px;color:var(--muted);font-size:12.5px}
 </style>
 </head>
 <body>
@@ -507,7 +518,7 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
     <button class="play" id="playBtn" aria-label="Pausar video"><svg class="ic"><use href="#i-pause"/></svg></button>
     <a href="#catalogo" class="cue" aria-label="Bajar al catálogo"><span></span></a>
   </section>
-<div class="sub"><b>Stock de modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
+<div class="sub"><span class="hor" id="hor" hidden></span><b>Stock de modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
 <nav class="wrap cats" id="cats"></nav>
 
   <section>
@@ -621,7 +632,7 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
       <div><a href="#" class="logo" style="display:inline-block;margin-bottom:12px">USA<span>Shoes</span></a><p>Ordena y eleva tu estilo.</p><p class="hint" style="font-size:13px;color:var(--muted);margin-top:8px">Tienda de tenis y zapatos deportivos en Cuba: running, slip-on, retro, cancha y baloncesto para mujer, hombre y niños. Modelos únicos numerados, con fotos reales y pedidos por WhatsApp.</p></div>
       <div><h4>Tienda</h4><a href="#" data-foot="Mujer">Mujer</a><a href="#" data-foot="Hombre">Hombre</a><a href="#" data-foot="Juvenil">Juvenil</a><a href="#" data-foot="Niña">Niñas y niños</a></div>
       <div><h4>Ayuda</h4><a href="#ordenar">Cómo ordenar</a><a href="#catalogo">Buscar por número</a></div>
-      <div><h4>Contacto</h4><a id="waFoot" target="_blank" rel="noopener">WhatsApp +53 5112 0177</a><a class="btn wa" id="waFoot2" target="_blank" rel="noopener" style="margin-top:6px">Escríbenos</a></div>
+      <div><h4>Contacto</h4><a id="waFoot" target="_blank" rel="noopener">WhatsApp +53 5112 0177</a><a class="btn wa" id="waFoot2" target="_blank" rel="noopener" style="margin-top:6px">Escríbenos</a><div class="horl" id="horL" hidden></div></div>
     </div>
     <div class="legal"><span>© <span id="yr"></span> USA Shoes · Un solo par por modelo, sujeto a disponibilidad.</span><span>Fotos de estilo: Pexels</span></div>
   </div>
@@ -673,6 +684,8 @@ const ESTILO_IMG={"Running":PX(39644724),"Retro y ante":PX(11919823),"Slip-on":P
 const COLOR_HEX={Negro:"#151515",Blanco:"#ffffff",Gris:"#9aa0a6",Rojo:"#d62828",Rosa:"#ec6fa8",Azul:"#1e4fd8",Marrón:"#7a4a2a",Verde:"#2e9e4f",Amarillo:"#f3c623",Naranja:"#f07a1a",Beige:"#d8c3a5",Morado:"#7b4bc4",Multicolor:"conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#d62828)"};
 /* combinaciones de color de la cinta promocional (las mismas que salen en la administración) */
 const TEMAS={azul:{bg:"#0b5cd5",fg:"#ffffff"},negro:{bg:"#111111",fg:"#ffd24a"},rojo:{bg:"#d62828",fg:"#ffffff"},amarillo:{bg:"#ffd24a",fg:"#111111"},verde:{bg:"#1f8a4c",fg:"#ffffff"},blanco:{bg:"#ffffff",fg:"#0b5cd5"},nb:{bg:"#111111",fg:"#ffffff"},naranja:{bg:"#f07a1a",fg:"#111111"}};
+const catDesc=e=>((CATS.find(c=>c.nombre===e)||{}).desc)||ESTILO_TXT[e]||"";
+const ordenCats=lista=>{const o=CATS.map(c=>c.nombre).filter(n=>lista.includes(n));return o.concat(lista.filter(n=>!o.includes(n)))};
 const ESTILO_TXT={"Running":"Ligeros y acolchados para correr o caminar","Slip-on":"Sin cordones, se ponen en un segundo","Retro y ante":"Clásicos de ante con aire retro","Cancha":"Estilo court para el día a día","Baloncesto":"Agarre y soporte para la cancha","Tipo media":"Caña de tejido elástico, muy urbanos"};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const ic=id=>`<svg class="ic"><use href="#${id}"/></svg>`;
@@ -680,7 +693,7 @@ const nn=n=>String(n).padStart(2,"0");
 const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let WHATSAPP="5351120177", MONEDA="USD", PRODUCTOS=[];
 /* los precios se guardan en USD y se convierten con la tasa que pone la administración */
-let MONEDAS=[], CUR="", CINTA=null, DEST=null, OF=null, PORT=[];
+let MONEDAS=[], CUR="", CINTA=null, DEST=null, OF=null, CATS=[], HOR=null, PORT=[];
 const curObj=()=>MONEDAS.find(m=>m.cod===CUR)||{cod:MONEDA,simbolo:"$",tasa:1};
 const fmtN=(v,t)=>(+t>=20?Math.round(v):Math.round(v*100)/100).toLocaleString("es-ES",{maximumFractionDigits:+t>=20?0:2});
 const money=n=>{if(n==null||n==="")return "Consultar";const m=curObj();return (m.simbolo||"")+fmtN(+n*(+m.tasa||1),m.tasa)+" "+m.cod};
@@ -734,7 +747,7 @@ fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d
   MONEDAS=((d.monedas&&d.monedas.length?d.monedas:[{cod:MONEDA,simbolo:"$",tasa:1}])).map(m=>({cod:String(m.cod||MONEDA).toUpperCase(),simbolo:m.simbolo||"",tasa:+m.tasa||1,nombre:m.nombre||""}));
   let guard="";try{guard=localStorage.getItem("usa-moneda")||""}catch(e){}
   CUR=(MONEDAS.some(m=>m.cod===guard)&&guard)||(MONEDAS.some(m=>m.cod===d.monedaDefecto)?d.monedaDefecto:MONEDAS[0].cod);
-  CINTA=d.cinta||null;DEST=d.destacado||null;PORT=Array.isArray(d.portada)?d.portada.map(Number).filter(Boolean):[];
+  CINTA=d.cinta||null;CATS=Array.isArray(d.categorias)?d.categorias:[];HOR=(d.horario&&d.horario.modo)?d.horario:null;DEST=d.destacado||null;PORT=Array.isArray(d.portada)?d.portada.map(Number).filter(Boolean):[];
   if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
 }).catch(()=>{$("#grid").innerHTML='<p class="empty">No se pudo cargar el catálogo. Recarga la página.</p>';watch()});
 
@@ -756,9 +769,9 @@ function init(){
   const mq=$("#mq1"),one=[...tape,CTA,"Ordena y eleva tu estilo",...tape,CTA,"Stock limitado"].map(span).join("");
   mq.innerHTML=one+one;cinta(mq,one.split("<span").length-1);
   /* estilos */
-  const estilos=[...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))];
+  const estilos=ordenCats([...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))]);
   $("#tiles").innerHTML=estilos.map(e=>{const ps=PRODUCTOS.filter(p=>p.estilo===e);const f=ps.find(p=>!p.vendido)||ps[0];
-    return `<div class="tile" data-est="${esc(e)}"><div class="ph"><img loading="lazy" alt="Persona con tenis de estilo ${esc(e)}" src="${esc(ESTILO_IMG[e]||f.thumb||f.img)}"></div><span>${esc(e)}</span><small>${esc(ESTILO_TXT[e]||"")}${ESTILO_TXT[e]?" · ":""}${ps.length} ${ps.length===1?"modelo":"modelos"}</small></div>`}).join("");
+    return `<div class="tile" data-est="${esc(e)}"><div class="ph"><img loading="lazy" alt="Persona con tenis de estilo ${esc(e)}" src="${esc(ESTILO_IMG[e]||f.thumb||f.img)}"></div><span>${esc(e)}</span><small>${esc(catDesc(e))}${catDesc(e)?" · ":""}${ps.length} ${ps.length===1?"modelo":"modelos"}</small></div>`}).join("");
   /* pestañas por público y marcas */
   const ORD=["Mujer","Hombre","Juvenil","Niña","Niño","Unisex"].filter(a=>PRODUCTOS.some(p=>p.para===a));
   $("#tabs").innerHTML=["Todos",...ORD].map(a=>`<button class="${a==="Todos"?"on":""}" data-a="${a}">${ic(AUD_IC[a])}${a==="Todos"?"Todo":a}</button>`).join("");
@@ -794,7 +807,7 @@ function init(){
   </div>
 </article>`).join("")+'<p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>';
   const qs=new URLSearchParams(location.search).get("q");if(qs){$("#q").value=qs;q=qs.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");setTimeout(toCat,300)}
-  setupEntrega();setupCur();setupCinta();filter();watch();renderCart();seoLd();
+  setupEntrega();setupCur();setupCinta();setupHorario();filter();watch();renderCart();seoLd();
   const m=location.hash.match(/^#n(\d+)$/);if(m)openP(+m[1]);
 }
 /* datos estructurados de productos para Google */
@@ -845,7 +858,39 @@ $("#colors").addEventListener("click",e=>{const b=e.target.closest("[data-c]");i
   $$("#colors [data-c]").forEach(x=>x.classList.toggle("on",x.dataset.c===fC));filter()});
 $("#sizes").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(!b)return;fT=b.dataset.t||"";
   $$("#sizes [data-t]").forEach(x=>x.classList.toggle("on",(x.dataset.t||"")===fT));filter()});
-/* ---- botón de filtros: abre el panel y lo cierra solo a los segundos de dejar de usarlo ---- */
+/* ---- horario de atenci\u00f3n ---- */
+const DIAS_L=["Lunes","Martes","Mi\u00e9rcoles","Jueves","Viernes","S\u00e1bado","Domingo"];
+const hm=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec(t||"");if(!m)return "";let h=+m[1];const ap=h<12?"am":"pm";h=h%12||12;return h+":"+m[2]+" "+ap};
+const hmin=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec(t||"");return m?+m[1]*60+ +m[2]:null};
+function horEstado(){
+  if(!HOR)return null;
+  if(HOR.modo==="cerrado")return{ok:false,txt:"Cerrado por ahora"};
+  if(HOR.modo==="24h")return{ok:true,txt:"Abierto 24 horas"};
+  const n=new Date(), i=(n.getDay()+6)%7, ahora=n.getHours()*60+n.getMinutes(), ds=HOR.dias||[];
+  const hoy=ds[i]||{}, a=hmin(hoy.abre), c=hmin(hoy.cierra);
+  if(!hoy.cerrado&&a!=null&&c!=null&&ahora>=a&&ahora<c)return{ok:true,txt:"Abierto ahora \u00b7 hasta las "+hm(hoy.cierra)};
+  for(let k=0;k<7;k++){const j=(i+k)%7, d=ds[j]||{}, aa=hmin(d.abre);
+    if(d.cerrado||aa==null)continue;
+    if(k===0){if(ahora<aa)return{ok:false,txt:"Cerrado \u00b7 abre hoy a las "+hm(d.abre)};continue}
+    return{ok:false,txt:"Cerrado \u00b7 abre "+(k===1?"ma\u00f1ana":"el "+DIAS_L[j])+" a las "+hm(d.abre)};
+  }
+  return{ok:false,txt:"Cerrado"};
+}
+function setupHorario(){
+  const el=$("#hor"), lista=$("#horL"), est=horEstado();
+  if(!est){el.hidden=true;lista.hidden=true;return}
+  el.hidden=false;el.className="hor"+(est.ok?"":" off");el.innerHTML='<i></i>'+esc(est.txt);
+  let html="";
+  if(HOR.modo==="24h")html='<div><b>Todos los d\u00edas</b><span>24 horas</span></div>';
+  else if(HOR.modo==="cerrado")html='<div><b>Cerrado por ahora</b><span></span></div>';
+  else{const i=(new Date().getDay()+6)%7;
+    html=DIAS_L.map((d,k)=>{const x=(HOR.dias||[])[k]||{};
+      return `<div class="${k===i?"hoy":""}"><b>${d}</b><span class="${x.cerrado?"cer":""}">${x.cerrado?"Cerrado":hm(x.abre)+" \u2013 "+hm(x.cierra)}</span></div>`}).join("")}
+  if(HOR.aviso)html+="<p>"+esc(HOR.aviso)+"</p>";
+  lista.innerHTML=html;lista.hidden=false;
+  clearTimeout(setupHorario.t);setupHorario.t=setTimeout(setupHorario,60000);
+}
+/* ---- bot\u00f3n de filtros: abre el panel y lo cierra solo a los segundos de dejar de usarlo ---- */
 let fReloj=null;
 const fActivos=()=>(fB!=="Todas"?1:0)+(fT?1:0)+(fC?1:0)+(fE?1:0);
 function fUpd(){
