@@ -280,6 +280,22 @@
    "ia": false,
    "color": "Blanco",
    "thumb": "img/z16-480.webp"
+  },
+  {
+   "num": 17,
+   "marca": "Genérico",
+   "modelo": "Femenino",
+   "para": "Unisex",
+   "estilo": "",
+   "color": null,
+   "talla": "40",
+   "precio": 40,
+   "descripcion": "",
+   "oferta": false,
+   "vendido": false,
+   "ia": false,
+   "img": "img/p17-mun6pxp3.webp",
+   "thumb": "img/p17-mun6pxp3-480.webp"
   }
  ],
  "cinta": {
