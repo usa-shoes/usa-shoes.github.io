@@ -463,6 +463,13 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
 .horl .cer{color:var(--muted)}
 .horl .hoy{color:var(--blue);font-weight:800}
 .horl p{margin-top:8px;color:var(--muted);font-size:12.5px}
+.price s{color:var(--muted);font-weight:600;font-size:.8em;margin-right:6px}
+.price u{text-decoration:none;font-weight:600;font-size:.7em;color:var(--muted);margin-left:4px}
+.attrs{display:grid;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:2px}
+.attrs div{display:flex;justify-content:space-between;gap:14px;padding:9px 14px;font-size:14px}
+.attrs div+div{border-top:1px solid var(--line)}
+.attrs span{color:var(--muted)}
+.attrs b{font-weight:700;text-align:right}
 </style>
 </head>
 <body>
@@ -509,10 +516,10 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
   <section class="hero" id="hero">
     <video id="vid" muted loop playsinline autoplay preload="auto" aria-label="Persona ajustándose los tenis"></video>
     <div class="hero-in wrap">
-      <p class="pill">Stock de modelos únicos numerados</p>
+      <p class="pill" id="pill1">Stock de modelos únicos numerados</p>
       <h1 class="big"><span class="l"><span>Ordena y eleva</span></span><span class="l"><span>tu estilo</span></span></h1>
       <div class="glass">
-        <div class="stats"><div><b id="stM">16</b><span>Modelos</span></div><div><b id="stB">5</b><span>Marcas</span></div><div><b>1</b><span>Par por modelo</span></div></div>
+        <div class="stats"><div><b id="stM">16</b><span id="stML">Modelos</span></div><div><b id="stB">5</b><span id="stBL">Marcas</span></div><div><b>1</b><span id="stU">Par por modelo</span></div></div>
         <div class="gbtns"><span class="ctaw"><a href="tienda.html" class="btn cta"><span>Ver catálogo</span></a></span></div>
         <p>Tenis seleccionados, cada modelo en talla única. Elige tu preferido y ordénalo por WhatsApp en un minuto.</p>
       </div>
@@ -520,7 +527,7 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
     <button class="play" id="playBtn" aria-label="Pausar video"><svg class="ic"><use href="#i-pause"/></svg></button>
     <a href="#catalogo" class="cue" aria-label="Bajar al catálogo"><span></span></a>
   </section>
-<div class="sub"><span class="hor" id="hor" hidden></span><b>Stock de modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
+<div class="sub"><span class="hor" id="hor" hidden></span><b id="subT">Stock de modelos únicos numerados</b> · <a href="#ordenar" style="color:var(--blue);font-weight:700">Cómo ordenar</a></div>
 <nav class="wrap cats" id="cats"></nav>
 
   <section>
@@ -620,7 +627,7 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
       <div class="how-v rv"><img src="video/ajustando-calle.webp" alt="" loading="lazy"><video class="lazyv" muted loop playsinline preload="none" poster="video/ajustando-calle.webp" data-src="video/ajustando-calle.mp4" aria-label="Persona atándose los tenis en la calle"></video></div>
       <div class="steps rv">
         <div class="step"><b>Elige tu preferido</b><span>Toca la foto para ver marca, modelo, talla y para quién es.</span></div>
-        <div class="step"><b>Añádelo a la bolsa</b><span>Puedes llevar varios modelos en el mismo pedido.</span></div>
+        <div class="step"><b>Añádelo a la bolsa</b><span id="stp2">Puedes llevar varios modelos en el mismo pedido.</span></div>
         <div class="step"><b>Ordena por WhatsApp</b><span>El mensaje sale con el número de cada par. Solo tocas enviar.</span></div>
       </div>
       </div>
@@ -652,11 +659,12 @@ header.t .cur>button{border-color:rgba(255,255,255,.55)}
     <h3 id="mName"></h3>
     <span class="ai"><svg class="ic"><use href="#i-spark"/></svg>Marca y modelo identificados por IA · estimado</span>
     <div class="specs">
-      <div><span>Para</span><b id="mAud"></b></div>
-      <div><span>Talla</span><b id="mSize"></b></div>
+      <div><span id="lbPara">Para</span><b id="mAud"></b></div>
+      <div><span id="lbTalla">Talla</span><b id="mSize"></b></div>
       <div><span>Precio</span><b id="mPrice"></b></div>
-      <div><span>Estilo</span><b id="mEst"></b></div>
+      <div><span>Categoría</span><b id="mEst"></b></div>
     </div>
+    <div class="attrs" id="mAttrs" hidden></div>
     <p id="mDesc"></p>
   </div>
 </div>
@@ -695,10 +703,11 @@ const nn=n=>String(n).padStart(2,"0");
 const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let WHATSAPP="5351120177", MONEDA="USD", PRODUCTOS=[];
 /* los precios se guardan en USD y se convierten con la tasa que pone la administración */
-let MONEDAS=[], CUR="", CINTA=null, DEST=null, OF=null, CATS=[], HOR=null, PORT=[];
+let MONEDAS=[], CUR="", CINTA=null, DEST=null, OF=null, CATS=[], HOR=null, PAL={sing:"producto",plur:"productos",talla:"Talla",para:"Para",color:"Color",marca:"Marca"}, PORT=[];
 const curObj=()=>MONEDAS.find(m=>m.cod===CUR)||{cod:MONEDA,simbolo:"$",tasa:1};
 const fmtN=(v,t)=>(+t>=20?Math.round(v):Math.round(v*100)/100).toLocaleString("es-ES",{maximumFractionDigits:+t>=20?0:2});
 const money=n=>{if(n==null||n==="")return "Consultar";const m=curObj();return (m.simbolo||"")+fmtN(+n*(+m.tasa||1),m.tasa)+" "+m.cod};
+const precioHTML=p=>(p.antes!=null&&p.precio!=null?`<s>${money(p.antes)}</s>`:"")+money(p.precio)+(p.unidad?`<u>/ ${esc(p.unidad)}</u>`:"");
 const talla=p=>p.talla?p.talla:"Por confirmar";
 const titulo=p=>(p.marca==="Genérico"?"":p.marca+" ")+p.modelo;
 const waLink=t=>"https://wa.me/"+WHATSAPP+"?text="+encodeURIComponent(t);
@@ -749,14 +758,22 @@ fetch("productos.json?t="+Math.floor(Date.now()/60000)).then(r=>r.json()).then(d
   MONEDAS=((d.monedas&&d.monedas.length?d.monedas:[{cod:MONEDA,simbolo:"$",tasa:1}])).map(m=>({cod:String(m.cod||MONEDA).toUpperCase(),simbolo:m.simbolo||"",tasa:+m.tasa||1,nombre:m.nombre||""}));
   let guard="";try{guard=localStorage.getItem("usa-moneda")||""}catch(e){}
   CUR=(MONEDAS.some(m=>m.cod===guard)&&guard)||(MONEDAS.some(m=>m.cod===d.monedaDefecto)?d.monedaDefecto:MONEDAS[0].cod);
-  CINTA=d.cinta||null;CATS=Array.isArray(d.categorias)?d.categorias:[];HOR=(d.horario&&d.horario.modo)?d.horario:null;DEST=d.destacado||null;PORT=Array.isArray(d.portada)?d.portada.map(Number).filter(Boolean):[];
-  if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);init();
+  CINTA=d.cinta||null;PAL=Object.assign(PAL,d.palabras||{});pintaPal();CATS=Array.isArray(d.categorias)?d.categorias:[];HOR=(d.horario&&d.horario.modo)?d.horario:null;DEST=d.destacado||null;PORT=Array.isArray(d.portada)?d.portada.map(Number).filter(Boolean):[];
+  if(d.domicilio)DOM=Object.assign(DOM,d.domicilio);PRODUCTOS=(d.productos||[]).slice().sort((a,b)=>a.num-b.num);PRODUCTOS.forEach(p=>{if(p.stock===0)p.vendido=true});init();
 }).catch(()=>{$("#grid").innerHTML='<p class="empty">No se pudo cargar el catálogo. Recarga la página.</p>';watch()});
 
 let fA="Todos",fB="Todas",fE="",fC="",fT="",q="";
 /* una talla como "36 y 38" o "35½ y 37½" cuenta para las dos */
 const TALLAS=p=>String(p.talla||"").replace(/[.,]5/g,"½").match(/\d+½?/g)||[];
 const tNum=t=>parseFloat(String(t).replace("½",".5"));
+function pintaPal(){
+  const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+  const q=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t};
+  q("stML",cap(PAL.plur));q("stU","Por "+PAL.sing);
+  q("pill1","Stock de "+PAL.plur+" \u00fanicos numerados");q("subT","Stock de "+PAL.plur+" \u00fanicos numerados");
+  const b=document.getElementById("q");if(b)b.placeholder="Busca por n\u00ba, "+PAL.marca.toLowerCase()+" o "+PAL.sing;
+  const e2=document.getElementById("empty");if(e2)e2.textContent="No hay "+PAL.plur+" con ese filtro.";
+}
 function init(){
   cart=cart.filter(n=>PRODUCTOS.some(p=>p.num===n&&!p.vendido));save();
   const hi=waLink("Hola USA Shoes, quiero información sobre sus tenis.");
@@ -765,7 +782,7 @@ function init(){
   const marcas=[...new Set(PRODUCTOS.map(p=>p.marca))];
   $("#stM").textContent=PRODUCTOS.filter(p=>!p.vendido).length;
   $("#stB").textContent=marcas.filter(m=>m!=="Genérico").length;
-  const tape=[...marcas.filter(m=>m!=="Genérico"),"Modelos únicos","Ordena por WhatsApp"];
+  const tape=[...marcas.filter(m=>m!=="Genérico"),PAL.plur+" únicos","Ordena por WhatsApp"];
   /* dos copias idénticas: al moverse la mitad el bucle es continuo; velocidad fija y muy lenta: 12 px/s */
   const CTA="\u0001",span=t=>t===CTA?'<span class="cta">Compra ahora <i>→</i></span>':`<span>${esc(t)}</span>`;
   const mq=$("#mq1"),one=[...tape,CTA,"Ordena y eleva tu estilo",...tape,CTA,"Stock limitado"].map(span).join("");
@@ -773,23 +790,23 @@ function init(){
   /* estilos */
   const estilos=ordenCats([...new Set(PRODUCTOS.map(p=>p.estilo).filter(Boolean))]);
   $("#tiles").innerHTML=estilos.map(e=>{const ps=PRODUCTOS.filter(p=>p.estilo===e);const f=ps.find(p=>!p.vendido)||ps[0];
-    return `<div class="tile" data-est="${esc(e)}"><div class="ph"><img loading="lazy" alt="Persona con tenis de estilo ${esc(e)}" src="${esc(ESTILO_IMG[e]||f.thumb||f.img)}"></div><span>${esc(e)}</span><small>${esc(catDesc(e))}${catDesc(e)?" · ":""}${ps.length} ${ps.length===1?"modelo":"modelos"}</small></div>`}).join("");
+    return `<div class="tile" data-est="${esc(e)}"><div class="ph"><img loading="lazy" alt="Persona con tenis de estilo ${esc(e)}" src="${esc(ESTILO_IMG[e]||f.thumb||f.img)}"></div><span>${esc(e)}</span><small>${esc(catDesc(e))}${catDesc(e)?" · ":""}${ps.length} ${ps.length===1?PAL.sing:PAL.plur}</small></div>`}).join("");
   /* pestañas por público y marcas */
   const ORD=["Mujer","Hombre","Juvenil","Niña","Niño","Unisex"].filter(a=>PRODUCTOS.some(p=>p.para===a));
   $("#tabs").innerHTML=["Todos",...ORD].map(a=>`<button class="${a==="Todos"?"on":""}" data-a="${a}">${ic(AUD_IC[a])}${a==="Todos"?"Todo":a}</button>`).join("");
   $("#cats").innerHTML=ORD.map(a=>`<button data-a="${a}">${a}</button>`).join("")+(PRODUCTOS.some(p=>p.oferta&&!p.vendido)?`<button data-offer>Ofertas</button>`:"");
-  $("#brands").innerHTML=`<span class="lbl">${ic("i-tag")}Marca</span>`+["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
+  $("#brands").innerHTML=`<span class="lbl">${ic("i-tag")}${esc(PAL.marca)}</span>`+["Todas",...marcas].map(m=>`<button class="${m==="Todas"?"on":""}" data-b="${esc(m)}">${esc(m)}</button>`).join("");
   /* colores */
   const colores=[...new Set(PRODUCTOS.map(p=>p.color).filter(Boolean))].sort((a,b)=>Object.keys(COLOR_HEX).indexOf(a)-Object.keys(COLOR_HEX).indexOf(b));
-  $("#colors").innerHTML=colores.length?`<span class="lbl">${ic("i-spark")}Color</span>`+'<button data-c="" class="on" title="Todos los colores" aria-label="Todos los colores"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i></button>'+colores.map(c=>`<button data-c="${esc(c)}" title="${esc(c)} (${PRODUCTOS.filter(p=>p.color===c).length})" aria-label="Color ${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i></button>`).join(""):"";
+  $("#colors").innerHTML=colores.length?`<span class="lbl">${ic("i-spark")}${esc(PAL.color)}</span>`+'<button data-c="" class="on" title="Todos los colores" aria-label="Todos los colores"><i style="background:conic-gradient(#d62828,#f3c623,#2e9e4f,#1e4fd8,#ec6fa8,#d62828)"></i></button>'+colores.map(c=>`<button data-c="${esc(c)}" title="${esc(c)} (${PRODUCTOS.filter(p=>p.color===c).length})" aria-label="Color ${esc(c)}"><i style="background:${COLOR_HEX[c]||"#ccc"}"></i></button>`).join(""):"";
   /* tallas */
   const tallas=[...new Set(PRODUCTOS.flatMap(TALLAS))].sort((a,b)=>tNum(a)-tNum(b));
-  $("#sizes").innerHTML=tallas.length?`<span class="lbl">${ic("i-ruler")}Talla</span><button data-t="" class="on">Todas</button>`+tallas.map(t=>`<button data-t="${esc(t)}">${esc(t)}</button>`).join(""):"";
+  $("#sizes").innerHTML=tallas.length?`<span class="lbl">${ic("i-ruler")}${esc(PAL.talla)}</span><button data-t="" class="on">Todas</button>`+tallas.map(t=>`<button data-t="${esc(t)}">${esc(t)}</button>`).join(""):"";
   /* modelo destacado: el que elige la administración y, si no hay, el que esté en oferta */
   OF=(DEST?PRODUCTOS.find(p=>p.num===+DEST&&!p.vendido):null)||PRODUCTOS.find(p=>p.oferta&&!p.vendido)||null;
   if(OF){$("#oferta").hidden=false;
     const im=$("#ofImg");im.src=OF.thumb||OF.img;im.alt="Nº "+nn(OF.num)+" "+titulo(OF);im.style.objectPosition=OF.pos||"50% 50%";im.hidden=false;
-    $("#ofTag").textContent=OF.oferta?"Precio especial":"Modelo destacado";
+    $("#ofTag").textContent=OF.oferta?"Precio especial":PAL.sing.charAt(0).toUpperCase()+PAL.sing.slice(1)+" destacado";
     $("#ofD").textContent=(OF.descripcion||"")+" Solo hay un par.";
     $("#ofBtn").textContent="Ver el Nº "+nn(OF.num);$("#ofBtn").onclick=()=>openP(OF.num);ofTxt()}
   /* rejilla */
@@ -805,9 +822,9 @@ function init(){
     <span class="aud">${ic(AUD_IC[p.para]||"i-uni")}${esc(p.para)} · ${esc(p.estilo||"")}</span>
     <span class="name">${esc(p.modelo)}</span>
     <span class="brand">${esc(p.marca)}</span>
-    <div class="row2"><span class="price${p.precio==null?" ask":""}">${money(p.precio)}</span><span class="size${p.talla?"":" tbd"}">${p.talla?"Talla "+esc(p.talla):"Talla por confirmar"}</span></div>
+    <div class="row2"><span class="price${p.precio==null?" ask":""}">${precioHTML(p)}</span><span class="size${p.talla?"":" tbd"}">${p.talla?esc(PAL.talla)+" "+esc(p.talla):esc(PAL.talla)+" por confirmar"}</span></div>
   </div>
-</article>`).join("")+'<p class="empty" id="empty" hidden>No hay modelos con ese filtro.</p>';
+</article>`).join("")+`<p class="empty" id="empty" hidden>No hay ${esc(PAL.plur)} con ese filtro.</p>`;
   const qs=new URLSearchParams(location.search).get("q");if(qs){$("#q").value=qs;q=qs.trim().toLowerCase().replace(/^#|^n[ºo°]\s*/,"");setTimeout(toCat,300)}
   setupEntrega();setupCur();setupCinta();setupHorario();filter();watch();renderCart();seoLd();
   const m=location.hash.match(/^#n(\d+)$/);if(m)openP(+m[1]);
@@ -842,10 +859,10 @@ function filter(){
       else if(vis<TOPE){vis++;ver=true;c.classList.add("in")}}
     c.classList.toggle("hide",!ver)});
   const resto=n-vis;
-  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+(fT?"Talla "+fT+" · ":"")+(resto>0?vis+" de "+n+" modelos":n+(n===1?" modelo":" modelos"));
+  $("#count").textContent=(fE?fE+" · ":"")+(fC?fC+" · ":"")+(fT?PAL.talla+" "+fT+" · ":"")+(resto>0?vis+" de "+n+" "+PAL.plur:n+" "+(n===1?PAL.sing:PAL.plur));
   $("#empty").hidden=n>0;fUpd();
   const mt=$("#masT"),vm=$("#verMas");
-  mt.hidden=resto<=0;mt.textContent=resto>0?(resto===1?"Hay 1 modelo más en la tienda":"Hay "+resto+" modelos más en la tienda"):"";
+  mt.hidden=resto<=0;mt.textContent=resto>0?("Hay "+resto+" "+(resto===1?PAL.sing:PAL.plur)+" más en la tienda"):"";
   vm.querySelector("span").textContent=resto>0?"Ver los otros "+resto:"Ver toda la tienda";
   vm.href="tienda.html"+filtrosURL();
 }
@@ -931,7 +948,9 @@ function openP(num){
   $("#mBrand").textContent=cur.marca;$("#mName").textContent=cur.modelo;
   $("#mAud").innerHTML=ic(AUD_IC[cur.para]||"i-uni")+" "+esc(cur.para);
   $("#mSize").textContent=talla(cur);$("#mSize").className=cur.talla?"":"tbd";
-  $("#mPrice").textContent=money(cur.precio);$("#mPrice").className=cur.precio==null?"tbd":"";
+  $("#mPrice").innerHTML=precioHTML(cur);$("#mPrice").className="price"+(cur.precio==null?" tbd":"");
+  $("#lbPara").textContent=PAL.para;$("#lbTalla").textContent=PAL.talla;
+  const at=$("#mAttrs");at.innerHTML=((cur.attrs)||[]).map(a=>`<div><span>${esc(a.n)}</span><b>${esc(a.v)}</b></div>`).join("");at.hidden=!(cur.attrs&&cur.attrs.length);
   $("#mDesc").textContent=cur.descripcion||"";
   $(".ai").hidden=!cur.ia;
   $("#mWa").href=waLink(`Hola USA Shoes, quiero más información del Nº ${nn(cur.num)}: ${titulo(cur)}. ¿Está disponible?`);
@@ -962,7 +981,7 @@ $("#mAdd").addEventListener("click",e=>{
 $("#mWa").addEventListener("click",e=>e.stopPropagation());
 function renderCart(){
   $("#bagN").textContent=cart.length;
-  if(!cart.length){$("#items").innerHTML='<p class="dnone">Tu bolsa está vacía.<br>Elige un par del catálogo.</p>';$("#tot").textContent="—";return}
+  if(!cart.length){$("#items").innerHTML=`<p class="dnone">Tu bolsa está vacía.<br>Elige un ${esc(PAL.sing)} del catálogo.</p>`;$("#tot").textContent="—";return}
   $("#items").innerHTML=cart.map((n,i)=>{const p=PRODUCTOS.find(x=>x.num===n);return `<div class="it"><img src="${esc(p.thumb||p.img)}" alt="" loading="lazy" style="object-position:${esc(p.pos||"50% 50%")}"><div><small>Nº ${nn(p.num)} · ${esc(p.marca)}</small><b>${esc(p.modelo)}</b><small>Talla ${esc(talla(p).toLowerCase())} · ${money(p.precio)}</small></div><button class="rm" data-i="${i}">Quitar</button></div>`}).join("");
   const pr=cart.map(n=>PRODUCTOS.find(x=>x.num===n).precio);
   let sum=pr.filter(v=>v!=null).reduce((a,b)=>a+ +b,0);const ask=pr.some(v=>v==null);
@@ -985,11 +1004,11 @@ function setupEntrega(){
 /* ---- moneda: el cliente la cambia arriba y todos los precios se recalculan ---- */
 function ofTxt(){if(OF)$("#ofT").textContent=`Nº ${nn(OF.num)} · ${OF.modelo}`+(OF.precio!=null?` a ${money(OF.precio)}`:"")}
 function reprice(){
-  $$(".card").forEach(c=>{const p=PRODUCTOS.find(x=>x.num==c.dataset.num);if(!p)return;const el=c.querySelector(".price");if(el){el.textContent=money(p.precio);el.className="price"+(p.precio==null?" ask":"")}});
+  $$(".card").forEach(c=>{const p=PRODUCTOS.find(x=>x.num==c.dataset.num);if(!p)return;const el=c.querySelector(".price");if(el){el.innerHTML=precioHTML(p);el.className="price"+(p.precio==null?" ask":"")}});
   ofTxt();
   const z=$("#zona");if(z&&DOM.zonas&&DOM.zonas.length){const v=z.value;z.innerHTML=DOM.zonas.map((zz,i)=>`<option value="${i}">${esc(zz.nombre)} · ${money(+zz.precio||0)}</option>`).join("");z.value=v}
   renderCart();
-  if(cur&&$("#modal").classList.contains("on"))$("#mPrice").textContent=money(cur.precio);
+  if(cur&&$("#modal").classList.contains("on"))$("#mPrice").innerHTML=precioHTML(cur);
 }
 function setupCur(){
   const box=$("#cur");if(!MONEDAS.length||MONEDAS.length<2){box.hidden=true;return}
