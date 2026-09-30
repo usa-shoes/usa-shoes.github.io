@@ -248,7 +248,7 @@ section{padding:clamp(44px,6vw,80px) 0}
 .cbtn.add[disabled]::before{display:none}
 .cbtn .tip{position:absolute;right:calc(100% + 8px);top:50%;transform:translateY(-50%);white-space:nowrap;background:rgba(0,0,0,.75);color:#fff;font:800 11px var(--f);letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:99px;pointer-events:none;opacity:0;transition:opacity .2s}
 /* efectos al pasar el ratón solo en computadoras: en el teléfono no se quedan pegados */
-@media(hover:hover){.cbtn:hover .tip,.cbtn:focus-visible .tip{opacity:1}.cbtn.add:hover{transform:scale(1.1) rotate(90deg)}.media .cbtn.i:hover{background:rgba(255,255,255,.4)}.mtop .cbtn.i:hover{background:#eafaf0}}
+@media(hover:hover){.cbtn:hover .tip,.cbtn:focus-visible .tip{opacity:1}.cbtn.add:hover{transform:scale(1.1) rotate(90deg)}.media .cbtn.i:hover{background:rgba(255,255,255,.4)}.mbody .cbtn.i:hover{background:#eafaf0}}
 .media .cbtn.i:focus{outline:none}
 @media(max-width:640px){.cbtn.add{width:42px;height:42px}.cbtn.i{width:30px;height:30px;left:10px;bottom:14px}}
 .info{padding:12px 2px 0;display:flex;flex-direction:column;gap:3px;flex:1 1 auto}
@@ -345,12 +345,12 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 .zhint i{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;flex:none}
 .zhint svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round}
 .zoom.z .zhint{opacity:0;transform:translateY(6px)}
-.mtop .acts{margin-left:auto;display:flex;align-items:center;gap:10px}
-@media(min-width:761px){.mtop .acts{margin-right:40px}}
-.mtop .cbtn{position:relative;inset:auto!important}
-.mtop .cbtn.i{background:#fff;color:#1f8a4c;border:1.5px solid #25d366;text-shadow:none}
-.mtop .cbtn.add{width:52px;height:52px}
-.mtop .cbtn.add svg{width:24px;height:24px}
+.mbody .acts{margin-top:auto;padding-top:4px;align-self:flex-end;display:flex;align-items:center;gap:12px}
+.mbody .cbtn{position:relative;inset:auto!important}
+.mbody .cbtn.i{background:#fff;color:#1f8a4c;border:1.5px solid #25d366;text-shadow:none}
+.mbody .cbtn.i{width:40px;height:40px}
+.mbody .cbtn.add{width:56px;height:56px}
+.mbody .cbtn.add svg{width:26px;height:26px}
 .mbody{padding:clamp(22px,3.4vw,38px);display:flex;flex-direction:column;gap:14px}
 .mtop{display:flex;align-items:center;gap:10px}
 .mnum{background:var(--ink);color:#fff;font-weight:900;font-size:13px;padding:5px 10px;border-radius:6px}
@@ -366,8 +366,8 @@ footer{background:var(--soft);border-top:1px solid var(--line);padding:48px 0 ca
 @media(max-width:760px){
  .modal .zoom{aspect-ratio:auto;height:var(--zh,100vw)}
  .mbody{padding:12px 16px 16px;gap:7px}
- .mtop .cbtn.add{width:46px;height:46px}
- .mtop .cbtn.i{width:36px;height:36px}
+ .mbody .cbtn.add{width:50px;height:50px}
+ .mbody .cbtn.i{width:40px;height:40px}
  .mbody h3{font-size:21px;line-height:1.15}
  .ai{font-size:11px;padding:3px 9px}
  .specs div{padding:6px 12px;gap:0}
@@ -581,7 +581,7 @@ body{padding-top:var(--hdrH,104px)}
   <div class="zoom" id="zoom"><img class="zbg" id="mBg" alt="" aria-hidden="true"><img id="mImg" alt=""><span class="zhint"><i><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20M10.5 8v5M8 10.5h5"/></svg></i>Toca para ampliar</span>
     </div>
   <div class="mbody">
-    <div class="mtop"><span class="mnum" id="mNum"></span><span class="brand" id="mBrand"></span><div class="acts"><a class="cbtn i" id="mWa" target="_blank" rel="noopener" aria-label="Más información por WhatsApp" title="Más información por WhatsApp"><b>i</b></a><button class="cbtn add" id="mAdd" aria-label="Ordenar" title="Ordenar"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+    <div class="mtop"><span class="mnum" id="mNum"></span><span class="brand" id="mBrand"></span></div>
     <h3 id="mName"></h3>
     <span class="ai"><svg class="ic"><use href="#i-spark"/></svg>Marca y modelo identificados por IA · estimado</span>
     <div class="specs">
@@ -592,6 +592,7 @@ body{padding-top:var(--hdrH,104px)}
     </div>
     <div class="attrs" id="mAttrs" hidden></div>
     <p id="mDesc"></p>
+    <div class="acts"><a class="cbtn i" id="mWa" target="_blank" rel="noopener" aria-label="Más información por WhatsApp" title="Más información por WhatsApp"><b>i</b></a><button class="cbtn add" id="mAdd" aria-label="Ordenar" title="Ordenar"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
   </div>
 </div>
 <aside class="drawer" id="drawer" aria-label="Bolsa">
